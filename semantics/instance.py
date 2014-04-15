@@ -5,11 +5,11 @@ class Instance(Typed):
     slots = {}
     
     
-    def __init__(self, type): 
-        self.type = type
-        self.slots = type.slots
+    def __init__(self, concept): 
+        self.type = concept
+        self.slots = concept.slots
         
-        print str(self)
+        #print str(self)
     
         
     def filled(self):
@@ -20,5 +20,5 @@ class Instance(Typed):
     
     
     def __str__(self):
-        return 'Instance of {0}: {1}'.format(str(self.type), ', '.join(map(lambda s: '{0}: {1}'.format(s, str(self.slots[s])), 
+        return 'Instance of {0}: {{{1}}}'.format(str(self.type), ', '.join(map(lambda s: '{0}: {1}'.format(s, str(self.slots[s])), 
                                                                                                    self.slots)))

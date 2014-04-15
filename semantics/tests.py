@@ -25,10 +25,21 @@ lex = {'I': [Animal],
        'buy' : [Buy, BuyEvent],
        'fish' : [Fish, FishEvent]}
 
-print 'Possible sense combinations:'
-pprint(map(lambda c: map(str, c), permutesenses('I buy fish'.split(), lex)))
 
+sense_assignments = permutesenses('I buy fish'.split(), lex)
+print
+print 'Possible sense assignment combinations:'
+pprint(map(lambda senses: map(str, senses), 
+           sense_assignments))
+ 
+
+single_instance_linkings = link_single(Instance(FishEvent), [Animal, Fish], BuyEvent.slots.keys())
+print
 print 'Possible slot linking combinations for the FishEvent concept:'
-pprint(map(str, chain(*do(Instance(FishEvent), [Animal, Fish], BuyEvent.slots.keys()))))
+pprint(map(str, 
+           filter(lambda instance: instance.filled(), 
+                  chain(*single_instance_linkings))))
 
-#pprint(link_linear(map(Instance, [BuyEvent, Fish, Buy, Animal])))
+
+#pprint(link_each(map(Instance, 
+                     #[BuyEvent, Fish, Buy, Animal])))
