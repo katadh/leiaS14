@@ -1,4 +1,4 @@
-At this point, very a very basic and partial analysis is implemented.
+At this point, only a very basic and partial analysis is implemented.
 See the tests.py file for examples.
 
 INPUT:
