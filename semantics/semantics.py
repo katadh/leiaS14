@@ -1,5 +1,5 @@
 from instance import Instance
-from copy import *
+from copy import copy, deepcopy
 
 # can use dependencies as heuristic of where to start from
 
@@ -20,13 +20,13 @@ def link_linear(instances):
 
 
 "generates all possible combinations of token-to-sense mapping"
-def permutesenses(tokens):
+def permutesenses(tokens, lexicon):
     if len(tokens) == 0:
         return [[]]
             
     return [[sense] + senses
-            for senses in permutesenses(tokens[1:])
-            for sense in lex[tokens[0]]]
+            for senses in permutesenses(tokens[1:], lexicon)
+            for sense in lexicon[tokens[0]]]
     
     
 def branch(head, slotname, filler):

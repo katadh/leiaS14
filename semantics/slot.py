@@ -12,7 +12,7 @@ class Slot(Typed):
     
     def fill(self, filler):
         
-        print 'fill ' + str(filler.type) + ' ' + str(self.type) + ' ' + str(filler.type == self.type)
+        print 'filling slot {0} with filler type: {1}, success: {2}'.format(str(self), str(filler.type), str(filler.type == self.type))
         
         if filler.type == self.type:
             self.filler = filler
@@ -24,4 +24,4 @@ class Slot(Typed):
     
     
     def __str__(self):
-        return str(self.type)
+        return '{{type: {0}, filler: {1}}}'.format(str(self.type), str(self.filler))
