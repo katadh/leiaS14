@@ -3,6 +3,7 @@ from slot import Slot
 from semantics import *
 import copy
 import itertools
+from pprint import pprint
 
 
 Animal = Concept('Animal', None, {})
@@ -43,5 +44,7 @@ lex = {'I': [Animal],
 #print map(lambda c: map(str, c), link([BuyEvent, Animal, Fish], [[]]))
 #print map(str, link([BuyEvent, Animal, Fish], [[]]))
 #print map(lambda c: map(str, c), newFit('I buy fish'.split()))
-candidates = link(map(Instance, [BuyEvent, Fish, Animal]))
-print map(str, itertools.chain(*do(Instance(BuyEvent), [Animal, Fish], BuyEvent.slots.keys())))
+#candidates = link(map(Instance, [BuyEvent, Fish, Animal]))
+#print map(str, itertools.chain(*do(Instance(BuyEvent), [Animal, Fish], BuyEvent.slots.keys())))
+
+pprint(link_linear(map(Instance, [BuyEvent, Fish, Buy, Animal])))
