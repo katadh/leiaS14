@@ -60,11 +60,15 @@ def exclude(collection, element):
     
     return collection
 
+#### Below are the function necessary for generate all linking
+
+### access => generate permu of index to generate element of the access
 def permu(sizeSlot,sizeFiller,distList=[],access=[]):
     if distList==[]:
         distList=[sizeFiller]*sizeSlot
     return helper(distList,used=[0]*(sizeFiller+1),access=access)
 
+## Generate permu that allows repeat element
 def productRule(distList=[]):
     return helper(distList,repeat=True)
 
@@ -84,25 +88,7 @@ def helper(permuList,repeat=False,size=0,used=[0]*100,current=[],access=[]):
             used[i]=0
     return temp
 
-def fill_all_slot(concept,filler):
-    #slots is dict, filler is the list of concept
-    temp = []
-    slots = concept.slots
-    sizeFiller = len(filler)
-    sizeSlot = len(slots)
-    p = permu(sizeSlot,sizeFiller)
-    print p
-    for i in p:
-        newSlot = deepcopy(slots)
-        j = 0
-        test = True
-        for key in newSlot:
-            test = test and newSlot[key].fill(filler[i[j]])
-            j = j+1
-        if test:
-            temp = temp + [newSlot]
-    return temp
-
+### Generate a list of concept except itself
 def getRestList(indexOut,size):
     temp = []
     for n in range(size+1):
@@ -115,7 +101,7 @@ def getRestList(indexOut,size):
 def findAllLinking(listConcept):
     listInstance = []
     listPermu = []
-    ### get all possible
+    ### generate all the combination of the assignment 
     sizeFiller = len(listConcept)-1
     index = 0 
     for Con in listConcept:
@@ -127,9 +113,9 @@ def findAllLinking(listConcept):
     sizeList =[]
     for l in listPermu:
         sizeList.append(len(l))
-        
+    ### generate all combination of orders of assignment
     OrderList = productRule(sizeList)
-    #print listPermu
+
     for i in OrderList:
         #Generate new set of Instance
         InstanceList =[]
@@ -140,12 +126,12 @@ def findAllLinking(listConcept):
         for j in range(len(InstanceList)):
             ind = 0
             for slot in InstanceList[j].slots:
+                ### Example
                 ### [ [[]] , [[0,2]],[2,0]], [[0,1], [1,0]] ]
                 ### listPermu[j] -> get the list of permu of j instance
                 ### i[j] -> get the number of the possible permu 
                 ### ind -> get the slot to be filled
                 indexIn = listPermu[j][i[j]][ind] 
-                #print i, ind, indexIn , InstanceList[indexIn],slot , str(InstanceList[j]), InstanceList[j].slots[slot].fill(InstanceList[indexIn])
                 status = status and InstanceList[j].slots[slot].fill(InstanceList[indexIn])
                 ind = ind+1
         if status:
