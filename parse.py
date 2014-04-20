@@ -16,6 +16,7 @@ def getDependencies(sentance):
     print stanford_output
 
 def getPOS(sentance):
+    startdir = os.getcwd()
     os.chdir("./stanford_tools/stanford-postagger-2014-01-04/")
     
     temp_file = open('temp.txt', 'w')
