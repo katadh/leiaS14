@@ -7,8 +7,8 @@ from pprint import pprint
 Animal = Concept('Animal', None, {})
 
 Fish = Concept('Fish', Animal, {})
-
-Whale = Concept('Fish',Animal, {})
+Fish.slots["owner"] = Slot(Animal)
+#Whale = Concept('Fish',Animal, {})
 
 Buy = Concept('Buy', None, {})
 Buy.slots['theme'] = Slot(Animal)
@@ -45,13 +45,13 @@ print "*** Here ***"
 
 #sdf = fill_all_slot(Buy,[Instance(Animal),Instance(Fish)])
 
-listOfAll = findAllLinking([Animal,FishEvent,FishEvent,Fish])
+listOfAll = findAllLinking([Animal, FishEvent, Fish, Animal])
 
 ### just a print format
 for i in listOfAll:
     temp = ""
     for j in i:
-        temp =temp +" ["+ str(j) +"] "
+        temp =temp +" ["+ str(j) +"] \n"
     print temp
         
 print "********"
