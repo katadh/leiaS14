@@ -20,5 +20,5 @@ class Instance(Typed):
     
     
     def __str__(self):
-        return 'Instance of {0}: {{{1}}}'.format(str(self.type), ', '.join(map(lambda s: '{0}: {1}'.format(s, str(self.slots[s])), 
+        return '{0}-{1}: {{{2}}}'.format(str(self.type), id(self), ", ".join(map(lambda s: '{0}: {1}'.format(s, str(self.slots[s])), 
                                                                                                    self.slots)))

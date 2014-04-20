@@ -7,7 +7,7 @@ from pprint import pprint
 Animal = Concept('Animal', None, {})
 
 Fish = Concept('Fish', Animal, {})
-Fish.slots["owner"] = Slot(Animal)
+#Fish.slots["owner"] = Slot(Animal)
 #Whale = Concept('Fish',Animal, {})
 
 Buy = Concept('Buy', None, {})
@@ -20,7 +20,7 @@ FishEvent.slots['theme'] = Slot(Fish)
 FishEvent.slots['agent'] = Slot(Animal)
 
 BuyEvent = Concept('BuyEvent', Event, {})
-BuyEvent.slots['theme'] = Slot(Animal)
+BuyEvent.slots['theme'] = Slot(Fish)
 BuyEvent.slots['agent'] = Slot(Animal)
 
 lex = {'I': [Animal],
@@ -30,38 +30,30 @@ lex = {'I': [Animal],
 
 sense_assignments = permutesenses('I buy fish'.split(), lex)
 
-for sense in sense_assignments:
-    temp =""
-    for concept in sense:
-        temp = temp+" "+ str(concept)
-        for key in concept.slots:
-            print key +" : " + str(concept.slots[key])
-    print temp
+#for sense in sense_assignments:
+    #temp =""
+    #for concept in sense:
+        #temp = temp+" "+ str(concept)
+        #for key in concept.slots:
+            #print key +" : " + str(concept.slots[key])
+    #print temp
     
-print 'Possible sense assignment combinations:'
-pprint(map(lambda senses: map(str, senses), 
-           sense_assignments))
-print "*** Here ***"
+#print 'Possible sense assignment combinations:'
+#pprint(map(lambda senses: map(str, senses), 
+           #sense_assignments))
 
-#sdf = fill_all_slot(Buy,[Instance(Animal),Instance(Fish)])
+for senses in sense_assignments:
+    print 'Possible linkings for senses {0}:'.format(map(str, senses))
+    listOfAll = findAllLinking(senses)
+    pprint(map(lambda linking: map(str, linking), listOfAll))
+    print
 
-listOfAll = findAllLinking([Animal, FishEvent, Fish, Animal])
-
-### just a print format
-for i in listOfAll:
-    temp = ""
-    for j in i:
-        temp =temp +" ["+ str(j) +"] \n"
-    print temp
-        
-print "********"
-
-single_instance_linkings = [link_single(Instance(Buy), [Animal, Fish], Buy.slots.keys())]
-print
-print 'Possible slot linking combinations for the FishEvent concept:'
-pprint(map(str, 
-           filter(lambda instance: instance.filled(), 
-                  chain(*single_instance_linkings))))
+#single_instance_linkings = [link_single(Instance(Buy), [Animal, Fish], Buy.slots.keys())]
+#print
+#print 'Possible slot linking combinations for the FishEvent concept:'
+#pprint(map(str, 
+           #filter(lambda instance: instance.filled(), 
+                  #chain(*single_instance_linkings))))
 
 #pprint(link_each(map(Instance, 
                      #[BuyEvent, Fish, Buy, Animal])))
