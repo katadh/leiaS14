@@ -1,4 +1,4 @@
-from instance import Instance
+from knowledge.lexicon import *
 from copy import copy, deepcopy
 from itertools import chain
 
@@ -16,49 +16,49 @@ def permutesenses(tokens, lexicon):
 # can use dependencies as heuristic of where to start from
 
 
-"generates all possible combinations of how specified instances can be linked via their slots"
-def link(instances):
-    if len(instances) == 0:
-        return [[]]
+#"generates all possible combinations of how specified instances can be linked via their slots"
+#def link(instances):
+    #if len(instances) == 0:
+        #return [[]]
     
-    return [[do(i, exclude(copy(instances), i), i.slots.keys())] + link(exclude(copy(instances), i))
-             for i in instances]
+    #return [[do(i, exclude(copy(instances), i), i.slots.keys())] + link(exclude(copy(instances), i))
+             #for i in instances]
 
 
-def link_each(instances):
-    linkings = []
+#def link_each(instances):
+    #linkings = []
     
-    for i in filter(lambda i: len(i.slots) > 0, 
-                    instances):
-        linkings.append(link_single(i, exclude(copy(instances), i), i.slots.keys()))
+    #for i in filter(lambda i: len(i.slots) > 0, 
+                    #instances):
+        #linkings.append(link_single(i, exclude(copy(instances), i), i.slots.keys()))
     
-    return linkings
+    #return linkings
 
-"generates all possible combinations of filler assignment the to given head instance's slots"
-def link_single(head, filler_concepts, slotnames):
-    if len(filler_concepts) == 0 or len(slotnames) == 0:
-        return head
+#"generates all possible combinations of filler assignment the to given head instance's slots"
+#def link_single(head, filler_concepts, slotnames):
+    #if len(filler_concepts) == 0 or len(slotnames) == 0:
+        #return head
     
-    return [link_single(branch(head, slotnames[0], Instance(fc)), 
-                        exclude(copy(filler_concepts), fc), 
-                        copy(slotnames)[1:])
-            for fc in filler_concepts]
-
-
-def branch(head, slotname, filler):
-    
-    #print 'branch %s' % filler
-    
-    clone = deepcopy(head)
-    clone.slots[slotname].fill(filler)
-    
-    return clone
+    #return [link_single(branch(head, slotnames[0], Instance(fc)), 
+                        #exclude(copy(filler_concepts), fc), 
+                        #copy(slotnames)[1:])
+            #for fc in filler_concepts]
 
 
-def exclude(collection, element):
-    collection.remove(element)
+#def branch(head, slotname, filler):
     
-    return collection
+    ##print 'branch %s' % filler
+    
+    #clone = deepcopy(head)
+    #clone.slots[slotname].fill(filler)
+    
+    #return clone
+
+
+#def exclude(collection, element):
+    #collection.remove(element)
+    
+    #return collection
 
 #### Below are the function necessary for generate all linking
 
@@ -106,7 +106,7 @@ def findAllLinking(listConcept):
     index = 0 
     for Con in listConcept:
         currentList = getRestList(index,sizeFiller)
-        sizeSlots = len(Con.slots)
+        sizeSlots = len(Con.slots())
         p = permu(sizeSlots,sizeFiller,access=currentList)
         listPermu += [p]
         index = index+1
@@ -120,19 +120,19 @@ def findAllLinking(listConcept):
         #Generate new set of Instance
         InstanceList =[]
         for j in listConcept:
-            temp = Instance(deepcopy(j))
+            temp = j()
             InstanceList.append(temp)
         status = True
         for j in range(len(InstanceList)):
             ind = 0
-            for slot in InstanceList[j].slots:
+            for slot in InstanceList[j].slots():
                 ### Example
                 ### [ [[]] , [[0,2]],[2,0]], [[0,1], [1,0]] ]
                 ### listPermu[j] -> get the list of permu of j instance
                 ### i[j] -> get the number of the possible permu 
                 ### ind -> get the slot to be filled
                 indexIn = listPermu[j][i[j]][ind] 
-                status = status and InstanceList[j].slots[slot].fill(InstanceList[indexIn])
+                status = status and InstanceList[j].slots()[slot].fill(InstanceList[indexIn])
                 ind = ind+1
         if status:
             listInstance.append(InstanceList)

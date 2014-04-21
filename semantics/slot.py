@@ -1,20 +1,21 @@
-from typed import Typed
+
 
 ""
-class Slot(Typed):
-    #remember to allow slot inheritance
+class Slot(object):
+    filler_class = None
     filler = None
+    #remember to allow slot inheritance
     
     
-    def __init__(self, type):
-        self.type = type
+    def __init__(self, filler_class):
+        self.filler_class = filler_class
     
     
     def fill(self, filler):
         
         #print 'filling slot {0} with filler type: {1}, success: {2}'.format(str(self), str(filler.type), str(filler.type == self.type))
         
-        if filler.type == self.type:
+        if filler.__class__ == self.filler_class:
             self.filler = filler
             
             return True
@@ -24,4 +25,4 @@ class Slot(Typed):
     
     
     def __str__(self):
-        return '{{type: {0}, filler: {1}}}'.format(str(self.type), str(self.filler))
+        return '{{filler_class: {0}, filler: {1}}}'.format(str(self.filler_class), str(self.filler))
