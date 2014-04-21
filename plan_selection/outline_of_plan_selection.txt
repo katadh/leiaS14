@@ -1,0 +1,34 @@
+The whole agent is a subject/observer thing. Each iteration, 
+
+class planManager (subject)
+	plan_queue[plans]
+	'''overall goals are represented through the priority each plan receives'''
+
+	updatePlanQueue(input):
+		if input == NULL:
+			PlanQueue[top_plan].executeOneTimestep()
+			return
+		//States of plans are constantly being saved by executeOneTimestep
+		new_plan = getPlan(input)
+		re-prioritize(new_plan, input)
+		executePlan()	
+		if(PlanQueue[topPlan].executeOneTimestep()):
+			PlanQueue.pop(topPlan)
+		return
+	getPlan(input):
+		return_plan = queryKBForPlan(input)
+		if (!queryKBForPrerequisites(return_plan):
+			getPlan(new_input)
+		else:
+			return return_plan
+	
+
+
+class plan (observer)
+	time_to_complete
+	current_progress
+	plan.executeOneTimestep():
+		//Specific to each plan
+		if current_progress == time_to_complete
+			return True
+		
