@@ -29,3 +29,6 @@ plan_map_prereqs = {"repeat":[["knowledge", "food", None]],"find_food":[["knowle
 #The third is the starting progress made (always 0)
 #The fourth is the function that will serve as the "executeOneTimestep" function
 plan_map = {"repeat":(4,10,0,repeat), "find_food":(3,1,0,find_food)}
+
+
+plan_lexicon = {"Instance of Request Info":"repeat"}

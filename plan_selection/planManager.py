@@ -6,9 +6,18 @@ class planManager:
 	def __init__(self):
 		self.plans = []
 
+
 	def planSelect(self, TMR):
-		tp = PlanList.plan_map[TMR]
-		return_plan = plan.plan(tp[0], tp[1], 0, False, TMR)
+		#return_plan == None is essentially the "do nothing" plan
+		return_plan = None
+		current_max = 0
+		for instance in TMR:
+			instance_copy = instance.split(":")
+			if PlanList.plan_lexicon[instance_copy[0]] == None:
+				continue
+			else:
+				r = PlanList.plan_map[PlanList.plan_lexicon[instance_copy[0]]]
+				return_plan = plan.plan(r[0],r[1],r[2],False,PlanList.plan_lexicon[instance_copy[0]])
 		return return_plan
 
 	def updatePlanQueue(self, TMR):
@@ -21,6 +30,8 @@ class planManager:
 		#New plan, and other plans exist already
 		else:
 			new_plan = self.planSelect(TMR)
+			if new_plan == None:
+				return
 			heappush(self.plans, new_plan)
 			if (len(new_plan.prerequisites) > 0):
 				for prereq in new_plan.prerequisites:
