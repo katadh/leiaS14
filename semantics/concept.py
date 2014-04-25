@@ -7,7 +7,19 @@ class Concept(object):
     
     @classmethod
     def slots(cls):
-        return dict(filter(lambda (k, v): isinstance(v, Slot), vars(cls).items()))
+        slots = filter(lambda (k, v): isinstance(v, Slot), vars(cls).items())
+        
+        for base in cls.__bases__:
+            if not base is object:
+                slots = slots + base.slots().items()
+           
+        return dict(slots)   
+        #return dict(filter(lambda (k, v): isinstance(v, Slot), 
+                           #vars(cls).items())
+                    #+ [base.slots().items() 
+                       #for base in filter(lambda b: not b is object, 
+                                          #cls.__bases__)])
+    
     
     
     def filled(self):
