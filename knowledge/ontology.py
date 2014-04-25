@@ -1,3 +1,6 @@
+import sys
+sys.path.insert(0, '..')
+
 from semantics.concept import Concept
 from semantics.slot import Slot
 

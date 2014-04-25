@@ -1,0 +1,15 @@
+#Concept	000	(	slot_name	instance	)	(	...	)
+#
+#Storing instances for base knowledge:
+#any line preceded by '#' is ignored
+#Each instance is one line and each item on the list is tab('\t') delimited
+#	Concept		=	name of concept the instance comes from
+#	000			=	number used internally to reference other instances in this file
+#	( ... )		=	each pair of parenthesis is a Slot
+#	slot_name	=	variable name of the slot (theme, agent, ect.)
+#	instance	=	The number that designates the instance in the file; can be None
+##################
+#
+Animal	2
+BuyEvent	1	(	agent	2	)	(	theme	3	)
+Fish	3
