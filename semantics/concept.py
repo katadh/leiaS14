@@ -1,4 +1,4 @@
-from semantics.slot import Slot
+from slot import Slot
 
 
 "This is a base class for all concepts specified in knowledge.ontology"

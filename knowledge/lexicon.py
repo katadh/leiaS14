@@ -13,8 +13,14 @@ lex = {'I': [Animal],
 #Regardless, the call is lexicon.lexicon[LEMMA][PoS]. This returns a list of concepts associated with the
 #      provided lemma and pos.
        
-lexicon = {'I': {'n': ['Animal']},
-           'buy': {'n': ['Buy'],
-                   'v': ['BuyEvent']},
-           'fish': {'n': ['Fish'],
-                    'v': ['FishEvent']}}
+lexicon = {'I': {'PRP': [Animal]},
+           'buy': {'NN': [Buy],
+                   'VB': [BuyEvent]},
+           'fish': {'NN': [Fish], 
+                    'VB': [FishEvent]}}
+
+
+def senses(*args):
+    ### by lemma or by lemma and pos
+    return lex[args[0]] if len(args) == 1 else lexicon[args[0]][args[1]]
+

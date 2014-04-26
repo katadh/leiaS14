@@ -10,6 +10,10 @@ class Animal(Concept):
     pass
 
 
+class Person(Animal):
+    name = 'Bob'
+
+
 class Fish(Animal):
     pass
 
