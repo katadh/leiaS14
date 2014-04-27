@@ -67,12 +67,12 @@ def getPOS(sentence):
     startdir = os.getcwd()
     os.chdir("./stanford_tools/stanford-postagger-2014-01-04/")
     
+    
     temp_file = open('temp.txt', 'w')
     temp_file.write(sentence)
     temp_file.close()
-
     stanford_output = subprocess.check_output(["./stanford-postagger.sh", "models/wsj-0-18-bidirectional-nodistsim.tagger", "./temp.txt"])
-
+    
     os.chdir(startdir)
 
     poslist = (stanford_output.strip(" \n")).split(" ")
@@ -91,7 +91,7 @@ def findNE(sentence):
     temp_file.close()
 
     stanford_output = subprocess.check_output(["./ner.sh", "./temp.txt"])
-
+    
     os.chdir(startdir)
 
     nelist = (stanford_output.strip(" \n")).split(" ")

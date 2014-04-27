@@ -4,8 +4,9 @@ from pprint import pprint
 
 # TODO: relax to superclass
 # TODO: use tense information?
+# TODO: can use dependencies as heuristic of where to start from
 
-# doesn't do any candidate selection yet
+# TODO: doesn't do any candidate selection yet
 def tmr(tagged_words):
     
     for concepts in permute_senses(tagged_words):
@@ -29,4 +30,3 @@ def permute_senses(tagged_words):
             for sense in senses(tagged_words[0].lemma, 
                                 tagged_words[0].pos)]
 
-# can use dependencies as heuristic of where to start from

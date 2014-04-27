@@ -6,6 +6,7 @@ lex = {'I': [Animal],
        'buy' : [Buy, BuyEvent],
        'fish' : [Fish, FishEvent],
        '?' : [QuestionEvent]}
+       #'where' : [location slot]}
 
 #TODO: Create a script to read from a text file all of the lexicon entries.
 
