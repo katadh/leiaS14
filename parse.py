@@ -73,7 +73,7 @@ def getPOS(sentence):
     temp_file.write(sentence)
     temp_file.close()
 
-    stanford_output = subprocess.check_output(["./stanford-postagger.sh", "models/wsj-0-18-bidirectional-nodistsim.tagger", "./temp.txt"])
+    stanford_output = subprocess.check_output(["sh", "stanford-postagger.sh", "models/wsj-0-18-bidirectional-nodistsim.tagger", "temp.txt"])
 
     os.chdir(startdir)
 
