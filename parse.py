@@ -20,21 +20,21 @@ class Word:
         self.ne = entity
         self.dependencies = {}
 
-def analyzeSentance(sentance):
+def analyzeSentence(sentence):
 
     analysis = []
-    posdict = getPOS(sentance)
-    nedict = findNE(sentance)
+    posdict = getPOS(sentence)
+    nedict = findNE(sentence)
 
-    wnl = WordNetLemmatizer()
+    wnl = nltk.WordNetLemmatizer()
 
-    tokens = nltk.word_tokenize(sentance)
+    tokens = nltk.word_tokenize(sentence)
 
     for token in tokens:
         lemma = wnl.lemmatize(token)
         analysis.append(Word(token, lemma, posdict[token], nedict[token]))
 
-    dependlist = getDependencies(sentance)
+    dependlist = getDependencies(sentence)
 
     for d in dependlist:
         parentnum = int(d[2]) - 1
@@ -44,12 +44,12 @@ def analyzeSentance(sentance):
     
     return analysis
 
-def getDependencies(sentance):
+def getDependencies(sentence):
     startdir = os.getcwd()
     os.chdir("./stanford_tools/stanford-parser-full-2014-01-04/")
 
     temp_file = open('temp.txt', 'w')
-    temp_file.write(sentance)
+    temp_file.write(sentence)
     temp_file.close()
 
     stanford_output = subprocess.check_output(["./lexparser.sh", "./temp.txt"])
@@ -63,12 +63,12 @@ def getDependencies(sentance):
 
     return dependlist
 
-def getPOS(sentance):
+def getPOS(sentence):
     startdir = os.getcwd()
     os.chdir("./stanford_tools/stanford-postagger-2014-01-04/")
     
     temp_file = open('temp.txt', 'w')
-    temp_file.write(sentance)
+    temp_file.write(sentence)
     temp_file.close()
 
     stanford_output = subprocess.check_output(["./stanford-postagger.sh", "models/wsj-0-18-bidirectional-nodistsim.tagger", "./temp.txt"])
@@ -82,12 +82,12 @@ def getPOS(sentance):
 
     return posdict
 
-def findNE(sentance):
+def findNE(sentence):
     startdir = os.getcwd()
     os.chdir("./stanford_tools/stanford-ner-2014-01-04/")
     
     temp_file = open('temp.txt', 'w')
-    temp_file.write(sentance)
+    temp_file.write(sentence)
     temp_file.close()
 
     stanford_output = subprocess.check_output(["./ner.sh", "./temp.txt"])
