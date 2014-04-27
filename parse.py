@@ -46,6 +46,7 @@ def analyzeSentence(sentence):
 
 def getDependencies(sentence):
     startdir = os.getcwd()
+    
     os.chdir("./stanford_tools/stanford-parser-full-2014-01-04/")
 
     temp_file = open('temp.txt', 'w')
@@ -65,7 +66,8 @@ def getDependencies(sentence):
 
 def getPOS(sentence):
     startdir = os.getcwd()
-    os.chdir("./stanford_tools/stanford-postagger-2014-01-04/")
+    parsepath = os.path.join(startdir, "stanford_tools", "stanford-postagger-2014-01-04")
+    os.chdir(parsepath)
     
     temp_file = open('temp.txt', 'w')
     temp_file.write(sentence)

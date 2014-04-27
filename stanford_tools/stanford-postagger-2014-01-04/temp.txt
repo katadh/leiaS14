@@ -1,1 +1,1 @@
-This is a sentence that we can test parsing with
+This is a test sentance
