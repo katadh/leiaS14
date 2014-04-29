@@ -6,7 +6,33 @@ from semantics.slot import Slot
 
 
 "We agreed with Kyle that class declarations shall represent concepts while a class instance corresponds to a concept instance"
-class Animal(Concept):
+
+
+class Thing(Concept):
+    pass
+
+#class Event(Concept):
+    #pass
+
+#class TravelEvent(Event):
+    #pass
+
+#class ChangeEvent(Event):
+    #pass
+
+
+
+#class Product(Thing):
+    #pass
+
+
+#class Milk(Product):
+    #pass
+
+
+
+
+class Animal(Thing):
     pass
 
 

@@ -8,6 +8,10 @@ from pprint import pprint
 
 # TODO: doesn't do any candidate selection yet
 def tmr(tagged_words):
+    print 'before' + str(tagged_words)
+    tagged_words = filter(lambda tw: senses(tw.lemma),
+                          tagged_words)
+    print 'after' + str(tagged_words)
     
     for concepts in permute_senses(tagged_words):
         #print 'Possible linkings for senses {0}:'.format(map(str, concepts))

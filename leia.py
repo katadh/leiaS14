@@ -21,7 +21,6 @@ if __name__ == "__main__":
     if sentence:
         print leia(sentence)
 
-print senses('fish', 'VBP')
 ### Where are the chips?
 ### TMR:
 ### reguest-info:
