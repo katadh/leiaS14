@@ -30,3 +30,5 @@ def permute_senses(tagged_words):
             for sense in senses(tagged_words[0].lemma, 
                                 tagged_words[0].pos)]
 
+
+
