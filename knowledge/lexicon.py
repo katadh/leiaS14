@@ -16,9 +16,9 @@ lex = {'I': [Animal],
        
 lexicon = {'I': {'PRP': [Animal]},
            'buy': {'NN': [Buy],
-                   'VB': [BuyEvent]},
+                   'VBP': [BuyEvent]},
            'fish': {'NN': [Fish], 
-                    'VB': [FishEvent]}}
+                    'VBP': [FishEvent]}}
 
 
 def senses(*args):
