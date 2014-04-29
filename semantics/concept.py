@@ -14,12 +14,6 @@ class Concept(object):
                 slots = slots + base.slots().items()
            
         return dict(slots)   
-        #return dict(filter(lambda (k, v): isinstance(v, Slot), 
-                           #vars(cls).items())
-                    #+ [base.slots().items() 
-                       #for base in filter(lambda b: not b is object, 
-                                          #cls.__bases__)])
-    
     
     
     def filled(self):
