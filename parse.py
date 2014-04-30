@@ -30,8 +30,14 @@ def analyzeSentence(sentence):
 
     tokens = nltk.word_tokenize(sentence)
 
+    wordnet_tags = {'NN':'n','JJ':'a','VB':'v','RB':'r'}
+
     for token in tokens:
-        lemma = wnl.lemmatize(token)
+        postag = posdict[token][:2]
+        if postag not in wordnet_tags:
+            lemma = wnl.lemmatize(token)
+        else:
+            lemma = wnl.lemmatize(token, wordnet_tags[postag])
         analysis.append(Word(token, lemma, posdict[token], nedict[token]))
 
     dependlist = getDependencies(sentence)
