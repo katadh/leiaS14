@@ -45,6 +45,8 @@ class Fish(Animal):
 
 
 class Buy(Concept):
+    # TODO: potential bug - the same slot object will be used for all instances,
+    # although in the linking code concepts get deeply cloned rather than instantiated
     theme = Slot(Animal)
  
     

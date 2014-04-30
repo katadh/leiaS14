@@ -19,7 +19,9 @@ if __name__ == "__main__":
     sentence = sys.argv[1] if len(sys.argv) > 1 else None
     
     if sentence or not sentence:
-        print leia(sentence)
+        pass#print leia(sentence)
+    
+print Animal().at_least(Concept)
 
 ### Where are the chips?
 ### TMR:
