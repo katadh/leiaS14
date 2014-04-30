@@ -54,11 +54,22 @@ class ChangeEvent(Event):
     theme = Slot(Thing)
     result = Slot(Quality)
 
-class TravelEvent(Event):
-    pass
-
 class QuestionEvent(Event):
     theme = Slot(Concept)
+    
+class ActiveEvent(Event):
+    agent = Slot(Thing)
+    theme = Slot(Concept)
+
+class TravelEvent(ActiveEvent):
+    pass
+
+class BuyEvent(ActiveEvent):
+    pass
+
+
+class FishEvent(ActiveEvent):
+    theme = Slot(Fish)    
 
 
 
@@ -76,12 +87,7 @@ class Buy(Concept):
     #agent = Slot(Animal)
 
     
-class BuyEvent(Event):
-    pass
 
-
-class FishEvent(Event):
-    theme = Slot(Fish)
     
     
 
