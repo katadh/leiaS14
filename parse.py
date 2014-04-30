@@ -38,6 +38,8 @@ def analyzeSentence(sentence):
             lemma = wnl.lemmatize(token)
         else:
             lemma = wnl.lemmatize(token, wordnet_tags[postag])
+        if nedict[token] == 'O':
+            lemma = lemma.lower()
         analysis.append(Word(token, lemma, posdict[token], nedict[token]))
 
     dependlist = getDependencies(sentence)
