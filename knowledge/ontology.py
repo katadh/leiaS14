@@ -32,12 +32,18 @@ class Fish(Animal):
 
 class Person(Animal):
     name = 'Bob'
-
+    
 class Product(Thing):
-    quality = Slot(Quality)
+    pass
     
 class Milk(Product):
+    freshness = Slot(Quality)
+
+class Chips(Product):
     pass
+
+class Aisle(Thing):
+    location_of = Slot(Product)
     
     
 ### roughly, VB

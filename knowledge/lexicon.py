@@ -3,8 +3,7 @@ from ontology import *
 #TODO: Create a script to read from a text file all of the lexicon entries.
 
 #This is actually really nasty and hardcoding the lexicon like this is tedious. 
-#Regardless, the call is lexicon.lexicon[LEMMA][PoS]. This returns a list of concepts associated with the
-#      provided lemma and pos.
+
        
 lexicon = {
     'I': {
@@ -27,11 +26,15 @@ lexicon = {
     '?': {
         'Punc': [QuestionEvent]
         },
-    # this is here temporarily, when Alex fixes lemmatization, I'll change it to "go"
-    'gone': {
-        'VB' :[TravelEvent, ChangeEvent]
-    }
-    
+    'go': {
+        'VB': [TravelEvent, ChangeEvent]
+        },
+    'where': {
+        'WRB': [Aisle]
+        },
+    'chips': {
+        'NNS': [Chips]
+        }
 }
 #'where' : [location slot]}
 

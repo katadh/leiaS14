@@ -13,6 +13,8 @@ def tmr(tagged_words):
     tagged_words = filter(lambda tw: senses(tw.lemma),
                           tagged_words)
     
+    print 'Interpreting: {0}'.format(map(lambda tw: tw.lemma, tagged_words))
+    
     linking_candidates = []
     
     #while len(linking_candidates) < 1:
