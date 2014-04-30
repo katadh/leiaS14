@@ -57,6 +57,9 @@ class ChangeEvent(Event):
 class TravelEvent(Event):
     pass
 
+class QuestionEvent(Event):
+    theme = Slot(Concept)
+
 
 
 
@@ -67,29 +70,10 @@ class Buy(Concept):
     # although in the linking code concepts get deeply cloned rather than instantiated
     theme = Slot(Animal)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
- 
     
-class Event(Concept):
-    theme = Slot(Fish)
-    agent = Slot(Animal)
+#class Event(Concept):
+    #theme = Slot(Fish)
+    #agent = Slot(Animal)
 
     
 class BuyEvent(Event):
@@ -100,5 +84,4 @@ class FishEvent(Event):
     theme = Slot(Fish)
     
     
-class QuestionEvent(Event):
-    pass
+

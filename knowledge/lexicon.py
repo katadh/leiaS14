@@ -32,7 +32,7 @@ lexicon = {
     'where': {
         'WRB': [Aisle]
         },
-    'chips': {
+    'chip': {
         'NNS': [Chips]
         }
 }
@@ -40,7 +40,7 @@ lexicon = {
 
 
 def senses(*args):
-    lemma = args[0]
+    lemma = args[0].lower()
     
     if lemma in lexicon.keys():
         pos = args[1] if len(args) > 1 else None
