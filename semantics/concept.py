@@ -23,10 +23,6 @@ class Concept(object):
     
     @classmethod
     def at_least(cls, other_class): 
-        print 'at least'
-        print cls
-        print other_class
-        
         if cls == other_class:
             return True
         

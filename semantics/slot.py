@@ -12,9 +12,6 @@ class Slot(object):
     
     
     def fill(self, filler):
-        
-        #print 'filling slot {0} with filler type: {1}, success: {2}'.format(str(self), str(filler.type), str(filler.type == self.type))
-        
         if filler.at_least(self.filler_class):
             self.filler = filler
             

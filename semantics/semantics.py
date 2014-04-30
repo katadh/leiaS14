@@ -17,7 +17,7 @@ def tmr(tagged_words):
     
     while len(linking_candidates) < 1:
             #relax() if len(linking_candidates) == 0 else prune()  
-        relaxation += 1
+        #relaxation += 1
         
         for concepts in permute_senses(tagged_words):
             #print 'Possible linkings for senses {0}:'.format(map(str, concepts))
@@ -25,9 +25,9 @@ def tmr(tagged_words):
             sense_linkings = findAllLinking(concepts)
             linking_candidates += sense_linkings
             
-            pprint(map(lambda linking: 
-                       map(str, linking), 
-                       sense_linkings))
+            #pprint(map(lambda linking: 
+                       #map(str, linking), 
+                       #sense_linkings))
             
             linking_candidates = prune_partially_linked(linking_candidates)
             
