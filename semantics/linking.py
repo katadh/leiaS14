@@ -2,6 +2,16 @@ from knowledge.lexicon import *
 from copy import copy, deepcopy
 from itertools import chain
 
+### Generates all possible combinations of token-to-sense mapping
+def permute_senses(tagged_words):
+    if len(tagged_words) == 0:
+        return [[]]
+            
+    return [[sense] + concepts
+            for concepts in permute_senses(tagged_words[1:])
+            for sense in senses(tagged_words[0].lemma,
+                                tagged_words[0].pos)]
+
 
 ### access => generate permu of index to generate element of the access
 def permu(sizeSlot,sizeFiller,distList=[],access=[]):
