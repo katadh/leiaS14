@@ -10,6 +10,12 @@ lexicon = {
     'I': {
         'PRP': [Animal]
         },
+    'milk': { 
+        'NN' : [Milk]
+        },
+    'bad': {
+        'JJ': [Bad]
+        },
     'buy': {
         'NN': [Buy],
         'VBP': [BuyEvent]
@@ -20,7 +26,12 @@ lexicon = {
         },
     '?': {
         'Punc': [QuestionEvent]
+        },
+    # this is here temporarily, when Alex fixes lemmatization, I'll change it to "go"
+    'gone': {
+        'VB' :[TravelEvent, ChangeEvent]
     }
+    
 }
 #'where' : [location slot]}
 
