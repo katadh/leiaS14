@@ -32,12 +32,18 @@ class Fish(Animal):
 
 class Person(Animal):
     name = 'Bob'
-
+    
 class Product(Thing):
-    quality = Slot(Quality)
+    pass
     
 class Milk(Product):
+    freshness = Slot(Quality)
+
+class Chips(Product):
     pass
+
+class Aisle(Thing):
+    location_of = Slot(Product)
     
     
 ### roughly, VB
@@ -48,8 +54,22 @@ class ChangeEvent(Event):
     theme = Slot(Thing)
     result = Slot(Quality)
 
-class TravelEvent(Event):
+class QuestionEvent(Event):
+    theme = Slot(Concept)
+    
+class ActiveEvent(Event):
+    agent = Slot(Thing)
+    theme = Slot(Concept)
+
+class TravelEvent(ActiveEvent):
     pass
+
+class BuyEvent(ActiveEvent):
+    pass
+
+
+class FishEvent(ActiveEvent):
+    theme = Slot(Fish)    
 
 
 
@@ -61,38 +81,13 @@ class Buy(Concept):
     # although in the linking code concepts get deeply cloned rather than instantiated
     theme = Slot(Animal)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
- 
     
-class Event(Concept):
-    theme = Slot(Fish)
-    agent = Slot(Animal)
+#class Event(Concept):
+    #theme = Slot(Fish)
+    #agent = Slot(Animal)
 
     
-class BuyEvent(Event):
-    pass
 
-
-class FishEvent(Event):
-    theme = Slot(Fish)
     
     
-class QuestionEvent(Event):
-    pass
+

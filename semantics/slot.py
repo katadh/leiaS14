@@ -22,4 +22,4 @@ class Slot(object):
             
     
     def __str__(self):
-        return '{{filler_class: {0}, filler: {1}}}'.format(str(self.filler_class), str(self.filler))
+        return '{{filler_class: {0}, filler: {1}}}'.format(self.filler_class.__name__, str(self.filler))

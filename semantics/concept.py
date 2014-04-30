@@ -38,8 +38,9 @@ class Concept(object):
         
         
     def __str__(self):
-        return '{0}-{1}: {{{2}}}'.format(str(self.__class__.__name__), 
+        return '{0}-{1}: {{{2}}}'.format(self.__class__.__name__, 
                                          id(self), 
-                                         ", ".join(map(lambda slotname: '{0}: {1}'.format(slotname, 
-                                                                                          str(self.slots()[slotname])), 
+                                         ", ".join(map(lambda slotname: 
+                                                       '{0}: {1}'.format(slotname, 
+                                                                         str(self.slots()[slotname])), 
                                                        self.slots())))   

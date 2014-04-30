@@ -2,20 +2,17 @@ import sys
 from parse import *
 from pprint import pprint
 from semantics.semantics import *
+import knowledge.lexicon
 
 "The top-level processing pipeline"
-
-def leia(sentence):
+### Each application should supply its own lexicon class, otherwise the default one will be used.
+def leia(sentence, Lexicon = knowledge.lexicon.Lexicon):
     tagged_words = analyzeSentence(sentence)
     #tagged_words = [Word('I', 'I', 'PRP', None),
                     #Word('buy', 'buy', 'bla', None),
                     #Word('fish', 'fish', 'NN', None)]
         
-    candidate_tmrs = tmr(tagged_words)  
-    
-    #pprint(map(lambda tmr:
-               #map(str, tmr),
-               #candidate_tmrs))
+    candidate_tmrs = tmr(tagged_words, Lexicon)  
     
     return candidate_tmrs
     
