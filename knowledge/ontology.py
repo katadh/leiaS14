@@ -11,65 +11,97 @@ from semantics.slot import Slot
 
 ### roughly, JJ
 class Quality(Concept):
-    pass
+    def __init__(self):
+        self.init_slots()
 
 class Good(Quality):
-    pass
+    def __init__(self):
+        self.init_slots()
 
 class Bad(Quality):
-    pass
+    def __init__(self):
+        self.init_slots()
 
 
 ### roughly, NN
 class Thing(Concept):
-    pass
+    def __init__(self):
+        self.init_slots()
 
 class Animal(Thing):
-    pass
+    def __init__(self):
+        self.init_slots()
 
 class Fish(Animal):
-    pass
+    def __init__(self):
+        self.init_slots()
 
 class Person(Animal):
     name = 'Bob'
     
+    def __init__(self):
+        self.init_slots()    
+    
 class Product(Thing):
-    pass
+    def __init__(self):
+        self.init_slots()
     
 class Milk(Product):
     freshness = Slot(Quality)
+    
+    def __init__(self):
+        self.init_slots()    
 
 class Chips(Product):
-    pass
+    def __init__(self):
+        self.init_slots()
 
 class Aisle(Thing):
     location_of = Slot(Product)
     
+    def __init__(self):
+        self.init_slots()    
+    
     
 ### roughly, VB
 class Event(Concept):
-    pass
+    def __init__(self):
+        self.init_slots()
 
 class ChangeEvent(Event):
     theme = Slot(Thing)
     result = Slot(Quality)
+    
+    def __init__(self):
+        self.init_slots()    
 
 class QuestionEvent(Event):
     theme = Slot(Concept)
     
+    def __init__(self):
+        self.init_slots()    
+    
 class ActiveEvent(Event):
     agent = Slot(Thing)
     theme = Slot(Concept)
+    
+    def __init__(self):
+        self.init_slots()    
 
 class TravelEvent(ActiveEvent):
-    pass
+    def __init__(self):
+        self.init_slots()
 
 class BuyEvent(ActiveEvent):
-    pass
+    def __init__(self):
+        self.init_slots()
 
 
 class FishEvent(ActiveEvent):
-    theme = Slot(Fish)    
+    theme = Slot(Fish) 
+    
+    def __init__(self):
+        self.init_slots()    
 
 
 
@@ -80,6 +112,9 @@ class Buy(Concept):
     # TODO: potential bug - the same slot object will be used for all instances,
     # although in the linking code concepts get deeply cloned rather than instantiated
     theme = Slot(Animal)
+    
+    def __init__(self):
+        self.init_slots()    
 
     
 #class Event(Concept):

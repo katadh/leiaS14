@@ -9,7 +9,7 @@ class Thing(Concept):
 
 class Location(Thing):
     longitude = 0
-    atitude = 0
+    latitude = 0
     address = ''
     visits = 0
     notes = ''

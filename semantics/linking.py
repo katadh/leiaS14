@@ -49,7 +49,7 @@ def findAllLinking(listConcept):
     index = 0 
     for Con in listConcept:
         currentList = getRestList(index,sizeFiller)
-        sizeSlots = len(Con.slots())
+        sizeSlots = len(Con.class_slots())
         p = permu(sizeSlots,sizeFiller,access=currentList)
         listPermu += [p]
         index = index+1

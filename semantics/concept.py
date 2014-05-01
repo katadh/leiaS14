@@ -5,16 +5,29 @@ from relaxation import *
 "This is a base class for all concepts specified in knowledge.ontology"
 class Concept(object):
     
+    def init_slots(self):
+        # so that the initial slot object is not shared by all instances
+        class_slots = self.class_slots()
+        for slotname in class_slots.keys():
+            vars(self)[slotname] = Slot(class_slots[slotname].filler_class)
+    
     
     @classmethod
-    def slots(cls):
-        slots = filter(lambda (k, v): isinstance(v, Slot), vars(cls).items())
+    def class_slots(cls):
+        class_slots = filter(lambda (k, v): isinstance(v, Slot), 
+                             vars(cls).items())
         
         for base in cls.__bases__:
             if not base is object:
-                slots = slots + base.slots().items()
+                class_slots = class_slots + base.class_slots().items()
            
-        return dict(slots)   
+        return dict(class_slots)
+    
+    
+    def slots(self):
+        return dict(map(lambda class_slot: 
+                        (class_slot, vars(self)[class_slot]), 
+                        self.class_slots().keys()))  
     
     
     def filled(self):
