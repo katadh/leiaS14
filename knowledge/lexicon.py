@@ -54,28 +54,26 @@ class Lexicon(object):
             }
     }
 
-    @classmethod
-    def senses(cls, *args):
+    def senses(self, *args):
         lemma = args[0].lower()
         
-        if lemma in cls.lexicon.keys():
+        if lemma in self.lexicon.keys():
             pos = args[1] if len(args) > 1 else None
             
-            if pos and pos in cls.lexicon[lemma].keys():
-                return cls.lexicon[lemma][pos]
+            if pos and pos in self.lexicon[lemma].keys():
+                return self.lexicon[lemma][pos]
             else: 
                 return reduce(lambda s1, s2: s1 + s2,
-                              [cls.lexicon[lemma][pos] 
-                               for pos in cls.lexicon[lemma].keys()])
+                              [self.lexicon[lemma][pos] 
+                               for pos in self.lexicon[lemma].keys()])
             
             
     ### Generates all possible combinations of token-to-sense mapping
-    @classmethod
-    def permute_senses(cls, tagged_words):
+    def permute_senses(self, tagged_words):
         if len(tagged_words) == 0:
             return [[]]
                 
         return [[sense] + concepts
-                for concepts in cls.permute_senses(tagged_words[1:])
-                for sense in cls.senses(tagged_words[0].lemma,
+                for concepts in self.permute_senses(tagged_words[1:])
+                for sense in self.senses(tagged_words[0].lemma,
                                         tagged_words[0].pos)]    

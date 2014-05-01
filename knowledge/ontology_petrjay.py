@@ -2,8 +2,6 @@ from semantics.concept import Concept
 from semantics.slot import Slot
 
 
-def define_concept(name, base, slots):
-    return type(name, base, slots)
 
 ### roughly, NN
 class Thing(Concept):
