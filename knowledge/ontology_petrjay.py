@@ -1,6 +1,8 @@
 from semantics.concept import Concept
 from semantics.slot import Slot
 
+def ConceptType(name, bases, slots):
+    return type(name, bases, slots)
 
 
 ### roughly, NN

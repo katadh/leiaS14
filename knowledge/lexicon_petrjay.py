@@ -24,6 +24,14 @@ class Lexicon(lexicon.Lexicon):
     
     def senses(self, *args):
         senses = super(Lexicon, self).senses(*args)
-        lemma = args[0]
+
+        if senses:
+            return senses
+        else:
+            lemma = args[0]
+            new_concept = ConceptType(lemma.capitalize(), (Concept,), {})
+            
+            self.lexicon[lemma] = {}
+            self.lexicon[lemma]['NOPOS'] = [new_concept]
         
-        return senses if senses else [type(lemma.capitalize(), (Concept,), {})]
+            return [new_concept]

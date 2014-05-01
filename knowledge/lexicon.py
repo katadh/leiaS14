@@ -76,4 +76,4 @@ class Lexicon(object):
         return [[sense] + concepts
                 for concepts in self.permute_senses(tagged_words[1:])
                 for sense in self.senses(tagged_words[0].lemma,
-                                        tagged_words[0].pos)]    
+                                         tagged_words[0].pos)]    
