@@ -1,0 +1,26 @@
+[
+	{
+		"name":"JEC",
+		"description":"",
+		"outdoors":0,
+		"neighbors":[["86 Field", 1, "north"], ["CII", 1, "east"]]
+	},
+	{
+		"name":"86 Field",
+		"description":"",
+		"outdoors":1,
+		"neighbors":[["JEC", 1, "south"]]
+	},
+	{
+		"name":"CII",
+		"description":"",
+		"outdoors":0,
+		"neighbors":[["JEC", 1, "west"], ["Sage Dining Hall", 1, "east"]]
+	},
+	{
+		"name":"Sage Dining Hall",
+		"description":"",
+		"outdoors":0,
+		"neighbors":[["CII", 1, "west"]]
+	}
+]
