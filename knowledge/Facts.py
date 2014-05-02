@@ -1,5 +1,5 @@
 import inspect
-from ontology import *
+from ontology_mattkyle import *
 
 local_TMRs = {}
 base_TMRs = {}
@@ -18,7 +18,7 @@ def store(inst):
         name = c.__name__
         if name == "Concept" or name == "object": continue
         if name not in local_TMRs: local_TMRs[name] = []
-        local_TMRs[name].append(inst)           
+        local_TMRs[name].append(inst)
 
 def load():
     kbf = open("fact_repo.txt", 'r')
@@ -36,14 +36,24 @@ def load():
         new_inst = globals()[concept_name]()
 
         while len(l) != 0:
+            #pop open parentheses
             l.pop(0)
             slot = l.pop(0)
-            f_index = int(l.pop(0))
-            if f_index not in inst_map:
-                if f_index not in requests: requests[f_index] = []
-                requests[f_index].append((index, slot))
+            if slot[0] == '%':
+                var = l.pop(0)
+                if slot[1] == 'b':
+                    setattr(new_inst, slot[2:], var == 'True')
+                elif slot[1] == 'f':
+                    setattr(new_inst, slot[2:], float(var))
+                elif slot[1] == 's':
+                    setattr(new_inst, slot[2:], var)
             else:
-                setattr(new_inst, slot, inst_map[f_index])
+                f_index = int(l.pop(0))
+                if f_index not in inst_map:
+                    if f_index not in requests: requests[f_index] = []
+                    requests[f_index].append((index, slot))
+                else:
+                    setattr(new_inst, slot, inst_map[f_index])
             l.pop(0)
             
         inst_map[index] = new_inst
@@ -58,6 +68,6 @@ def load():
 
 def kblookup(kbitem):
     hits = []
-    if kbitem in base_TMRs: hits.extend(base_TMRs[kbitem])
+    if kbitem in base_TMRs:  hits.extend(base_TMRs[kbitem])
     if kbitem in local_TMRs: hits.extend(local_TMRs[kbitem])
     return hits
