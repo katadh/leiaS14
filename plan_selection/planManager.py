@@ -2,7 +2,7 @@ import plan
 import PlanList
 from heapq import *
 
-class planManager:
+class planManager(object):
 	def __init__(self):
 		self.plans = []
 

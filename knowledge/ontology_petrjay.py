@@ -36,6 +36,12 @@ class Workplace(Location):
 class Event(Concept):
     def __init__(self):
         self.init_slots()
+
+class StayEvent(Event):
+    at = Slot(Location)
+    
+    def __init__(self):
+        self.init_slots()
         
 class DefineEvent(Event):
     base = Slot(Concept)
