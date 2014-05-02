@@ -31,4 +31,4 @@ plan_map_prereqs = {"repeat":[["knowledge", "food", None]],"find_food":[["knowle
 plan_map = {"repeat":(4,10,0,repeat), "find_food":(3,1,0,find_food)}
 
 
-plan_lexicon = [(set(['BuyEvent', 'Fish', 'Animal']),"repeat")]
+plan_lexicon = [(set(['Buy', 'Fish', 'Person']),"repeat")]

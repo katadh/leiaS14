@@ -6,6 +6,8 @@ import os
 world_length = 5
 position = [world_length / 2, world_length / 2]
 direction = {'w' : (0, -1), 'a' : (1, -1), 's' : (0, +1), 'd' : (1, +1)}    
+
+lexicon = Lexicon()    
     
 if __name__ == "__main__":
     while True:
@@ -32,7 +34,7 @@ if __name__ == "__main__":
             position[direction[input][0]] += direction[input][1]
             
         elif input:
-            leia(input, Lexicon)
+            leia(input, lexicon)
             
         
             

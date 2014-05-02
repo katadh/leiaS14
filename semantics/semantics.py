@@ -8,9 +8,7 @@ import knowledge.lexicon
 # TODO: can use dependencies as heuristic of where to start from
 
 # TODO: doesn't do any candidate selection yet
-def tmr(tagged_words, Lexicon = knowledge.lexicon.Lexicon):
-    lexicon = Lexicon()
-    
+def tmr(tagged_words, lexicon = knowledge.lexicon.Lexicon()):
     tagged_words = filter(lambda tw: lexicon.senses(tw.lemma),
                           tagged_words)
     
