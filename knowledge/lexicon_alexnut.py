@@ -1,4 +1,4 @@
-from ontology import *
+from ontology_alexnut import *
 
 ### This is the base static lexicon class
 ### Do not touch it - our app-specific custom lexicons should inherit 
@@ -12,34 +12,62 @@ class Lexicon(object):
     #Whoever wrote the above: you are responsible for setting up a nice database interface, yo.    
     lexicon = {
         'i': {
-            'PRP': [ (Animal,["sdfdsf"]) ]
+              'PRP': [ (Person,[""])]
+             },
+        'sage-dining-hall': { 
+            'NN' : [ (Location,["Sage-Dining-Hall"]) ]
             },
-        'milk': { 
-            'NN' : [Milk]
+        'commons':{
+            'NN' : [ (Location,["Commons"]) ]
             },
-        'bad': {
-            'JJ': [Bad]
+        'amos-eaton':{
+            'NN' : [ (Location,["Amos-Eaton"]) ]
             },
-        'buy': {
-            'NN': [Buy],
-            'VBP': [BuyEvent]
+        'lally':{
+            'NN' : [ (Location,["Lally"]) ]
             },
-        'fish': {
-            'NN': [ (Fish,[]) ], 
-            'VBP': [ (FishEvent,[]) ]
+        'dcc':{
+            'NN' : [ (Location,["DCC"]) ]
             },
-        '?': {
-            'Punc': [QuestionEvent]
+        'jec':{
+            'NN' : [ (Location,["JEC"]) ]
             },
-        'go': {
-            'VB': [TravelEvent, ChangeEvent]
+        'carnegie':{
+            'NN' : [ (Location,["Carnegie"]) ]
             },
-        'where': {
-            'WRB': [Aisle]
+        'union':{
+            'NN' : [ (Location,["Union"]) ]
             },
-        'chip': {
-            'NNS': [Chips]
-            }
+        'vcc':{
+            'NN' : [ (Location,["VCC"]) ]
+            },
+        'empac':{
+            'NN' : [ (Location,["EMPAC"]) ]
+            },
+        'folsom-library':{
+            'NN' : [ (Location,["Folson-Library"]) ]
+            },
+        'mueller-center':{
+            'NN' : [ (Location,["Mueller-Center"]) ]
+            },
+        '86-field':{
+            'NN' : [ (Location,["86-Field"]) ]
+            },
+        'nason':{
+            'NN' : [ (Location,["Nason"]) ]
+            },
+        'quad':{
+            'NN' : [ (Location,["Quad"]) ]
+            },
+        'how':{
+            'WHB' : [ (RequestInfo,[]) ]
+            },
+        'where':{
+            'WHB' : [ (RequestInfo,[]) ]
+            },
+        'see':{
+            'VRB' : [ (Observe,[]) ]
+            },
     }
 
     def senses(self, *args):
