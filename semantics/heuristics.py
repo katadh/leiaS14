@@ -42,12 +42,21 @@ class Heuristics(object):
     relaxation = 0
     minimal_goodness = .00000001
     
+    weights = [1., 1.]
+    feature_functions = [all_linked, filler_tightness]
+    
     @classmethod
     def goodness(cls, linking):
-        if len(linking) == 0:
-            return 0
+        goodness = 0.
+        print 'Linking: {0}'.format(map(str, linking))
+        if len(linking) > 0:
+            for (w, f) in zip(cls.weights, cls.feature_functions):
+                value = f(linking)
+                print '{0} = {1}, weight = {2}'.format(f.__name__, value, w)
+                goodness += value * w
+        
         goodness = 1.0 * all_linked(linking) + 1.0 * filler_tightness(linking)
-        print 'Linking: {0}, goodness: {1}'.format(map(str, linking), goodness)
+        print 'Goodness: {0}'.format(goodness)
         return goodness
     
     @classmethod
