@@ -2,6 +2,9 @@ import subprocess
 import os
 import nltk
 import re
+import platform
+import fcntl
+import time
 
 #pos = part-of-speech
 #ne = named entity
@@ -20,93 +23,122 @@ class Word:
         self.ne = entity
         self.dependencies = {}
 
-def analyzeSentence(sentence):
+class syntaxParser:
 
-    analysis = []
-    posdict = getPOS(sentence)
-    nedict = findNE(sentence)
+    def __init__(self, ner_socket, pos_socket, servers_running):
+        self.NERhasrun = 0
+        osname = platform.system()
+        startdir = os.getcwd()
 
-    wnl = nltk.WordNetLemmatizer()
+        pos_path = os.path.join(startdir, "stanford_tools", "stanford-postagger-2014-01-04")
+        ner_path = os.path.join(startdir, "stanford_tools", "stanford-ner-2014-01-04")
+        parse_path = os.path.join(startdir, "stanford_tools", "stanford-parser-full-2014-01-04")
 
-    tokens = nltk.word_tokenize(sentence)
+        parse_command = "java -mx150m -cp " + os.path.join(parse_path, "stanford-parser.jar") + " edu.stanford.nlp.parser.lexparser.LexicalizedParser -outputFormat \"penn,typedDependencies\" -sentences newline " + os.path.join(parse_path, "englishPCFG.ser.gz") + " -"
+        self.parse_process = subprocess.Popen(parse_command, stdin=subprocess.PIPE, stdout=subprocess.PIPE, shell=True)
 
-    wordnet_tags = {'NN':'n','JJ':'a','VB':'v','RB':'r'}
+        if not servers_running:
+            ner_server_command = "java -mx500m -cp " + os.path.join(ner_path, "stanford-ner.jar") + " edu.stanford.nlp.ie.NERServer -port " + str(ner_socket) + " -loadClassifier " + os.path.join(ner_path, "classifiers", "english.all.3class.distsim.crf.ser.gz")
+        ner_command = "java -cp " + os.path.join(ner_path, "stanford-ner.jar") + " edu.stanford.nlp.ie.NERServer -port " + str(ner_socket) + " -client"
+        self.ner_server = subprocess.Popen(ner_server_command, shell=True)
+        self.ner_process = subprocess.Popen(ner_command, stdin=subprocess.PIPE, stdout=subprocess.PIPE, shell=True)
 
-    for token in tokens:
-        postag = posdict[token][:2]
-        if postag not in wordnet_tags:
-            lemma = wnl.lemmatize(token)
-        else:
-            lemma = wnl.lemmatize(token, wordnet_tags[postag])
-        if nedict[token] == 'O':
-            lemma = lemma.lower()
-        analysis.append(Word(token, lemma, posdict[token], nedict[token]))
+        if not servers_running:
+            pos_server_command = "java -mx300m -cp " + os.path.join(pos_path, "stanford-postagger.jar") + " edu.stanford.nlp.tagger.maxent.MaxentTaggerServer -model " + os.path.join(pos_path, "models", "wsj-0-18-bidirectional-nodistsim.tagger") + " -port " + str(pos_socket)
+        pos_command = "java -cp " + os.path.join(pos_path, "stanford-postagger.jar") + " edu.stanford.nlp.tagger.maxent.MaxentTaggerServer -client -port " + str(pos_socket)
+        self.pos_server = subprocess.Popen(pos_server_command, shell=True)
+        self.pos_process = subprocess.Popen(pos_command, stdin=subprocess.PIPE, stdout=subprocess.PIPE, shell=True)
 
-    dependlist = getDependencies(sentence)
+        fcntl.fcntl(self.parse_process.stdout.fileno(), fcntl.F_SETFL, os.O_NONBLOCK)
+        fcntl.fcntl(self.pos_process.stdout.fileno(), fcntl.F_SETFL, os.O_NONBLOCK)
+        fcntl.fcntl(self.ner_process.stdout.fileno(), fcntl.F_SETFL, os.O_NONBLOCK)
 
-    for d in dependlist:
-        parentnum = int(d[2]) - 1
-        childnum = int(d[4]) - 1
-        if parentnum > -1:
-            analysis[parentnum].dependencies[d[0]] = analysis[childnum]
-    
-    return analysis
+    def analyzeSentence(self, sentence):
 
-def getDependencies(sentence):
-    startdir = os.getcwd()
-    
-    os.chdir("./stanford_tools/stanford-parser-full-2014-01-04/")
+        analysis = []
+        posdict = self.getPOS(sentence)
+        nedict = self.findNE(sentence)
 
-    temp_file = open('temp.txt', 'w')
-    temp_file.write(sentence)
-    temp_file.close()
+        wnl = nltk.WordNetLemmatizer()
 
-    stanford_output = subprocess.check_output(["./lexparser.sh", "./temp.txt"])
+        tokens = nltk.word_tokenize(sentence)
 
-    print stanford_output
+        wordnet_tags = {'NN':'n','JJ':'a','VB':'v','RB':'r'}
 
-    os.chdir(startdir)
+        for token in tokens:
+            postag = posdict[token][:2]
+            if postag not in wordnet_tags:
+                lemma = wnl.lemmatize(token)
+            else:
+                lemma = wnl.lemmatize(token, wordnet_tags[postag])
+            if nedict[token] == 'O':
+                lemma = lemma.lower()
+            analysis.append(Word(token, lemma, posdict[token], nedict[token]))
 
-    dependlist = [d for d in stanford_output.split("\n") if len(d) > 0 and d[0].islower()]
-    dependlist = [re.findall('([a-z]+)\(([a-z|A-Z|\']+)-([0-9]+), ([a-z|A-Z|\']+)-([0-9]+)\)', d)[0] for d in dependlist]
+        dependlist = self.getDependencies(sentence)
 
-    return dependlist
+        for d in dependlist:
+            parentnum = int(d[2]) - 1
+            childnum = int(d[4]) - 1
+            if parentnum > -1:
+                analysis[parentnum].dependencies[d[0]] = analysis[childnum]
 
-def getPOS(sentence):
-    startdir = os.getcwd()
-    parsepath = os.path.join(startdir, "stanford_tools", "stanford-postagger-2014-01-04")
-    os.chdir(parsepath)
-    
-    
-    temp_file = open('temp.txt', 'w')
-    temp_file.write(sentence)
-    temp_file.close()
-    stanford_output = subprocess.check_output(["./stanford-postagger.sh", "models/wsj-0-18-bidirectional-nodistsim.tagger", "./temp.txt"])
-    
-    os.chdir(startdir)
+        return analysis
 
-    poslist = (stanford_output.strip(" \n")).split(" ")
-    poslist = [word.split("_") for word in poslist]
+    def getDependencies(self, sentence):
 
-    posdict = {word[0] : word[1] for word in poslist}
+        stanford_output = ""
+        self.parse_process.stdout.flush()
+        self.parse_process.stdin.write(sentence)
+        time.sleep(1)
+        try:
+            stanford_output = self.parse_process.stdout.read()
+        except IOError:
+            pass
+        
+        print stanford_output
 
-    return posdict
+        dependlist = [d for d in stanford_output.split("\n") if len(d) > 0 and d[0].islower()]
+        dependlist = [re.findall('([a-z]+)\(([a-z|A-Z|0-9|\']+)-([0-9]+), ([a-z|A-Z|0-9|\']+)-([0-9]+)\)', d)[0] for d in dependlist]
 
-def findNE(sentence):
-    startdir = os.getcwd()
-    os.chdir("./stanford_tools/stanford-ner-2014-01-04/")
-    
-    temp_file = open('temp.txt', 'w')
-    temp_file.write(sentence)
-    temp_file.close()
+        return dependlist
 
-    stanford_output = subprocess.check_output(["./ner.sh", "./temp.txt"])
-    
-    os.chdir(startdir)
+    def getPOS(self, sentence):
+        stanford_output = ""
+        self.pos_process.stdout.flush()
+        self.pos_process.stdin.write(sentence)
+        time.sleep(1)
+        try:
+            stanford_output = self.pos_process.stdout.read()
+        except IOError:
+            pass
 
-    nelist = (stanford_output.strip(" \n")).split(" ")
-    nelist = [word.split("/") for word in nelist]
+        poslist = (stanford_output.strip(" \n")).split(" ")
+        poslist = [word.split("_") for word in poslist]
 
-    nedict = {word[0] : word[1] for word in nelist}
-    
-    return nedict
+        posdict = {word[0] : word[1] for word in poslist}
+
+        return posdict
+
+    def findNE(self, sentence):
+        stanford_output = ""
+        if not self.NERhasrun:
+            try:
+                stanford_output = self.ner_process.stdout.read()
+            except IOError:
+                pass
+            
+        self.ner_process.stdout.flush()
+        self.ner_process.stdin.write(sentence)
+        time.sleep(1)
+        try:
+            stanford_output = self.ner_process.stdout.read()
+        except IOError:
+            pass
+
+        nelist = (stanford_output.strip(" \n")).split(" ")
+        nelist = [word.split("/") for word in nelist]
+
+        nedict = {word[0] : word[1] for word in nelist}
+
+        return nedict
