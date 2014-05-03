@@ -1,26 +1,107 @@
 [
 	{
-		"name":"JEC",
+		"name":"Carnegie",
+		"type":"academic",
 		"description":"",
 		"outdoors":0,
-		"neighbors":[["86 Field", 1, "north"], ["CII", 1, "east"]]
+		"neighbors":[["Amos-Eaton", 1, "east"]]
+	},
+	{
+		"name":"EMPAC",
+		"type":"social",
+		"description":"",
+		"outdoors":0,
+		"neighbors":[["Folsom-Library", 1, "north"]]
+	},
+	{
+		"name":"Folsom-Library",
+		"type":"library",
+		"description":"",
+		"outdoors":0,
+		"neighbors":[["VCC", 1, "east"], ["EMPAC", 1, "south"], ["Amos-Eaton", 1, "north"]]
+	},
+	{
+		"name":"VCC",
+		"type":"academic",
+		"description":"",
+		"outdoors":0,
+		"neighbors":[["Lally", 1, "north"], ["Folsom-Library", 1, "west"]]
+	},
+	{
+		"name":"Amos-Eaton",
+		"type":"academic",
+		"description":"",
+		"outdoors":0,
+		"neighbors":[["Lally", 1, "east"], ["Folsom-Library", 1, "south"], ["Carnegie", 1, "west"]]
+	},
+	{
+		"name":"Lally",
+		"type":"academic",
+		"description":"",
+		"outdoors":0,
+		"neighbors":[["JEC", 1, "east"], ["Amos-Eaton", 1, "west"], ["VCC", 1, "south"]]
+	},
+	{
+		"name":"JEC",
+		"type":"academic",
+		"description":"",
+		"outdoors":0,
+		"neighbors":[["86 Field", 1, "north"], ["DCC", 1, "east"], ["Lally", 1, "west"]]
 	},
 	{
 		"name":"86 Field",
+		"type":"athletic",
 		"description":"",
 		"outdoors":1,
 		"neighbors":[["JEC", 1, "south"]]
 	},
 	{
-		"name":"CII",
+		"name":"DCC",
+		"type":"academic",
 		"description":"",
 		"outdoors":0,
-		"neighbors":[["JEC", 1, "west"], ["Sage Dining Hall", 1, "east"]]
+		"neighbors":[["JEC", 1, "west"], ["Sage-Dining-Hall", 1, "east"]]
 	},
 	{
-		"name":"Sage Dining Hall",
+		"name":"Sage-Dining-Hall",
+		"type":"dining",
 		"description":"",
 		"outdoors":0,
-		"neighbors":[["CII", 1, "west"]]
+		"neighbors":[["DCC", 1, "west"], ["Quad", 1, "north"], ["Union", 1, "east"]]
+	},
+	{
+		"name":"Quad",
+		"type":"dorm",
+		"description":"",
+		"outdoors":0,
+		"neighbors":[["Sage-Dining-Hall", 1, "north"], ["Union", 1, "east"]]
+	},
+	{
+		"name":"Union",
+		"type":"social",
+		"description":"",
+		"outdoors":0,
+		"neighbors":[["Quad", 1, "west"], ["Sage-Dining-Hall", 1, "west"], ["Mueller-Center", 1, "south"]]
+	},
+	{
+		"name":"Mueller-Center",
+		"type":"athletic",
+		"description":"",
+		"outdoors":0,
+		"neighbors":[["Union", 1, "north"], ["Commons", 1, "east"]]
+	},
+	{
+		"name":"Commons",
+		"type":"dining",
+		"description":"",
+		"outdoors":0,
+		"neighbors":[["Muller-Center", 1, "west"], ["Nason", 1, "east"]]
+	},
+	{
+		"name":"Nason",
+		"type":"dorm",
+		"description":"",
+		"outdoors":0,
+		"neighbors":[["Commons", 1, "west"]]
 	}
 ]

@@ -27,7 +27,7 @@ class Map:
 
 
     def giveDirections(self, start, end):
-        paths = self.findPath(start, end)
+        paths = self.findPath(start)
 
         path = [end]
         while paths[path[-1]] != '':
