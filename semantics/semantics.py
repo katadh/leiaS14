@@ -10,12 +10,15 @@ import knowledge.lexicon
 def tmr(tagged_words, lexicon = knowledge.lexicon.Lexicon()):
     tagged_words = filter(lambda tw: lexicon.senses(tw.lemma),
                           tagged_words)
+
     
     print 'Interpreting tokens: {0}'.format(map(lambda tw: tw.lemma, tagged_words))
     
-    linking_candidates = [[]]
+    linking_candidates = []
     
     while True:
+        print 'permute senses'
+        print lexicon.permute_senses(tagged_words)
         for concepts in lexicon.permute_senses(tagged_words):
             print 'Possible linkings for senses:'
             pprint(map(str, concepts))
@@ -27,7 +30,7 @@ def tmr(tagged_words, lexicon = knowledge.lexicon.Lexicon()):
                        map(str, linking), 
                        sense_linkings))
             
-        if linking_candidates == [[]]:
+        if len(linking_candidates) < 1:
             print 'No linkings could be generated. Relaxing...'
             Heuristics.relaxation += 1
             continue

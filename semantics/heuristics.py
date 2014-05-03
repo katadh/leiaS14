@@ -43,6 +43,8 @@ class Heuristics(object):
     
     @classmethod
     def goodness(cls, linking):
+        if len(linking) == 0:
+            return 0
         goodness = 1.0 * all_linked(linking) + 1.0 * filler_tightness(linking)
         print 'Linking: {0}, goodness: {1}'.format(map(str, linking), goodness)
         return goodness

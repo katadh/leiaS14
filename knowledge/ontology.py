@@ -98,7 +98,8 @@ class BuyEvent(ActiveEvent):
 
 
 class FishEvent(ActiveEvent):
-    theme = Slot(Fish) 
+    # THIS IS HOW YOU OVERRIDE A SLOT
+    ActiveEvent.theme = Slot(Fish) 
     
     def __init__(self):
         self.init_slots()    
