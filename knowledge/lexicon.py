@@ -26,6 +26,7 @@ class Lexicon(object):
         'buy': {
             'NN': 
             [Buy],
+            #TODO: BUG WHEN SAY IT'S NOT EXACTLY VBP BUT VBZ
             'VBP': 
             [BuyEvent]
             },
