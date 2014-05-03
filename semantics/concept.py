@@ -1,5 +1,4 @@
 from slot import Slot
-from relaxation import *
 
 
 "This is a base class for all concepts specified in knowledge.ontology"
