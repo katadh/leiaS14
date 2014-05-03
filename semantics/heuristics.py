@@ -50,4 +50,6 @@ class Heuristics(object):
     @classmethod
     def best(cls, linkings):
         print 'Choosing the best linking...'
-        return sorted(linkings, key = lambda l: cls.goodness(l))[0]
+        return sorted(linkings, 
+                      key = lambda l: cls.goodness(l),
+                      reverse = True)[0]
