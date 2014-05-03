@@ -29,8 +29,11 @@ class Thing(Concept):
         self.init_slots()
 
 class Animal(Thing):
-    def __init__(self):
+    name = ""
+    def __init__(self,argument=[]):
         self.init_slots()
+        if argument !=[]:
+            self.name = argument[0]
 
 class Fish(Animal):
     def __init__(self):
