@@ -7,14 +7,16 @@ from plan_selection.planManager import *
 
 "The top-level processing pipeline"
 ### Each application should supply its own lexicon class, otherwise the default one will be used.
-def leia(sentence, lexicon = knowledge.lexicon.Lexicon(), pm = planManager()):
+def leia(sentence, lexicon = knowledge.lexicon.Lexicon(), planner = planManager(), Heuristics = heuristics.Heuristics):
     tagged_words = analyzeSentence(sentence)
-    #tagged_words = [Word('I', 'I', 'PRP', None),
-                    #Word('buy', 'buy', 'bla', None),
-                    #Word('fish', 'fish', 'NN', None)]
-        
-    candidate_tmrs = tmr(tagged_words, lexicon)  
-    pm.updatePlanQueue(candidate_tmrs[0])
+    print 'from syntax'
+    print map(lambda tw: [tw.fullword, tw.lemma, tw.pos, tw.ne], tagged_words)
+    #tagged_words = [Word('I', 'I', 'PRP', None), Word('fish', 'fish', 'VBZ', None), Word('fish','fish','NN',None)]
+    #print 'hard coded'
+    #print map(lambda tw: [tw.fullword, tw.lemma, tw.pos, tw.ne], tagged_words)   
+    linked_instances = tmr(tagged_words, lexicon, Heuristics)
+    
+    planner.updatePlanQueue(linked_instances)
     
 
 if __name__ == "__main__":

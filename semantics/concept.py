@@ -1,5 +1,4 @@
 from slot import Slot
-from relaxation import *
 
 
 "This is a base class for all concepts specified in knowledge.ontology"
@@ -47,6 +46,16 @@ class Concept(object):
                 return True
             
         return False
+    
+    @classmethod
+    def taxonomic_distance(cls, other_class):
+        if cls == other_class:
+            return 0
+        # TODO: yep, inefficient
+        if cls.at_least(other_class):
+            return 1 + cls.__bases__[0].taxonomic_distance(other_class)
+            
+            
                 
         
         

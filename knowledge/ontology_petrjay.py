@@ -18,8 +18,8 @@ class Person(Thing):
         
         
 class Location(Thing):
-    #longitude = 0
-    #latitude = 0
+    longitude = 0
+    latitude = 0
     #address = ''
     #visits = 0
     #notes = ''
@@ -34,6 +34,16 @@ class Workplace(Location):
         
 ### roughly, VB
 class Event(Concept):
+    def __init__(self):
+        self.init_slots()
+        
+class AgentWakeEvent(Event):
+    def __init__(self):
+        self.init_slots()
+        
+class MoveEvent(Event):
+    to = Slot(Location)
+    
     def __init__(self):
         self.init_slots()
 

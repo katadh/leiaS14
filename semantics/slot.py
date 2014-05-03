@@ -1,4 +1,4 @@
-from relaxation import *
+from heuristics import * 
 
 ""
 class Slot(object):
@@ -12,7 +12,7 @@ class Slot(object):
     
     
     def fill(self, filler):
-        if filler.at_least(self.filler_class):
+        if filler.at_least(self.filler_class) and filler.taxonomic_distance(self.filler_class) <= Heuristics.relaxation:
             self.filler = filler
             
             return True

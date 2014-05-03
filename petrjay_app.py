@@ -5,6 +5,19 @@ from pprint import pprint
 from leia import leia
 import os
 
+
+def move_tmr(position):
+    move = MoveEvent()
+    to = Location()
+    
+    move.to = to
+    
+    to.latitude = position[0]
+    to.longitude = position[1]
+    
+    return [move, to]
+
+
 if __name__ == "__main__":
     world_length = 5
     position = [world_length / 2, world_length / 2]
@@ -13,7 +26,7 @@ if __name__ == "__main__":
     lexicon = Lexicon()
     planner = PlanManager()
     
-    stay_duration = 0
+    planner.updatePlanQueue([AgentWakeEvent()])
     
     ### clear screen
     os.system(['clear','cls'][os.name == 'nt'])
@@ -40,14 +53,13 @@ if __name__ == "__main__":
         ### move the user
         if input in direction.keys():
             position[direction[input][0]] += direction[input][1]
+            planner.updatePlanQueue(move_tmr(position))
             
         elif input:
             leia(input, lexicon, planner)
 
         else:
-            if stay_duration > 3:
-                planner.updatePlanQueue([StayEvent(), Location()])
-            stay_duration += 1
+            planner.updatePlanQueue(0)
 
             
         

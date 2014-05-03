@@ -27,11 +27,11 @@ class Lexicon(lexicon.Lexicon):
 
         if senses:
             return senses
-        else:
-            lemma = args[0]
-            new_concept = ConceptType(lemma.capitalize(), (Concept,), {})
+        #else:
+            #lemma = args[0]
+            #new_concept = ConceptType(lemma.capitalize(), (Concept,), {})
             
-            self.lexicon[lemma] = {}
-            self.lexicon[lemma]['NOPOS'] = [new_concept]
+            #self.lexicon[lemma] = {}
+            #self.lexicon[lemma]['NOPOS'] = [new_concept]
         
-            return [new_concept]
+            #return [new_concept]

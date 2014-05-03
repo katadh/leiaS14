@@ -3,6 +3,7 @@ import planManager
 import planList_petrjay
 
 class PlanManager(planManager.planManager):
+    
     def __init__(self):
         super(PlanManager, self).__init__()
         

@@ -98,7 +98,8 @@ class BuyEvent(ActiveEvent):
 
 
 class FishEvent(ActiveEvent):
-    theme = Slot(Fish) 
+    # THIS IS HOW YOU OVERRIDE A SLOT, RESPECTS TO NUT!!!
+    ActiveEvent.theme = Slot(Fish) 
     
     def __init__(self):
         self.init_slots()    
@@ -109,8 +110,6 @@ class FishEvent(ActiveEvent):
 
 ### it is a legacy concept for debug purposes
 class Buy(Concept):
-    # TODO: potential bug - the same slot object will be used for all instances,
-    # although in the linking code concepts get deeply cloned rather than instantiated
     theme = Slot(Animal)
     
     def __init__(self):
