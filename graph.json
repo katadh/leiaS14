@@ -1,6 +1,6 @@
 [
 	{
-		"name":"Carnegie",
+		"name":"Carnegie-Hall",
 		"type":"academic",
 		"description":"",
 		"outdoors":0,
@@ -25,17 +25,17 @@
 		"type":"academic",
 		"description":"",
 		"outdoors":0,
-		"neighbors":[["Lally", 1, "north"], ["Folsom-Library", 1, "west"]]
+		"neighbors":[["Lally-Building", 1, "north"], ["Folsom-Library", 1, "west"]]
 	},
 	{
 		"name":"Amos-Eaton",
 		"type":"academic",
 		"description":"",
 		"outdoors":0,
-		"neighbors":[["Lally", 1, "east"], ["Folsom-Library", 1, "south"], ["Carnegie", 1, "west"]]
+		"neighbors":[["Lally-Building", 1, "east"], ["Folsom-Library", 1, "south"], ["Carnegie-Hall", 1, "west"]]
 	},
 	{
-		"name":"Lally",
+		"name":"Lally-Building",
 		"type":"academic",
 		"description":"",
 		"outdoors":0,
@@ -46,7 +46,7 @@
 		"type":"academic",
 		"description":"",
 		"outdoors":0,
-		"neighbors":[["86 Field", 1, "north"], ["DCC", 1, "east"], ["Lally", 1, "west"]]
+		"neighbors":[["86 Field", 1, "north"], ["DCC", 1, "east"], ["Lally-Building", 1, "west"]]
 	},
 	{
 		"name":"86 Field",
@@ -74,31 +74,31 @@
 		"type":"dorm",
 		"description":"",
 		"outdoors":0,
-		"neighbors":[["Sage-Dining-Hall", 1, "north"], ["Union", 1, "east"]]
+		"neighbors":[["Sage-Dining-Hall", 1, "north"], ["Mueller-Center", 1, "east"]]
 	},
 	{
 		"name":"Union",
 		"type":"social",
 		"description":"",
 		"outdoors":0,
-		"neighbors":[["Quad", 1, "west"], ["Sage-Dining-Hall", 1, "west"], ["Mueller-Center", 1, "south"]]
+		"neighbors":[["Quad", 1, "west"], ["Mueller-Center", 1, "south"]]
 	},
 	{
 		"name":"Mueller-Center",
 		"type":"athletic",
 		"description":"",
 		"outdoors":0,
-		"neighbors":[["Union", 1, "north"], ["Commons", 1, "east"]]
+		"neighbors":[["Union", 1, "north"], ["Commons", 1, "east"], ["Sage-Dining-Hall", 1, "west"]]
 	},
 	{
 		"name":"Commons",
 		"type":"dining",
 		"description":"",
 		"outdoors":0,
-		"neighbors":[["Muller-Center", 1, "west"], ["Nason", 1, "east"]]
+		"neighbors":[["Mueller-Center", 1, "west"], ["Bray", 1, "east"]]
 	},
 	{
-		"name":"Nason",
+		"name":"Bray",
 		"type":"dorm",
 		"description":"",
 		"outdoors":0,

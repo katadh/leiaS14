@@ -27,7 +27,7 @@ class Map:
 
 
     def giveDirections(self, start, end):
-        paths = self.findPath(start)
+        paths = self.findPaths(start)
 
         path = [end]
         while paths[path[-1]] != '':
@@ -50,7 +50,7 @@ class Map:
         for direction, location in zip( condensed_path[::2], condensed_path[1::2]):
             directions = directions + "go " + direction + " to the " + location + " then "
             
-        directions = directions + "enjoy!"
+        directions = directions[:-6]
 
         return directions
             
