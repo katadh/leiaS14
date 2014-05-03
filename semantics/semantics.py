@@ -30,13 +30,14 @@ def tmr(tagged_words, lexicon = knowledge.lexicon.Lexicon()):
                        map(str, linking), 
                        sense_linkings))
             
-        if len(linking_candidates) < 1:
-            print 'No linkings could be generated. Relaxing...'
+        best_linking = Heuristics.best(linking_candidates)
+            
+        if Heuristics.goodness(best_linking) < Heuristics.minimal_goodness:
             Heuristics.relaxation += 1
+            print 'No good linkings could be generated. Relaxing... to {0}'.format(Heuristics.relaxation)
             continue
         break
     
-    best_linking = Heuristics.best(linking_candidates)
     print 'Best meaning: {0}'.format(map(str, best_linking))
     
     return best_linking

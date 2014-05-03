@@ -39,7 +39,8 @@ def filler_tightness(linking):
         
 
 class Heuristics(object):
-    relaxation = -1
+    relaxation = 0
+    minimal_goodness = .00000001
     
     @classmethod
     def goodness(cls, linking):
