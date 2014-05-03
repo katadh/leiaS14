@@ -39,14 +39,14 @@ class syntaxParser:
 
         if not servers_running:
             ner_server_command = "java -mx500m -cp " + os.path.join(ner_path, "stanford-ner.jar") + " edu.stanford.nlp.ie.NERServer -port " + str(ner_socket) + " -loadClassifier " + os.path.join(ner_path, "classifiers", "english.all.3class.distsim.crf.ser.gz")
+            self.ner_server = subprocess.Popen(ner_server_command, shell=True)
         ner_command = "java -cp " + os.path.join(ner_path, "stanford-ner.jar") + " edu.stanford.nlp.ie.NERServer -port " + str(ner_socket) + " -client"
-        self.ner_server = subprocess.Popen(ner_server_command, shell=True)
         self.ner_process = subprocess.Popen(ner_command, stdin=subprocess.PIPE, stdout=subprocess.PIPE, shell=True)
 
         if not servers_running:
             pos_server_command = "java -mx300m -cp " + os.path.join(pos_path, "stanford-postagger.jar") + " edu.stanford.nlp.tagger.maxent.MaxentTaggerServer -model " + os.path.join(pos_path, "models", "wsj-0-18-bidirectional-nodistsim.tagger") + " -port " + str(pos_socket)
+            self.pos_server = subprocess.Popen(pos_server_command, shell=True)
         pos_command = "java -cp " + os.path.join(pos_path, "stanford-postagger.jar") + " edu.stanford.nlp.tagger.maxent.MaxentTaggerServer -client -port " + str(pos_socket)
-        self.pos_server = subprocess.Popen(pos_server_command, shell=True)
         self.pos_process = subprocess.Popen(pos_command, stdin=subprocess.PIPE, stdout=subprocess.PIPE, shell=True)
 
         fcntl.fcntl(self.parse_process.stdout.fileno(), fcntl.F_SETFL, os.O_NONBLOCK)
@@ -54,6 +54,9 @@ class syntaxParser:
         fcntl.fcntl(self.ner_process.stdout.fileno(), fcntl.F_SETFL, os.O_NONBLOCK)
 
     def analyzeSentence(self, sentence):
+
+        if sentence[-1] != "\n":
+            sentence += "\n"
 
         analysis = []
         posdict = self.getPOS(sentence)
@@ -87,6 +90,9 @@ class syntaxParser:
 
     def getDependencies(self, sentence):
 
+        if sentence[-1] != "\n":
+            sentence += "\n"
+
         stanford_output = ""
         self.parse_process.stdout.flush()
         self.parse_process.stdin.write(sentence)
@@ -96,14 +102,16 @@ class syntaxParser:
         except IOError:
             pass
         
-        print stanford_output
-
         dependlist = [d for d in stanford_output.split("\n") if len(d) > 0 and d[0].islower()]
         dependlist = [re.findall('([a-z]+)\(([a-z|A-Z|0-9|\']+)-([0-9]+), ([a-z|A-Z|0-9|\']+)-([0-9]+)\)', d)[0] for d in dependlist]
 
         return dependlist
 
     def getPOS(self, sentence):
+
+        if sentence[-1] != "\n":
+            sentence += "\n"
+
         stanford_output = ""
         self.pos_process.stdout.flush()
         self.pos_process.stdin.write(sentence)
@@ -113,6 +121,8 @@ class syntaxParser:
         except IOError:
             pass
 
+        print stanford_output
+
         poslist = (stanford_output.strip(" \n")).split(" ")
         poslist = [word.split("_") for word in poslist]
 
@@ -121,6 +131,10 @@ class syntaxParser:
         return posdict
 
     def findNE(self, sentence):
+
+        if sentence[-1] != "\n":
+            sentence += "\n"
+
         stanford_output = ""
         if not self.NERhasrun:
             try:

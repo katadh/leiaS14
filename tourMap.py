@@ -57,7 +57,7 @@ class Map:
         
     # start and end should be strings
     # (the names of locations)
-    def findPath(self, start, end):
+    def findPaths(self, start):
         inf = float("inf")
         loc_list = []
         dist = {start : 0}
