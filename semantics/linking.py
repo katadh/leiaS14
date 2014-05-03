@@ -1,4 +1,3 @@
-from copy import copy, deepcopy
 from itertools import chain
 
 ### access => generate permu of index to generate element of the access
@@ -48,6 +47,8 @@ def findAllLinking(listConcept):
     sizeFiller = len(listConcept)-1
     index = 0 
     for Con in listConcept:
+        if type(Con) is tuple:
+            Con = Con[0]
         currentList = getRestList(index,sizeFiller)
         sizeSlots = len(Con.class_slots())
         p = permu(sizeSlots,sizeFiller,access=currentList)
@@ -63,8 +64,17 @@ def findAllLinking(listConcept):
         #Generate new set of Instance
         InstanceList =[]
         for j in listConcept:
-            temp = j()
+            if type(j) == tuple:
+                if j[1] == []:
+                    temp = j[0]()
+                else:
+                    temp = j[0](j[1])
+            else:
+                temp = j()
+                
             InstanceList.append(temp)
+            
+            
         status = True
         for j in range(len(InstanceList)):
             ind = 0
