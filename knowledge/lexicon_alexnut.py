@@ -12,7 +12,7 @@ class Lexicon(object):
     #Whoever wrote the above: you are responsible for setting up a nice database interface, yo.    
     lexicon = {
         'i': {
-              'PRP': [ (Person,[""])]
+              'PRP': [ (Person,[])]
              },
         'sage-dining-hall': { 
             'NN' : [ (Location,["Sage-Dining-Hall"]) ]
@@ -78,14 +78,36 @@ class Lexicon(object):
             'NN' : [ (Location,["dorm"]) ]
             },
         'how':{
-            'WHB' : [ (RequestInfo,[]) ]
+            'WHB' : [ (Question,[]) ]
             },
         'where':{
-            'WHB' : [ (RequestInfo,[]) ]
+            'WHB' : [ ( RequestInfoLocation ,[]) ]
             },
         'see':{
-            'VRB' : [ (Observe,[]) ]
+            'VRB' : [ (Observe,[]) ],
+            'VB' : [ (Observe,[]) ]
             },
+        'weather':{
+            'NN' : [ (Weather,[])]
+            },
+        'be':{
+            'VBP' : [ (Position,[]),(Being,[])]
+            },
+        'would':{
+            'MD' : [ (Desire,[]) ]
+            },
+        'want':{
+            'VBP' : [ (Desire,[])]
+            },
+        'get':{
+            'VB' : [(ChangeLocation,[])]
+            },
+        'go':{
+            'VB' : [(ChangeLocation,[])]
+            },
+        'move':{
+            'VB' :[ (ChangeLocation,[])]
+            }
     }
 
     def senses(self, *args):
