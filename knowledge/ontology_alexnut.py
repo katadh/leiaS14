@@ -10,7 +10,11 @@ class Dummy(Concept):
 
 ## NN
 
-class Location(Concept):
+class Thing(Concept):
+    def __init__(self):
+        self.init_slots()
+
+class Location(Thing):
     name = ""
     def __init__(self,argument=[]):
         self.init_slots()
@@ -28,7 +32,7 @@ class Person(Animal):
         if argument!=[]:
             self.name=argument[0]
 
-class Weather(Concept):
+class Weather(Thing):
     name = ""
     def __init__(self,argument=[]):
         self.init_slots()
@@ -51,7 +55,7 @@ class Observe(Event):
     def __init__(self):
         self.init_slots()
 
-class Know(Event):
+class Know(Thing):
     theme = Slot(Concept)
     def __init__(self):
         self.init_slots()
@@ -88,6 +92,6 @@ class Position(Location):
         self.init_slots()
 
 class Being(Event):
-    theme = Slot(Concept)
+    theme = Slot(Thing)
     def __init__(self):
         self.init_slots()
