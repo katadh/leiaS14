@@ -107,6 +107,9 @@ class Lexicon(object):
             },
         'move':{
             'VB' :[ (ChangeLocation,[])]
+            },
+        'know':{
+            'VB': [(Know,[])]
             }
     }
 

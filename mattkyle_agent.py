@@ -23,7 +23,6 @@ def input():
 
 if __name__ == "__main__":
 	#Primary listening loop
-	load()
 	input_ = None
 	lexicon = Lexicon()
 	pm = planManager()
