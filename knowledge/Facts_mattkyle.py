@@ -21,25 +21,7 @@ def store(inst, sTerm = False):
         if(sTerm):  local_TMRs[name].insert(0,inst)
         else:   local_TMRs[name].append(inst)
 
-def load():
-    m = Chips()
-    store(m)
-    a = Aisle()
-    a.name = 'three'
-    store(a)
-    b = Aisle()
-    b.name = 'four'
-    store(b)
-
-    m.location = a
-    n = Chips()
-    n.location = a
-    store(m)
-    store(n)
-
-    """
-
-    if file == "": return
+def load(fName = "fact_repo_mattkyle.txt"):
     kbf = open(fName, 'r')
     lines = kbf.readlines()
     kbf.close()
@@ -83,7 +65,6 @@ def load():
 
     for k, v in inst_map.items():
         base_store(v)
-    """
         
 def forget(inst):
     classes = inspect.getmro(inst.__class__)
@@ -98,3 +79,5 @@ def kblookup(kbitem):
     if kbitem in local_TMRs:  hits.extend(local_TMRs[kbitem])
     if kbitem in base_TMRs: hits.extend(base_TMRs[kbitem])
     return hits
+
+load()
