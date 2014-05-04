@@ -17,12 +17,17 @@ class planManager(object):
 			TMR_set.add(str(instance).split('-')[0])
 		print "TMR set is", TMR_set
 		for p in PlanList.plan_lexicon:
-			if len(TMR_set.intersection(p[0])) == len(TMR_set):
+			if len(TMR_set.intersection(p[0])) == min(len(TMR_set), len(p[0])):
 				r = PlanList.plan_map[p[1]]
 				return_plan = plan.plan(r[0],r[1],r[2],False,p[1])
 				return return_plan
-		
-		print "I don't know what to to with that TMR! I'm going to hide in the corner!"
+			if len(TMR_set.intersection(p[0])) > current_max:
+				r = PlanList.plan_map[p[1]]
+				return_plan = plan.plan(r[0],r[1],r[2],False,p[1])
+				current_max = len(TMR_set.intersection(p[0]))
+
+		if current_max == 0:
+			print "I don't know what to to with that TMR! I'm going to hide in the corner!"
 		return return_plan
 
 	def updatePlanQueue(self, TMR):

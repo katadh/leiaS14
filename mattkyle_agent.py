@@ -2,7 +2,7 @@ import time
 import signal
 from leia import leia
 from knowledge.lexicon_mattkyle import Lexicon
-from plan_selection.planManager_mattkyle import PlanManager
+from plan_selection.planManager_mattkyle import planManager
 
 TIMEOUT = 1 
 
@@ -24,7 +24,7 @@ if __name__ == "__main__":
 	#Primary listening loop
 	input_ = None
 	lexicon = Lexicon()
-	pm = PlanManager()
+	pm = planManager()
 	while(1):
 		signal.alarm(TIMEOUT)
 		input_ = input()
