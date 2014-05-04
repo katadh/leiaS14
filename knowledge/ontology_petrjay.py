@@ -20,6 +20,7 @@ class Person(Thing):
 class Location(Thing):
     longitude = 0
     latitude = 0
+    stay = 0
     #address = ''
     #visits = 0
     #notes = ''
@@ -38,6 +39,7 @@ class Event(Concept):
         self.init_slots()
         
 class AgentWakeEvent(Event):
+    where = Slot(Location)
     def __init__(self):
         self.init_slots()
         
@@ -74,7 +76,7 @@ class Activity(Event):
 class TravelActivity(Activity):
     
     #origin = Slot(Location)
-    #destination = Slot(Location)
+    destination = Slot(Location)
     #means = Slot(Transport)
     
     def __init__(self):
