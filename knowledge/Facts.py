@@ -12,16 +12,17 @@ def base_store(inst):
         if name not in base_TMRs: base_TMRs[name] = []
         base_TMRs[name].append(inst)
 
-def store(inst):
+def store(inst, sTerm = False):
     classes = inspect.getmro(inst.__class__)
     for c in classes:
         name = c.__name__
         if name == "Concept" or name == "object": continue
         if name not in local_TMRs: local_TMRs[name] = []
-        local_TMRs[name].append(inst)
+        if(sTerm):  local_TMRs[name].insert(0,inst)
+        else:   local_TMRs[name].append(inst)
 
-def load():
-    kbf = open("fact_repo.txt", 'r')
+def load(fName = "fact_repo.txt"):
+    kbf = open(fName, 'r')
     lines = kbf.readlines()
     kbf.close()
     inst_map = {}
@@ -65,9 +66,16 @@ def load():
     for k, v in inst_map.items():
         base_store(v)
         
+def forget(inst):
+    classes = inspect.getmro(inst.__class__)
+    for c in classes:
+        name = c.__name__
+        if name not in local_TMRs: continue
+        else:   local_TMRs[name].remove(inst)
+
 
 def kblookup(kbitem):
     hits = []
-    if kbitem in base_TMRs:  hits.extend(base_TMRs[kbitem])
-    if kbitem in local_TMRs: hits.extend(local_TMRs[kbitem])
+    if kbitem in local_TMRs:  hits.extend(local_TMRs[kbitem])
+    if kbitem in base_TMRs: hits.extend(base_TMRs[kbitem])
     return hits
