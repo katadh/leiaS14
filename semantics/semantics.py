@@ -17,16 +17,11 @@ def tmr(tagged_words, lexicon = knowledge.lexicon.Lexicon(), Heuristics = heuris
     linking_candidates = []
     
     while True:
+        if Heuristics.relaxation > Heuristics.max_relaxation:
+            break
         for concepts in lexicon.permute_senses(tagged_words):
-            
-            #if not filter(lambda c: 
-                          #c.__class__.__name__ == 'DefineEvent',
-                          #concepts):
-                #concepts += map(lambda i: i.__class__, fr.kblookup('DefineEvent'))
-            
             print 'Possible linkings for senses:'
             pprint(map(str, concepts))
-            
             sense_linkings = findAllLinking(concepts)
             linking_candidates += sense_linkings
             
@@ -36,7 +31,7 @@ def tmr(tagged_words, lexicon = knowledge.lexicon.Lexicon(), Heuristics = heuris
             
        
         best_linking = Heuristics.best(linking_candidates) if len(linking_candidates) > 0 else None
-            
+        print "----****----"    
         if not best_linking or Heuristics.goodness(best_linking) < Heuristics.minimal_goodness and Heuristics.relaxation < Heuristics.max_relaxation:
             Heuristics.relaxation += 1
             print 'No good linkings could be generated. Relaxing... to {0}'.format(Heuristics.relaxation)
@@ -48,6 +43,7 @@ def tmr(tagged_words, lexicon = knowledge.lexicon.Lexicon(), Heuristics = heuris
         break
     
     print 'Best meaning:'
-    pprint(map(str, best_linking))
+    if best_linking:
+        pprint(map(str, best_linking))
     
     return best_linking
