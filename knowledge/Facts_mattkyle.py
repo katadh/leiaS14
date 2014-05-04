@@ -1,5 +1,5 @@
 import inspect
-from ontology_mattkyle import *
+from ontology import *
 
 local_TMRs = {}
 base_TMRs = {}
