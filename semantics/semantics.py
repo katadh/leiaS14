@@ -34,12 +34,16 @@ def tmr(tagged_words, lexicon = knowledge.lexicon.Lexicon(), Heuristics = heuris
                        map(str, linking), 
                        sense_linkings))
             
-        best_linking = Heuristics.best(linking_candidates)
+       
+        best_linking = Heuristics.best(linking_candidates) if len(linking_candidates) > 0 else None
             
-        if Heuristics.goodness(best_linking) < Heuristics.minimal_goodness and Heuristics.relaxation < Heuristics.max_relaxation:
+        if not best_linking or Heuristics.goodness(best_linking) < Heuristics.minimal_goodness and Heuristics.relaxation < Heuristics.max_relaxation:
             Heuristics.relaxation += 1
-            linking_candidates.remove(best_linking)
             print 'No good linkings could be generated. Relaxing... to {0}'.format(Heuristics.relaxation)
+            
+            if best_linking:
+                linking_candidates.remove(best_linking)   
+                
             continue
         break
     
