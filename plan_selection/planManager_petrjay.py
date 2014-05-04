@@ -1,6 +1,6 @@
 import plan
 import planManager
-import planList_petrjay
+import planList_petrjay as PlanList
 
 class PlanManager(planManager.planManager):
     
@@ -8,8 +8,8 @@ class PlanManager(planManager.planManager):
         super(PlanManager, self).__init__()
         
         # so that our custom plan list is used
-        planManager.PlanList = planList_petrjay
-        plan.PlanList = planList_petrjay
+        planManager.PlanList = PlanList
+        plan.PlanList = PlanList
         
     def planSelect(self, TMR):
 	#return_plan == None is essentially the "do nothing" plan

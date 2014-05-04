@@ -8,7 +8,7 @@ def observe(tmr):
     global current_location
     
     if tmr:
-        current_location = grab_instance('AgentWakeEvent', tmr).where
+        current_location = grab_instance(AgentWakeEvent, tmr).where
     else: 
         current_location.stay += 1
         
@@ -37,7 +37,7 @@ def ask_define_location(tmr):
     
 def on_move(tmr):
     global current_location
-    current_location = grab_instance('Location', tmr).to    
+    current_location = grab_instance(MoveEvent, tmr).to    
     
     print 'Moved to {0} ({1}, {2}])'.format(current_location, 
                                             current_location.longitude, 
@@ -53,7 +53,7 @@ def on_move(tmr):
 
 
 def on_define(tmr):
-    define = grab_instance('DefineEvent', tmr)
+    define = grab_instance(DefineEvent, tmr)
     base = define.base
     definition = define.definition
     
@@ -69,8 +69,8 @@ def on_define(tmr):
     
     
 ### HELPER
-def grab_instance(cls_name, tmr):
-    return filter(lambda i: isinstance(i, cls_name),
+def grab_instance(cls, tmr):
+    return filter(lambda i: isinstance(i, cls),
                   tmr)[0]
     
 
