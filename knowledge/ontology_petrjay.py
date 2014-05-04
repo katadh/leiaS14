@@ -74,7 +74,7 @@ class Activity(Event):
         self.init_slots()    
     
 class TravelActivity(Activity):
-    
+    Activity.location = None
     #origin = Slot(Location)
     destination = Slot(Location)
     #means = Slot(Transport)

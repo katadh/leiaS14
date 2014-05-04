@@ -3,6 +3,7 @@ from pprint import pprint
 import knowledge.lexicon
 import heuristics
 import knowledge.Facts as fr
+import time
 
 # TODO: use tense information?
 # TODO: can use dependencies as heuristic of where to start from
@@ -29,7 +30,12 @@ def tmr(tagged_words, lexicon = knowledge.lexicon.Lexicon(), Heuristics = heuris
             
             
             print 'Possible linkings for senses:'
-            pprint(map(str, concepts))
+            pprint(map(lambda c: 
+                       '{0} {1}'.format(c, 
+                                        map(lambda (k, v): 
+                                            '{0} : {1}'.format(k,v.filler_class.__name__), 
+                                            c.class_slots().items())), 
+                                        concepts))
             
             sense_linkings = findAllLinking(concepts)
             linking_candidates += sense_linkings
@@ -44,6 +50,7 @@ def tmr(tagged_words, lexicon = knowledge.lexicon.Lexicon(), Heuristics = heuris
         if not best_linking or Heuristics.goodness(best_linking) < Heuristics.minimal_goodness and Heuristics.relaxation < Heuristics.max_relaxation:
             Heuristics.relaxation += 1
             print 'No good linkings could be generated. Relaxing... to {0}'.format(Heuristics.relaxation)
+            time.sleep(.5)
             
             if best_linking:
                 linking_candidates.remove(best_linking)   
