@@ -3,7 +3,7 @@ from knowledge.lexicon_petrjay import Lexicon
 from plan_selection.planManager_petrjay import PlanManager
 from pprint import pprint
 from leia import leia
-import os
+import os, time
 
 
 def move_tmr(position):
@@ -30,6 +30,8 @@ def location(position):
 
 
 if __name__ == "__main__":
+    time.sleep(2)
+    
     world_length = 5
     position = [world_length / 2, world_length / 2]
     direction = {'w' : (0, -1), 'a' : (1, -1), 's' : (0, +1), 'd' : (1, +1)}
