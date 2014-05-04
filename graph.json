@@ -67,7 +67,7 @@
 		"type":"dining",
 		"description":"",
 		"outdoors":0,
-		"neighbors":[["DCC", 1, "west"], ["Quad", 1, "north"], ["Union", 1, "east"]]
+		"neighbors":[["DCC", 1, "west"], ["Quad", 1, "south"], ["Union", 1, "east"]]
 	},
 	{
 		"name":"Quad",
