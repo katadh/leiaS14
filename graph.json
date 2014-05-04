@@ -1,52 +1,52 @@
 [
 	{
-		"name":"Carnegie-Hall",
+		"name":"Carnegie_Hall",
 		"type":"academic",
 		"description":"",
 		"outdoors":0,
-		"neighbors":[["Amos-Eaton", 1, "east"]]
+		"neighbors":[["Amos_Eaton", 1, "east"]]
 	},
 	{
 		"name":"EMPAC",
 		"type":"social",
 		"description":"",
 		"outdoors":0,
-		"neighbors":[["Folsom-Library", 1, "north"]]
+		"neighbors":[["Folsom_Library", 1, "north"]]
 	},
 	{
-		"name":"Folsom-Library",
+		"name":"Folsom_Library",
 		"type":"library",
 		"description":"",
 		"outdoors":0,
-		"neighbors":[["VCC", 1, "east"], ["EMPAC", 1, "south"], ["Amos-Eaton", 1, "north"]]
+		"neighbors":[["VCC", 1, "east"], ["EMPAC", 1, "south"], ["Amos_Eaton", 1, "north"]]
 	},
 	{
 		"name":"VCC",
 		"type":"academic",
 		"description":"",
 		"outdoors":0,
-		"neighbors":[["Lally-Building", 1, "north"], ["Folsom-Library", 1, "west"]]
+		"neighbors":[["Lally_Building", 1, "north"], ["Folsom_Library", 1, "west"]]
 	},
 	{
-		"name":"Amos-Eaton",
+		"name":"Amos_Eaton",
 		"type":"academic",
 		"description":"",
 		"outdoors":0,
-		"neighbors":[["Lally-Building", 1, "east"], ["Folsom-Library", 1, "south"], ["Carnegie-Hall", 1, "west"]]
+		"neighbors":[["Lally_Building", 1, "east"], ["Folsom_Library", 1, "south"], ["Carnegie_Hall", 1, "west"]]
 	},
 	{
-		"name":"Lally-Building",
+		"name":"Lally_Building",
 		"type":"academic",
 		"description":"",
 		"outdoors":0,
-		"neighbors":[["JEC", 1, "east"], ["Amos-Eaton", 1, "west"], ["VCC", 1, "south"]]
+		"neighbors":[["JEC", 1, "east"], ["Amos_Eaton", 1, "west"], ["VCC", 1, "south"]]
 	},
 	{
 		"name":"JEC",
 		"type":"academic",
 		"description":"",
 		"outdoors":0,
-		"neighbors":[["86 Field", 1, "north"], ["DCC", 1, "east"], ["Lally-Building", 1, "west"]]
+		"neighbors":[["86 Field", 1, "north"], ["DCC", 1, "east"], ["Lally_Building", 1, "west"]]
 	},
 	{
 		"name":"86 Field",
@@ -60,10 +60,10 @@
 		"type":"academic",
 		"description":"",
 		"outdoors":0,
-		"neighbors":[["JEC", 1, "west"], ["Sage-Dining-Hall", 1, "east"]]
+		"neighbors":[["JEC", 1, "west"], ["Sage_Dining_Hall", 1, "east"]]
 	},
 	{
-		"name":"Sage-Dining-Hall",
+		"name":"Sage_Dining_Hall",
 		"type":"dining",
 		"description":"",
 		"outdoors":0,
@@ -74,28 +74,28 @@
 		"type":"dorm",
 		"description":"",
 		"outdoors":0,
-		"neighbors":[["Sage-Dining-Hall", 1, "north"], ["Mueller-Center", 1, "east"]]
+		"neighbors":[["Sage_Dining_Hall", 1, "north"], ["Mueller_Center", 1, "east"]]
 	},
 	{
 		"name":"Union",
 		"type":"social",
 		"description":"",
 		"outdoors":0,
-		"neighbors":[["Quad", 1, "west"], ["Mueller-Center", 1, "south"]]
+		"neighbors":[["Quad", 1, "west"], ["Mueller_Center", 1, "south"]]
 	},
 	{
-		"name":"Mueller-Center",
+		"name":"Mueller_Center",
 		"type":"athletic",
 		"description":"",
 		"outdoors":0,
-		"neighbors":[["Union", 1, "north"], ["Commons", 1, "east"], ["Sage-Dining-Hall", 1, "west"]]
+		"neighbors":[["Union", 1, "north"], ["Commons", 1, "east"], ["Sage_Dining_Hall", 1, "west"]]
 	},
 	{
 		"name":"Commons",
 		"type":"dining",
 		"description":"",
 		"outdoors":0,
-		"neighbors":[["Mueller-Center", 1, "west"], ["Bray", 1, "east"]]
+		"neighbors":[["Mueller_Center", 1, "west"], ["Bray", 1, "east"]]
 	},
 	{
 		"name":"Bray",

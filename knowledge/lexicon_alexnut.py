@@ -14,17 +14,17 @@ class Lexicon(object):
         'i': {
               'PRP': [ (Person,[])]
              },
-        'sage-dining-hall': { 
-            'NN' : [ (Location,["Sage-Dining-Hall"]) ]
+        'sage_dining_hall': { 
+            'NN' : [ (Location,["Sage_Dining_Hall"]) ]
             },
         'commons':{
             'NN' : [ (Location,["Commons"]) ]
             },
-        'amos-eaton':{
-            'NN' : [ (Location,["Amos-Eaton"]) ]
+        'amos_eaton':{
+            'NN' : [ (Location,["Amos_Eaton"]) ]
             },
-        'lally-building':{
-            'NN' : [ (Location,["Lally-Building"]) ]
+        'lally_building':{
+            'NN' : [ (Location,["Lally_Building"]) ]
             },
         'dcc':{
             'NN' : [ (Location,["DCC"]) ]
@@ -32,8 +32,8 @@ class Lexicon(object):
         'jec':{
             'NN' : [ (Location,["JEC"]) ]
             },
-        'carnegie-hall':{
-            'NN' : [ (Location,["Carnegie-Hall"]) ]
+        'carnegie_hall':{
+            'NN' : [ (Location,["Carnegie_Hall"]) ]
             },
         'union':{
             'NN' : [ (Location,["Union"]) ]
@@ -44,14 +44,14 @@ class Lexicon(object):
         'empac':{
             'NN' : [ (Location,["EMPAC"]) ]
             },
-        'folsom-library':{
-            'NN' : [ (Location,["Folson-Library"]) ]
+        'folsom_library':{
+            'NN' : [ (Location,["Folson_Library"]) ]
             },
-        'mueller-center':{
-            'NN' : [ (Location,["Mueller-Center"]) ]
+        'mueller_center':{
+            'NN' : [ (Location,["Mueller_Center"]) ]
             },
-        '86-field':{
-            'NN' : [ (Location,["86-Field"]) ]
+        '86_field':{
+            'NN' : [ (Location,["86_Field"]) ]
             },
         'bray':{
             'NN' : [ (Location,["Bray"]) ]
