@@ -16,6 +16,7 @@ def tmr(tagged_words, lexicon = knowledge.lexicon.Lexicon(), Heuristics = heuris
     print 'Interpreting tokens: {0}'.format(map(lambda tw: tw.lemma, tagged_words))
     
     linking_candidates = []
+    best_linking = None
     
     while Heuristics.relaxation <= Heuristics.max_relaxation:
         for concepts in lexicon.permute_senses(tagged_words):
@@ -53,8 +54,8 @@ def tmr(tagged_words, lexicon = knowledge.lexicon.Lexicon(), Heuristics = heuris
             continue
         break
     
-    print 'Best meaning:'
     if best_linking:
+        print 'Best meaning:'
         pprint(map(str, best_linking))
     
     return best_linking

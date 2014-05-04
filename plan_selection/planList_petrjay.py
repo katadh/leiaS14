@@ -5,9 +5,10 @@ current_location = None
 
 
 def observe(tmr):
+    print 'observe:'
     global current_location
     
-    if tmr:
+    if tmr and grab_instance(AgentWakeEvent, tmr):
         current_location = grab_instance(AgentWakeEvent, tmr).where
     else: 
         current_location.stay += 1
@@ -29,6 +30,8 @@ def ask_define_location(tmr):
     define.base = current_location
     
     # store in short-term
+    print 'storing define'
+    print define    
     fr.store(define)  
     fr.store(current_location)
     
@@ -36,6 +39,7 @@ def ask_define_location(tmr):
     
     
 def on_move(tmr):
+    print 'on_move'
     global current_location
     current_location = grab_instance(MoveEvent, tmr).to    
     
@@ -53,9 +57,10 @@ def on_move(tmr):
 
 
 def on_define(tmr):
+    print 'on_define'
     define = grab_instance(DefineEvent, tmr)
-    base = define.base
-    definition = define.definition
+    base = define.base.filler
+    definition = define.definition.filler
     
     new_location = ConceptType(definition.__class__.__name__, (base.__class__,), {})
     
@@ -64,19 +69,26 @@ def on_define(tmr):
     new_location.stay = base.stay
     
     fr.store(new_location)
+    print 'forgetting define'
+    print define
     fr.forget(define)
+    print 'base'
+    print base
     fr.forget(base)
     
     
 ### HELPER
 def grab_instance(cls, tmr):
-    return filter(lambda i: isinstance(i, cls),
-                  tmr)[0]
+    try:
+        return filter(lambda i: isinstance(i, cls),
+                      tmr)[0]
+    except:
+        return None
     
 
 
-plan_lexicon = [(set(['AgentWakeEvent', 'Location']), 'observe'),
-                (set(['MoveEvent', 'Location']), 'on_move'), 
+plan_lexicon = [(set(['AgentWakeEvent']), 'observe'),
+                (set(['MoveEvent']), 'on_move'), 
                 (set(['DefineEvent']), 'on_define')]
 
 plan_map = {'observe':(1, -1, 0, observe),
