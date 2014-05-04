@@ -22,7 +22,11 @@ def tmr(tagged_words, lexicon = knowledge.lexicon.Lexicon(), Heuristics = heuris
             #if not filter(lambda c: 
                           #c.__class__.__name__ == 'DefineEvent',
                           #concepts):
-                #concepts += map(lambda i: i.__class__, fr.kblookup('DefineEvent'))
+            ### DON'T WORRY - If you hadn't added them beforehand, they will not show up
+            concepts += map(lambda i: i.__class__, fr.kblookup('DefineEvent'))
+            concepts += map(lambda i: i.__class__, fr.kblookup('Location'))
+                
+            
             
             print 'Possible linkings for senses:'
             pprint(map(str, concepts))
