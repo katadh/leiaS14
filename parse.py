@@ -34,6 +34,8 @@ class syntaxParser:
         parse_command = "java -mx150m -cp " + os.path.join(parse_path, "stanford-parser.jar") + " edu.stanford.nlp.parser.lexparser.LexicalizedParser -outputFormat \"penn,typedDependencies\" -sentences newline " + os.path.join(parse_path, "englishPCFG.ser.gz") + " -"
         self.parse_process = subprocess.Popen(parse_command, stdin=subprocess.PIPE, stdout=subprocess.PIPE, shell=True)
 
+        time.sleep(3)
+
         #if not servers_running:
         #    ner_server_command = "java -mx500m -cp " + os.path.join(ner_path, "stanford-ner.jar") + " edu.stanford.nlp.ie.NERServer -port " + str(ner_socket) + " -loadClassifier " + os.path.join(ner_path, "classifiers", "english.all.3class.distsim.crf.ser.gz")
         #    self.ner_server = subprocess.Popen(ner_server_command, shell=True)
