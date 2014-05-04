@@ -2,6 +2,7 @@ import time
 import signal
 from leia import leia
 from knowledge.lexicon_mattkyle import Lexicon
+from knowledge.Facts import *
 from plan_selection.planManager_mattkyle import planManager
 
 TIMEOUT = 1 
@@ -22,6 +23,7 @@ def input():
 
 if __name__ == "__main__":
 	#Primary listening loop
+	load("fact_repo_mattkyle.txt")
 	input_ = None
 	lexicon = Lexicon()
 	pm = planManager()

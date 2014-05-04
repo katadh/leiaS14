@@ -21,7 +21,8 @@ def store(inst, sTerm = False):
         if(sTerm):  local_TMRs[name].insert(0,inst)
         else:   local_TMRs[name].append(inst)
 
-def load(fName = "fact_repo.txt"):
+def load(fName = ""):
+    if file == "": return
     kbf = open(fName, 'r')
     lines = kbf.readlines()
     kbf.close()
@@ -79,5 +80,3 @@ def kblookup(kbitem):
     if kbitem in local_TMRs:  hits.extend(local_TMRs[kbitem])
     if kbitem in base_TMRs: hits.extend(base_TMRs[kbitem])
     return hits
-
-load()
