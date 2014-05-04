@@ -1,5 +1,5 @@
 from ontology_petrjay import *
-
+import knowledge.Facts as fr
 import lexicon
 
 class Lexicon(lexicon.Lexicon):
@@ -19,19 +19,23 @@ class Lexicon(lexicon.Lexicon):
         'work' : {
             'NN' :
             [Workplace]
+        }, 
+        'location' : {
+            'NN' :
+            [Location]
         }
     }
     
     def senses(self, *args):
         senses = super(Lexicon, self).senses(*args)
 
-        if senses:
+        if not fr.kblookup('DefineEvent'):
             return senses
-        #else:
-            #lemma = args[0]
-            #new_concept = ConceptType(lemma.capitalize(), (Concept,), {})
+        else:
+            lemma = args[0]
+            new_concept = ConceptType(lemma.capitalize(), (Concept,), {})
             
-            #self.lexicon[lemma] = {}
-            #self.lexicon[lemma]['NOPOS'] = [new_concept]
+            self.lexicon[lemma] = {}
+            self.lexicon[lemma]['NOPOS'] = [new_concept]
         
-            #return [new_concept]
+            return [new_concept]

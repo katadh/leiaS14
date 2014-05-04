@@ -23,8 +23,8 @@ class Lexicon(object):
         'amos-eaton':{
             'NN' : [ (Location,["Amos-Eaton"]) ]
             },
-        'lally':{
-            'NN' : [ (Location,["Lally"]) ]
+        'lally-building':{
+            'NN' : [ (Location,["Lally-Building"]) ]
             },
         'dcc':{
             'NN' : [ (Location,["DCC"]) ]
@@ -32,8 +32,8 @@ class Lexicon(object):
         'jec':{
             'NN' : [ (Location,["JEC"]) ]
             },
-        'carnegie':{
-            'NN' : [ (Location,["Carnegie"]) ]
+        'carnegie-hall':{
+            'NN' : [ (Location,["Carnegie-Hall"]) ]
             },
         'union':{
             'NN' : [ (Location,["Union"]) ]
@@ -53,11 +53,29 @@ class Lexicon(object):
         '86-field':{
             'NN' : [ (Location,["86-Field"]) ]
             },
-        'nason':{
-            'NN' : [ (Location,["Nason"]) ]
+        'bray':{
+            'NN' : [ (Location,["Bray"]) ]
             },
         'quad':{
             'NN' : [ (Location,["Quad"]) ]
+            },
+        'dining':{
+            'NN' : [ (Location,["dining"]) ]
+            },
+        'academic':{
+            'NN' : [ (Location,["academic"]) ]
+            },
+        'social':{
+            'NN' : [ (Location,["social"]) ]
+            },
+        'athletic':{
+            'NN' : [ (Location,["athletic"]) ]
+            },
+        'library':{
+            'NN' : [ (Location,["library"]) ]
+            },
+        'dorm':{
+            'NN' : [ (Location,["dorm"]) ]
             },
         'how':{
             'WHB' : [ (RequestInfo,[]) ]

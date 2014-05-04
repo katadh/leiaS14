@@ -8,14 +8,25 @@ import os
 
 def move_tmr(position):
     move = MoveEvent()
-    to = Location()
-    
+    to = location(position)
     move.to = to
-    
-    to.latitude = position[0]
-    to.longitude = position[1]
-    
+
     return [move, to]
+
+def agent_wake_tmr(position):
+    wake = AgentWakeEvent()
+    where = location(position)
+    wake.where = where
+    
+    return [wake, where]
+
+
+def location(position):
+    loc = Location()
+    loc.latitude = position[0]
+    loc.longitude = position[1]
+    
+    return loc
 
 
 if __name__ == "__main__":
@@ -26,13 +37,13 @@ if __name__ == "__main__":
     lexicon = Lexicon()
     planner = PlanManager()
     
-    planner.updatePlanQueue([AgentWakeEvent()])
+    planner.updatePlanQueue(agent_wake_tmr(position))
     
     ### clear screen
     os.system(['clear','cls'][os.name == 'nt'])
+    print 'Petr & Jay\'s \"Sovetnik\" Personal Assistant'
     
     while True:
-        print 'Petr & Jay\'s \"Sovetnik\" Personal Assistant'
         
         ### the world is reset at every iteration
         world = [['_' for i in range(world_length)]
