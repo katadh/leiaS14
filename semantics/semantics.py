@@ -2,11 +2,11 @@ from linking import *
 from pprint import pprint
 import knowledge.lexicon
 import heuristics
+import knowledge.Facts as fr
 
 # TODO: use tense information?
 # TODO: can use dependencies as heuristic of where to start from
 
-# TODO: doesn't do any candidate selection yet
 def tmr(tagged_words, lexicon = knowledge.lexicon.Lexicon(), Heuristics = heuristics.Heuristics):
     tagged_words = filter(lambda tw: lexicon.senses(tw.lemma),
                           tagged_words)
@@ -17,9 +17,13 @@ def tmr(tagged_words, lexicon = knowledge.lexicon.Lexicon(), Heuristics = heuris
     linking_candidates = []
     
     while True:
-        print 'permute senses'
-        print lexicon.permute_senses(tagged_words)
         for concepts in lexicon.permute_senses(tagged_words):
+            
+            #if not filter(lambda c: 
+                          #c.__class__.__name__ == 'DefineEvent',
+                          #concepts):
+                #concepts += map(lambda i: i.__class__, fr.kblookup('DefineEvent'))
+            
             print 'Possible linkings for senses:'
             pprint(map(str, concepts))
             
