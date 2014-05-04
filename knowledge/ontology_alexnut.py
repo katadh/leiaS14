@@ -55,8 +55,8 @@ class Observe(Event):
     def __init__(self):
         self.init_slots()
 
-class Know(Thing):
-    theme = Slot(Concept)
+class Know(Event):
+    theme = Slot(Thing)
     def __init__(self):
         self.init_slots()
 
