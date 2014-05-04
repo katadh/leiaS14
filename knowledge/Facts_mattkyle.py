@@ -1,5 +1,5 @@
 import inspect
-from ontology import *
+from ontology_mattkyle import *
 
 local_TMRs = {}
 base_TMRs = {}
@@ -21,7 +21,7 @@ def store(inst, sTerm = False):
         if(sTerm):  local_TMRs[name].insert(0,inst)
         else:   local_TMRs[name].append(inst)
 
-def load(fName = "fact_repo.txt"):
+def load(fName = "fact_repo_mattkyle.txt"):
     kbf = open(fName, 'r')
     lines = kbf.readlines()
     kbf.close()
