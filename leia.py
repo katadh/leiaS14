@@ -5,19 +5,13 @@ from semantics.semantics import *
 import knowledge.lexicon
 from plan_selection.planManager import *
 
-firstRun = False
-
 "The top-level processing pipeline"
 ### Each application should supply its own lexicon class, otherwise the default one will be used.
 def leia(sentence, 
          lexicon = knowledge.lexicon.Lexicon(), 
-         planner = planManager(), 
-         Heuristics = heuristics.Heuristics):
-    
-  
-    global firstRun
-    sp = parse.syntaxParser(21227, 21228, not firstRun)
-    firstRun = False
+         planner = planManager(),
+         sp = parse.syntaxParser(),
+         Heuristics = heuristics.Heuristics,):
 
     tagged_words = sp.analyzeSentence(sentence) 
     
