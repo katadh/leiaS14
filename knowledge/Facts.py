@@ -21,7 +21,24 @@ def store(inst, sTerm = False):
         if(sTerm):  local_TMRs[name].insert(0,inst)
         else:   local_TMRs[name].append(inst)
 
-def load(fName = ""):
+def load():
+    m = Chips()
+    store(m)
+    a = Aisle()
+    a.name = 'three'
+    store(a)
+    b = Aisle()
+    b.name = 'four'
+    store(b)
+
+    m.location = a
+    n = Chips()
+    n.location = a
+    store(m)
+    store(n)
+
+    """
+
     if file == "": return
     kbf = open(fName, 'r')
     lines = kbf.readlines()
@@ -66,6 +83,7 @@ def load(fName = ""):
 
     for k, v in inst_map.items():
         base_store(v)
+    """
         
 def forget(inst):
     classes = inspect.getmro(inst.__class__)
