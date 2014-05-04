@@ -1,7 +1,8 @@
 plan_lexicon = [(set(['Person', 'ChangeLocation', 'Question', 'Location']), 'give_directions'),
                 (set(['Being', 'RequestInfoLocation', 'Location']), 'give_directions'),
                 (set(['Position', 'RequestInfoLocation', 'Person']), 'give_location'),
-                (set([]))
+                (set(['Desire', 'Person', 'Observe', 'Location']), 'give_directions'),
+                
                 (set(['Being', 'Weather', 'Question']), 'give_forecast')]
 
 plan_map = {'give_directions':(1,1,0,give_directions),
