@@ -23,7 +23,7 @@ def input():
 
 if __name__ == "__main__":
 	#Primary listening loop
-	load("fact_repo_mattkyle.txt")
+	load("knowledge/fact_repo_mattkyle.txt")
 	input_ = None
 	lexicon = Lexicon()
 	pm = planManager()
