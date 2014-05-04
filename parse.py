@@ -2,7 +2,6 @@ import subprocess
 import os
 import nltk
 import re
-import platform
 import fcntl
 import time
 
@@ -27,12 +26,10 @@ class syntaxParser:
 
     def __init__(self, ner_socket, pos_socket, servers_running):
         self.NERhasrun = 0
-        osname = platform.system()
-        startdir = os.getcwd()
 
-        pos_path = os.path.join(startdir, "stanford_tools", "stanford-postagger-2014-01-04")
-        ner_path = os.path.join(startdir, "stanford_tools", "stanford-ner-2014-01-04")
-        parse_path = os.path.join(startdir, "stanford_tools", "stanford-parser-full-2014-01-04")
+        pos_path = os.path.join("./", "stanford_tools", "stanford-postagger-2014-01-04")
+        ner_path = os.path.join("./", "stanford_tools", "stanford-ner-2014-01-04")
+        parse_path = os.path.join("./", "stanford_tools", "stanford-parser-full-2014-01-04")
 
         parse_command = "java -mx150m -cp " + os.path.join(parse_path, "stanford-parser.jar") + " edu.stanford.nlp.parser.lexparser.LexicalizedParser -outputFormat \"penn,typedDependencies\" -sentences newline " + os.path.join(parse_path, "englishPCFG.ser.gz") + " -"
         self.parse_process = subprocess.Popen(parse_command, stdin=subprocess.PIPE, stdout=subprocess.PIPE, shell=True)
