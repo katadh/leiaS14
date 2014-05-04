@@ -5,7 +5,7 @@ from semantics.semantics import *
 import knowledge.lexicon
 from plan_selection.planManager import *
 
-firstRun = True
+firstRun = False
 
 "The top-level processing pipeline"
 ### Each application should supply its own lexicon class, otherwise the default one will be used.
@@ -16,8 +16,8 @@ def leia(sentence,
     
   
     global firstRun
-    sp = parse.syntaxParser(21227, 21228, False)
-    #firstRun = False
+    sp = parse.syntaxParser(21227, 21228, not firstRun)
+    firstRun = False
 
     tagged_words = sp.analyzeSentence(sentence) 
     
