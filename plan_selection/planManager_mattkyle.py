@@ -1,6 +1,6 @@
 
-import plan
-import PlanList
+import plan_mattkyle as plan
+import planList_mattkyle as PlanList
 from heapq import *
 
 class planManager(object):

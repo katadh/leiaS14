@@ -1,6 +1,6 @@
 import sys
-sys.path.append("../knowledge/")
-from Facts import kblookup
+sys.path.append("../")
+from knowledge.Facts import kblookup
 
 
 def determineLocation(TMR):
@@ -11,7 +11,7 @@ def determineLocation(TMR):
 		if s[0] != "Aisle" and s[0] != "QuestionEvent":
 			theme = s[0]
 	#Look for this theme
-	if theme = None:
+	if theme == None:
 		print "This TMR is confusing, I'm not saying anything."
 		return
 	kb_return = kblookup(theme)
@@ -42,7 +42,9 @@ def find_food(TMR):
 #The first element is a string describing the prerequsisites needed
 #The second is the name of the prereq for lookup
 #The third is a slot for the plan manager to fill with the appropriate lookup if necessary
-plan_map_prereqs = {"repeat":[["knowledge", "food", None]],"find_food":[["knowledge", "food", None]]}
+plan_map_prereqs = {"repeat":[["knowledge", "food", None]],
+					"find_food":[["knowledge", "food", None]],
+					"determineLocation":[]}
 
 
 #In this map, the tuples have the following format
