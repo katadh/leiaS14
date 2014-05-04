@@ -99,7 +99,7 @@ class syntaxParser:
         except IOError:
             pass
 
-        #print stanford_output
+        print stanford_output
 
         poslist = re.findall(r'\(([\w|.]+) ([\w|.|?|!]+)\)', stanford_output)
         
