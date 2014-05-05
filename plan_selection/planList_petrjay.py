@@ -8,8 +8,10 @@ def observe(tmr):
     print 'observe:'
     global current_location
     
-    if tmr and grab_instance(AgentWakeEvent, tmr):
-        current_location = grab_instance(AgentWakeEvent, tmr).where
+    wake = grab_instance(AgentWakeEvent, tmr)
+    
+    if wake:
+        current_location = wake.where.filler
     else: 
         current_location.stay += 1
         
@@ -27,7 +29,7 @@ def ask_define_location(tmr):
     
     # expect DefineEvent next
     define = DefineEvent()
-    define.base = current_location
+    define.base.fill(current_location)
     
     # store in short-term
     print 'storing define'
@@ -41,7 +43,7 @@ def ask_define_location(tmr):
 def on_move(tmr):
     print 'on_move'
     global current_location
-    current_location = grab_instance(MoveEvent, tmr).to    
+    current_location = grab_instance(MoveEvent, tmr).to.filler    
     
     print 'Moved to {0} ({1}, {2}])'.format(current_location, 
                                             current_location.longitude, 

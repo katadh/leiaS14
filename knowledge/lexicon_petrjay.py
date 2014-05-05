@@ -19,6 +19,8 @@ class Lexicon(lexicon.Lexicon):
         'work' : {
             'NN' :
             [Workplace]
+            'VB' :
+            [WorkActivity]
         }, 
         'location' : {
             'NN' :
