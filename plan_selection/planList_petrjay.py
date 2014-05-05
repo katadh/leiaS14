@@ -46,9 +46,13 @@ def observe(tmr):
         print 'You seem to be spending quite some time here.'
         ask_define_location([current_location])
         return
-    if current_location.stay > 5:
+    if current_location.stay > 7 and not current_activity:
         print 'I see you\'re doing something.'
         ask_define_activity([current_activity])
+        return
+    if current_location.stay > 96 and current_activity:
+        print 'Wow, you seem really into it. Are you still doing {0}, %username%?'.format(current_activity)
+        return    
 
 
 ### NOT A PLAN
@@ -67,8 +71,10 @@ def ask_define_location(tmr):
 def ask_define_activity(tmr):
     global current_location
     global current_activity
+    global clock
     
     activity = Activity()
+    activity.start_time = clock.quarters
     activity.location.fill(current_location)
     activity.participant.fill(Person())
     
@@ -112,6 +118,12 @@ def on_move(tmr):
     global clock 
     clock.tick()
     global current_location
+    global current_activity
+    
+    current_activity.end_time = clock.quarters
+    fr.store(current_activity)
+    
+    current_activity = None
     
     current_location = grab_instance(MoveEvent, tmr).to.filler    
     
