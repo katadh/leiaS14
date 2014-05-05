@@ -13,9 +13,17 @@ class Lexicon(lexicon.Lexicon):
             'NN' : 
             [Milk]
             },
+        'good': {
+            'JJ':
+            [Good]
+            },
         'bad': {
             'JJ': 
             [Bad]
+            },
+        'best': {
+            'JJ': 
+            [Best]
             },
         'buy': {
             'NN': 

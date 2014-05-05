@@ -7,9 +7,12 @@ import time
 def determineLocation(TMR):
 	#Determine the theme of the location query
 	theme = None
+	quality = "Any"
 	for concept in TMR:
 		s = str(concept).split("-")
-		if s[0] != "Aisle" and s[0] != "QuestionEvent":
+		if s[0] == "Good" or s[0] == "Bad" or s[0] == "Best":
+			quality = s[0]
+		elif s[0] != "Aisle" and s[0] != "QuestionEvent":
 			theme = s[0]
 	#Look for this theme
 	if theme == None:
@@ -18,18 +21,45 @@ def determineLocation(TMR):
 	kb_return = kblookup(theme)
 
 	print kb_return
+
 	if len(kb_return) == 0:
 		print "We do not currently have {0}".format(theme)
 	else:
-		aisle = kb_return[0].location.filler.name
-		#return/print the location associated with this theme
-		print "The {0} are in aisle {1}".format(theme, aisle)
+		#pref_i represents the best index with bias (in order) preferred_product, quality, and (maybe) price
+		pref_i = 0
+		pref_found = True
+		while not kb_return[pref_i].preferred_product:
+			pref_i += 1
+			if pref_i == len(kb_return):
+				pref_i = 0
+				pref_found = False
+				break
+
+		if quality != "Any":
+			while ((not kb_return[pref_i].preferred_product) == pref_found) or (kb_return[pref_i].quality.filler.__class__.__name__ != quality):
+				pref_i += 1
+				if pref_i == len(kb_return):
+					pref_i = 0
+					if not pref_found:
+						print "We do not have any {0} {1}".format(quality, theme)
+						return
+					else:
+						pref_found = False
+			aisle = kb_return[pref_i].location.filler.name
+			print "The {0} {1} are in aisle {2}".format(quality, theme, aisle)
+		else:
+			aisle = kb_return[pref_i].location.filler.name
+			#return/print the location associated with this theme
+			print "The {0} are in aisle {1}".format(theme, aisle)
 
 def determinePrice(TMR):
 	theme = None
+	quality = "Any"
 	for concept in TMR:
 		s = str(concept).split("-")
-		if s[0] != "Price" and s[0] != "QuestionEvent":
+		if s[0] == "Good" or s[0] == "Bad" or s[0] == "Best":
+			quality = s[0]
+		elif s[0] != "Price" and s[0] != "QuestionEvent":
 			theme = s[0]
 	if theme == None:
 		print "This TMR is confusing, I'm not saying anything."
@@ -40,8 +70,31 @@ def determinePrice(TMR):
 	if len(kb_return) == 0:
 		print "We do not currently have {0}".format(theme)
 	else:
-		price = kb_return[0].price.filler.value
-		print "The {0} cost {1}".format(theme, price)
+		#pref_i represents the best index with bias (in order) preferred_product, quality, and (maybe) price
+		pref_i = 0
+		pref_found = True
+		while not kb_return[pref_i].preferred_product:
+			pref_i += 1
+			if pref_i == len(kb_return):
+				pref_i = 0
+				pref_found = False
+				break
+
+		if quality != "Any":
+			while ((not kb_return[pref_i].preferred_product) == pref_found) or (kb_return[pref_i].quality.filler.__class__.__name__ != quality):
+				pref_i += 1
+				if pref_i == len(kb_return):
+					pref_i = 0
+					if not pref_found:
+						print "We do not have any {0} {1}".format(quality, theme)
+						return
+					else:
+						pref_found = False
+			price = kb_return[pref_i].price.filler.value
+			print "The {0} {1} cost {2}".format(quality, theme, price)
+		else:
+			price = kb_return[pref_i].price.filler.value
+			print "The {0} cost {1}".format(theme, price)
 	
 	"""
 	print kb_return

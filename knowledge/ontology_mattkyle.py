@@ -23,6 +23,10 @@ class Bad(Quality):
     def __init__(self):
         self.init_slots()
 
+class Best(Quality):
+    def __init__(self):
+        self.init_slots()
+
 
 ### roughly, NN
 
@@ -51,6 +55,7 @@ class Person(Animal):
         self.init_slots()    
     
 class Product(Thing):
+    preferred_product = False
     #location = Slot(Aisle)
 
     def __init__(self):
@@ -68,7 +73,7 @@ class Chips(Product):
         self.init_slots()
 
 class Wines(Product):
-
+    quality = Slot(Quality)
     def __init__(self):
         self.init_slots()    
     
