@@ -24,6 +24,10 @@ class Lexicon(lexicon.Lexicon):
             'VBP': 
             [BuyEvent]
             },
+		'have': {
+			'VB':
+			[Aisle]
+			},
         'fish': {
             'NN': 
             [Fish], 
