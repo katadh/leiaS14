@@ -107,6 +107,7 @@ class FishEvent(ActiveEvent):
 
 class Delivery(ActiveEvent):
     theme = Slot(Product)
+    agent = Slot(Animal)
 
     def __init__(self):
         self.init_slots()

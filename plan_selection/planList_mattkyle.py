@@ -82,4 +82,4 @@ plan_map = {"repeat":(4,10,0,repeat), "find_food":(3,1,0,find_food),
 			"stockShelves":(4,10,0,stockShelves)}
 
 
-plan_lexicon = [(set(['Aisle', 'Chips', 'QuestionEvent']),"determineLocation"),(set(['delivery', 'arrive']),"determineLocation")]
+plan_lexicon = [(set(['Aisle', 'Chips', 'QuestionEvent']),"determineLocation"),(set(['Delivery', 'Animal']),"stockShelves")]

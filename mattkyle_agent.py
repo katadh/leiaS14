@@ -1,40 +1,36 @@
+import sys
+import select
 import time
-import signal
 from leia import leia
 from knowledge.lexicon_mattkyle import Lexicon
 from knowledge.Facts import *
 from plan_selection.planManager_mattkyle import planManager
 
-TIMEOUT = 1 
+read_list = [sys.stdin]
+timeout = 0.3
 
-def interrupted(signum, frame):
-	return
-
-signal.signal(signal.SIGALRM, interrupted)
-
-
-def input():
-	return_val = None
-	try:
-		return_val = raw_input()
-		return return_val
-	except:
-		return return_val
 
 if __name__ == "__main__":
 	#Primary listening loop
-	input_ = None
 	lexicon = Lexicon()
 	pm = planManager()
-	while(1):
-		signal.alarm(TIMEOUT)
-		input_ = input()
-		#Get input but don't wait forever
-		if input_.lower() == "die agent die!":
-			print "Goodbye cruel world!"
-			break
-		elif input_ == None:
-			pm.updatePlanQueue(0)
-		else:
-			leia(input_, lexicon, pm)
-		
+	global read_list
+	dead = False
+	while(not dead):
+		while read_list:
+			ready = select.select(read_list, [], [], timeout)[0]
+			if not ready:
+				pm.updatePlanQueue(0)
+			else:
+				for file in ready:
+					line = file.readline()
+					if not line:
+						read_list.remove(file)
+					elif line.rstrip():
+						if line.lower() == "die agent die!":
+							print "Goodbye cruel world!"
+							dead = true
+							break
+						else:
+							print "The input was", line
+							leia(line, lexicon, pm)
