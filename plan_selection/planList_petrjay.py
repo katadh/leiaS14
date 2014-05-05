@@ -1,6 +1,7 @@
 from knowledge.ontology_petrjay import *
 import knowledge.Facts as fr
 from pprint import pprint
+import os
 
 class Clock(object):
     quarters = 0
@@ -24,12 +25,7 @@ clock = Clock()
 
 ### is called when nothing happens
 def observe(tmr):
-    print 'observe:'
-    print 'FR:'
-    pprint(fr.local_TMRs)
     global clock
-    clock.tick()
-    
     global current_location
     global current_activity
     
@@ -39,8 +35,9 @@ def observe(tmr):
         current_location = wake.where.filler
         fr.store(current_location)
     else: 
-        current_location.stay += 1
-        
+        current_location.stay += 1    
+    refresh()
+    clock.tick()
     print 'Staying at {0} ({1}, {2}) for {3} quarters'.format(current_location, 
                                                            current_location.longitude, 
                                                            current_location.latitude, 
@@ -63,11 +60,12 @@ def ask_define_location(tmr):
     global current_location
     
     # expect DefineEvent next
-    define = DefineEvent()
-    define.base.fill(current_location)
-    
-    # store in short-term   
-    fr.store(define, True)
+    if not fr.kblookup('DefineEvent'):
+        define = DefineEvent()
+        define.base.fill(current_location)
+        
+        # store in short-term   
+        fr.store(define, True)
     
     print 'What is this place called?'
     
@@ -81,15 +79,15 @@ def ask_define_activity(tmr):
     activity.location.fill(current_location)
     activity.participant.fill(Person())
     
-    define = DefineEvent()
-    define.base.fill(activity)
+    if not fr.kblookup('DefineEvent'):
+        define = DefineEvent()
+        define.base.fill(activity)
     
-    fr.store(define, True)
+        fr.store(define, True)      
     
     print 'What is that you are doing, %username%?'
     
 def on_define(tmr):
-    print 'on_define'
     definition = grab_instance(DefineEvent, tmr).definition.filler
     define = fr.kblookup('DefineEvent')[0]
     base = define.base.filler
@@ -115,20 +113,22 @@ def on_define(tmr):
     fr.store(definition)
     fr.forget(define)
     
+    refresh()
+    
     
 def on_move(tmr):
-    print 'on_move'
     global clock 
-    clock.tick()
     global current_location
     global current_activity
     
-    current_activity.end_time = clock.quarters
-    fr.store(current_activity)
+    if current_activity:
+        current_activity.end_time = clock.quarters
+        current_activity = None
     
-    current_activity = None
+    current_location = grab_instance(MoveEvent, tmr).to.filler 
     
-    current_location = grab_instance(MoveEvent, tmr).to.filler    
+    refresh()
+    clock.tick()
     
     print 'Moved to {0} ({1}, {2}])'.format(current_location, 
                                             current_location.longitude, 
@@ -147,6 +147,7 @@ def on_move(tmr):
         
         
 def on_whereis(tmr):
+    refresh()
     print 'on_where_is'
     global current_location
     print 'I don\'t know what this place is, %username%.' if current_location.__class__ is Location else 'You are at {0}, %username%.'.format(current_location.__class__.__name__)
@@ -164,7 +165,17 @@ def grab_instance(cls, tmr):
     except:
         return None
     
-
+def refresh():
+    os.system(['clear','cls'][os.name == 'nt'])
+    print 'FR:'
+    pprint(fr.kblookup('DefineEvent'))
+    print 'Known Locations:'
+    pprint(fr.kblookup('Location'))
+    print 'Known Activities:'
+    pprint(fr.kblookup('Activity'))
+    print 'Known Persons:'
+    pprint(fr.kblookup('Person'))    
+    
     
 
 

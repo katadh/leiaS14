@@ -52,7 +52,7 @@ if __name__ == "__main__":
                  for j in range(world_length)]  
         
         ### then the user is placed
-        world[position[0] % world_length][position[1] % world_length] = '*'
+        world[position[0]][position[1]] = '*'
         
         ### TODO: and whatever known locations there are on the map
         
@@ -65,7 +65,7 @@ if __name__ == "__main__":
         
         ### move the user
         if input in direction.keys():
-            position[direction[input][0]] += direction[input][1]
+            position[direction[input][0]] = (position[direction[input][0]] + direction[input][1]) % world_length
             planner.updatePlanQueue(move_tmr(position))
             
         elif input:
