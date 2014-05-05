@@ -107,8 +107,8 @@ class DefineEvent(Event):
         
 class Activity(Event):
     location = Slot(Location)
-    #start_time = 0
-    #end_time = 0
+    start_time = 0
+    end_time = 0
     participant = Slot(Person)
     #period = None
     #note = ''
@@ -125,8 +125,8 @@ class QuotidienActivity(Activity):
         self.init_slots()
         
 
-        
-class Meal(Activity):
+# Activity
+class Meal(Event):
     def __init__(self):
         self.init_slots()
         
