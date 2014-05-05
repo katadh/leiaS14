@@ -35,7 +35,7 @@ def tmr(tagged_words, lexicon = knowledge.lexicon.Lexicon(), Heuristics = heuris
     
     linking_candidates = []
     # Planner handles 0-TMR better than None
-    best_linking = 0
+    best_linking = None
     
     while Heuristics.relaxation <= Heuristics.max_relaxation:
         for concepts in lexicon.permute_senses(tagged_words):

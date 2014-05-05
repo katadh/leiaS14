@@ -72,7 +72,7 @@ if __name__ == "__main__":
             leia(input, lexicon, planner)
 
         else:
-            planner.updatePlanQueue(0)
+            planner.updatePlanQueue(None)
 
             
         

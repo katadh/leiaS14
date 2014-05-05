@@ -25,18 +25,7 @@ class planManager(object):
 		return return_plan
 
 	def updatePlanQueue(self, TMR):
-		#Nothing to do in this case
-		if TMR == None:
-			return
-		if len(TMR) == 0:
-			return
-		if TMR == 0 and len(self.plans)==0:
-			return
-		#Continue with current plan, guaranteed to be one if the previous condition wasn't met
-		elif TMR == 0:
-			self.plans[0].executeOneTimestep(TMR)
-		#New plan, and other plans exist already
-		else:
+		if TMR:
 			new_plan = self.planSelect(TMR)
 			if new_plan == None:
 				return
@@ -50,6 +39,10 @@ class planManager(object):
 						prereq_plan = plan(new_plan.priority - 1,pt[1],0,True,prereq[1])
 						heappush(self.plans, prereq_plan)
 			self.plans[0].executeOneTimestep(TMR)
+		elif len(self.plans) > 0:
+			self.plans[0].executeOneTimestep(TMR)
+		else: 
+			return
 		if self.plans[0].finished:
 			heappop(self.plans)
 

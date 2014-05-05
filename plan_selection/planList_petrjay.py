@@ -1,5 +1,6 @@
 from knowledge.ontology_petrjay import *
 import knowledge.Facts as fr
+from pprint import pprint
 
 class Clock(object):
     quarters = 0
@@ -24,6 +25,8 @@ clock = Clock()
 ### is called when nothing happens
 def observe(tmr):
     print 'observe:'
+    print 'FR:'
+    pprint(fr.local_TMRs)
     global clock
     clock.tick()
     
