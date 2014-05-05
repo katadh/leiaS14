@@ -3,10 +3,27 @@ from pprint import pprint
 import knowledge.lexicon
 import heuristics
 import knowledge.Facts as fr
-import time
+
 
 # TODO: use tense information?
 # TODO: can use dependencies as heuristic of where to start from
+
+"Basically pulls a primed instance from FR and all its filler instances recursively"
+"Shouldn't do anything if you are not priming the FR with a 'DefineEvent'"
+def recover_context(instance = None):
+    if instance:
+        return [instance.__class__] + sum([recover_context(filler) 
+                                           for filler in filter(lambda f: f,
+                                                                map(lambda s: s.filler,
+                                                                    instance.slots().values()))], 
+                                          [])
+    else:
+        matches = fr.kblookup('DefineEvent')
+        if matches:
+            return recover_context(matches[0])  
+    return []
+        
+    
 
 def tmr(tagged_words, lexicon = knowledge.lexicon.Lexicon(), Heuristics = heuristics.Heuristics):
     tagged_words = filter(lambda tw: lexicon.senses(tw.lemma),
@@ -16,17 +33,15 @@ def tmr(tagged_words, lexicon = knowledge.lexicon.Lexicon(), Heuristics = heuris
     print 'Interpreting tokens: {0}'.format(map(lambda tw: tw.lemma, tagged_words))
     
     linking_candidates = []
-    best_linking = None
+    # Planner handles 0-TMR better than None
+    best_linking = 0
     
     while Heuristics.relaxation <= Heuristics.max_relaxation:
         for concepts in lexicon.permute_senses(tagged_words):
             print 'Possible linkings for senses:'
             
             ### DON'T WORRY - If you hadn't added them beforehand, they will not show up
-            matches = fr.kblookup('DefineEvent')
-            if matches:
-                concepts += [matches[0].__class__, 
-                             matches[0].base.filler.__class__]         
+            concepts += recover_context()
             
             pprint(map(lambda c: 
                        '{0} {1}'.format(c, 
@@ -48,7 +63,6 @@ def tmr(tagged_words, lexicon = knowledge.lexicon.Lexicon(), Heuristics = heuris
             Heuristics.relaxation += 1
             print 'No good linkings could be generated. Relaxing... to {0}'.format(Heuristics.relaxation)
             print "\n----****----\n" 
-            time.sleep(.5)
             
             if best_linking:
                 linking_candidates.remove(best_linking)   
