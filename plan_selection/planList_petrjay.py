@@ -157,12 +157,26 @@ def on_whereis(tmr):
     global current_location
     print 'I don\'t know what this place is, %username%.' if current_location.__class__ is Location else 'You are at {0}, %username%.'.format(current_location.__class__.__name__)
 
+def on_question_where(tmr):
+    refresh()
+    print tmr
+    question = grab_instance(Question, tmr)
+    theme = question.theme.filler
+    
+    if theme.at_least(Activity):
+        wh = filter(lambda f: f.at_least(Wh), 
+                    map(lambda s: s.filler, 
+                        theme.slots().values()))[0]
+        
+        if wh.at_least(Location):
+            print 'You {0} at {1}, %username%.'.format(theme.__class__.__name__, 
+                                                       ', '.join(map(lambda a: str(a.location.filler),
+                                                                     fr.kblookup(theme.__class__.__name__))))
 
-
     
     
     
-### HELPER
+### HELPERs
 def grab_instance(cls, tmr):
     try:
         return filter(lambda i: isinstance(i, cls),
@@ -187,17 +201,20 @@ def refresh():
 plan_lexicon = [(set(['AgentWakeEvent']), 'observe'),
                 (set(['MoveEvent']), 'on_move'), 
                 (set(['Where', 'BeingEvent']), 'on_whereis'),
+                (set(['Question', 'Where']), 'on_question_where'),
                 (set(['DefineEvent']), 'on_define')]
 
 plan_map = {'observe':(1, -1, 0, observe),
             'on_define':(0, 1, 0, on_define),
             'on_move':(0, 1, 0, on_move),
-            'on_whereis':(0, 1, 0, on_whereis)}
+            'on_whereis':(0, 1, 0, on_whereis),
+            'on_question_where':(0, 1, 0, on_question_where)}
 
 plan_map_prereqs = {'observe':[[None, None, None]],
                     'on_define': [[None, None, None]],
                     'on_move': [[None, None, None]],
-                    'on_whereis' : [[None, None, None]]}
+                    'on_whereis' : [[None, None, None]],
+                    'on_question_where' : [[None, None, None]]}
 
 
 

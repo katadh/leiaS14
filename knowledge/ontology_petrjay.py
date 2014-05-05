@@ -166,9 +166,10 @@ class What(Questionable):
     def __init__(self):
             self.init_slots()    
     
-    
+class Wh(Concept):
+    pass
 
-class Where(Location):
+class Where(Location, Wh):
     #place_of = Slot(Event)
     
     def __init__(self):
