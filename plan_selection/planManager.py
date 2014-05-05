@@ -26,6 +26,10 @@ class planManager(object):
 
 	def updatePlanQueue(self, TMR):
 		#Nothing to do in this case
+		if TMR == None:
+			return
+		if len(TMR) == 0:
+			return
 		if TMR == 0 and len(self.plans)==0:
 			return
 		#Continue with current plan, guaranteed to be one if the previous condition wasn't met

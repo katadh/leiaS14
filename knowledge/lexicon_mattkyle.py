@@ -50,6 +50,10 @@ class Lexicon(lexicon.Lexicon):
 		'delivery': {
 			'NN':
 			[Delivery]
+			},
+		'much': {
+			'advmod':
+			[Price]
 			}
 		}
     

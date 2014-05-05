@@ -1,12 +1,34 @@
 from knowledge.ontology_petrjay import *
 import knowledge.Facts as fr
 
+class Clock(object):
+    quarters = 0
+    
+    def tick(self):
+        self.quarters = (self.quarters + 1) % 96
+        print self
+        
+    def __str__(self):
+        normalize = lambda h: h if h > 9 else "0" + str(h)
+        return '{0}:{1}'.format(normalize(self.quarters / 4), 
+                                normalize(self.quarters % 4 * 15))
+    
+    
 current_location = None
+current_activity = None
+clock = Clock()
+
+
+        
 
 ### is called when nothing happens
 def observe(tmr):
     print 'observe:'
+    global clock
+    clock.tick()
+    
     global current_location
+    global current_activity
     
     wake = grab_instance(AgentWakeEvent, tmr)
     
@@ -16,13 +38,17 @@ def observe(tmr):
     else: 
         current_location.stay += 1
         
-    print 'Staying at {0} ({1}, {2}) for {3} turns'.format(current_location, 
+    print 'Staying at {0} ({1}, {2}) for {3} quarters'.format(current_location, 
                                                            current_location.longitude, 
                                                            current_location.latitude, 
                                                            current_location.stay)
     if current_location.stay > 3 and current_location.__class__ == Location:
         print 'You seem to be spending quite some time here.'
         ask_define_location([current_location])
+        return
+    if current_location.stay > 5:
+        print 'I see you\'re doing something.'
+        ask_define_activity([current_activity])
 
 
 ### NOT A PLAN
@@ -33,16 +59,58 @@ def ask_define_location(tmr):
     define = DefineEvent()
     define.base.fill(current_location)
     
-    # store in short-term
-    print 'storing define'
-    print define    
+    # store in short-term   
     fr.store(define, True)
     
     print 'What is this place called?'
     
+def ask_define_activity(tmr):
+    global current_location
+    global current_activity
+    
+    activity = Activity()
+    activity.location.fill(current_location)
+    activity.participant.fill(Person())
+    
+    define = DefineEvent()
+    define.base.fill(activity)
+    
+    fr.store(define, True)
+    
+    print 'What is that you are doing, %username%?'
+    
+def on_define(tmr):
+    print 'on_define'
+    definition = grab_instance(DefineEvent, tmr).definition.filler
+    define = fr.kblookup('DefineEvent')[0]
+    base = define.base.filler
+    
+    if definition.at_least(Location):
+        global current_location
+
+        definition.longitude = base.longitude
+        definition.latitude = base.latitude
+        definition.stay = base.stay
+        
+        current_location = definition
+        # need to remove because we already remember this location under a different concept
+        fr.forget(define.base.filler)
+        
+    if definition.at_least(Activity):
+        global current_activity
+        
+        definition.location = base.location
+        
+        current_activity = definition        
+    
+    fr.store(definition)
+    fr.forget(define)
+    
     
 def on_move(tmr):
     print 'on_move'
+    global clock 
+    clock.tick()
     global current_location
     
     current_location = grab_instance(MoveEvent, tmr).to.filler    
@@ -66,32 +134,10 @@ def on_move(tmr):
 def on_whereis(tmr):
     print 'on_where_is'
     global current_location
-    print 'You are at ({0}, {1}), %username%.'.format(current_location.longitude, current_location.latitude)
-    print 'I don\'t know what this place is.' if current_location.__class__ is Location else 'It\'a {0}.'.format(current_location.__class__.__name__)
+    print 'I don\'t know what this place is, %username%.' if current_location.__class__ is Location else 'You are at {0}, %username%.'.format(current_location.__class__.__name__)
 
 
-def on_define(tmr):
-    print 'on_define'
-    definition = grab_instance(DefineEvent, tmr).definition.filler
-    define = fr.kblookup('DefineEvent')[0]
-    base = define.base.filler
-    
-    
-    if definition.at_least(Location):
-        global current_location
 
-        definition.longitude = base.longitude
-        definition.latitude = base.latitude
-        definition.stay = base.stay
-        
-        current_location = definition
- 
-    
-    fr.store(definition)
-    print 'forgetting define'
-    
-    fr.forget(define.base.filler)
-    fr.forget(define)
     
     
     
