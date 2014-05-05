@@ -27,10 +27,10 @@ if __name__ == "__main__":
 					if not line:
 						read_list.remove(file)
 					elif line.rstrip():
-						if line.lower() == "die agent die!":
+						if str(line.lower().strip("\n")) == "die agent die!":
 							print "Goodbye cruel world!"
-							dead = true
-							break
+							dead = True
+							sys.exit(0)
 						else:
 							print "The input was", line
 							leia(line, lexicon, pm)

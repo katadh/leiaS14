@@ -117,6 +117,10 @@ class Scalar(Concept):
     def __init__(self):
         self.init_slots()
 
+class Price(Scalar):
+
+    def __init__(self):
+        self.init_slots()
 
 
 ### it is a legacy concept for debug purposes
