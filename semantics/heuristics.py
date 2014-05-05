@@ -35,7 +35,16 @@ def filler_tightness(linking):
                   t1 + t2,
                   map(lambda s: 
                       1./ 2 ** s.filler.taxonomic_distance(s.filler_class),
-                      slots))
+                      slots)) / len(slots)
+
+def cycles(linking):
+    cycles = 0
+    for i in linking:
+        for s in i.slots().values():
+            for s2 in s.filler.slots().values():
+                if i == s2.filler:
+                    cycles += 1   
+    return cycles
         
 
 class Heuristics(object):
@@ -43,20 +52,19 @@ class Heuristics(object):
     max_relaxation = 10
     minimal_goodness = .00000001
     
-    weights = [1., 1.]
-    feature_functions = [all_linked, filler_tightness]
+    weights = [1., 1., -1.]
+    feature_functions = [all_linked, filler_tightness, cycles]
     
     @classmethod
     def goodness(cls, linking):
         goodness = 0.
-        print 'Linking: {0}'.format(map(str, linking))
+        print '\n{0}'.format(map(str, linking))
         if len(linking) > 0:
             for (w, f) in zip(cls.weights, cls.feature_functions):
                 value = f(linking)
                 print '{0} = {1}, weight = {2}'.format(f.__name__, value, w)
                 goodness += value * w
         
-        goodness = 1.0 * all_linked(linking) + 1.0 * filler_tightness(linking)
         print 'Goodness: {0}'.format(goodness)
         return goodness
     

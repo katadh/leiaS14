@@ -108,6 +108,14 @@ class Activity(Event):
     def __init__(self):
         self.init_slots() 
         
+class LeisureActivity(Activity):
+    def __init__(self):
+        self.init_slots()
+
+class QuotidienActivity(Activity):
+    def __init__(self):
+        self.init_slots()
+        
 class ObjectiveActivity(Activity):
     object = Slot(Activity)
     
@@ -160,11 +168,7 @@ class When(Questionable):
         self.init_slots()
                
 
-#class LeisureActivity(Activity):
-    #pass
 
-#class QuotidienActivity(Activity):
-    #pass
     
 
     

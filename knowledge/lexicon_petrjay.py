@@ -53,6 +53,10 @@ class Lexicon(lexicon.Lexicon):
         'home' : {
             'NN':
             [Residence]
+        }, 
+        'laundry' : {
+            'NN':
+            [QuotidienActivity]
         }
     }
     
