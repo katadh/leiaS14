@@ -139,9 +139,11 @@ class WorkActivity(Activity):
     
     
 class TravelActivity(Activity):
-    Activity.location = None
+    ### TODO: if go stopped working uncomment these two
+    #Activity.location = None
+    #destination = Slot(Location)
+    
     #origin = Slot(Location)
-    destination = Slot(Location)
     #means = Slot(Transport)
     
     def __init__(self):
