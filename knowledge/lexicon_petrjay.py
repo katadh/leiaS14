@@ -14,18 +14,18 @@ class Lexicon(lexicon.Lexicon):
         },
         'be': {
             'VB':
-            [BeingEvent]
-            },
+            [BeingEvent, ObjectiveActivity]
+        },
+        'do' : {
+            'VBP':
+            [ObjectiveActivity]
+            },        
         'work' : {
             'NN' :
             [Workplace],
             'VBP' :
             [WorkActivity]
         }, 
-        'do' : {
-            'VBP':
-            [Activity]
-        },
         'what' : {
             'WRB' :
             [What]
@@ -45,6 +45,14 @@ class Lexicon(lexicon.Lexicon):
         'lunch' : {
             'NN' : 
             [Meal]
+        },
+        'place' : {
+            'NN' :
+            [Location]
+        },
+        'home' : {
+            'NN':
+            [Residence]
         }
     }
     

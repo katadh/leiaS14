@@ -106,7 +106,13 @@ class Activity(Event):
     #note = ''
     
     def __init__(self):
-        self.init_slots()  
+        self.init_slots() 
+        
+class ObjectiveActivity(Activity):
+    object = Slot(Activity)
+    
+    def __init__(self):
+        self.init_slots()
         
 class Meal(Activity):
     def __init__(self):
