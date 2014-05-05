@@ -26,6 +26,7 @@ def recover_context(instance = None):
     
 
 def tmr(tagged_words, lexicon = knowledge.lexicon.Lexicon(), Heuristics = heuristics.Heuristics):
+    Heuristics.relaxation = 3
     tagged_words = filter(lambda tw: lexicon.senses(tw.lemma),
                           tagged_words)
 
