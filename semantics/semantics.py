@@ -23,8 +23,10 @@ def tmr(tagged_words, lexicon = knowledge.lexicon.Lexicon(), Heuristics = heuris
             print 'Possible linkings for senses:'
             
             ### DON'T WORRY - If you hadn't added them beforehand, they will not show up
-            concepts += map(lambda i: i.__class__, fr.kblookup('DefineEvent'))
-            concepts += map(lambda i: i.__class__, fr.kblookup('Location'))            
+            matches = fr.kblookup('DefineEvent')
+            if matches:
+                concepts += [matches[0].__class__, 
+                             matches[0].base.filler.__class__]         
             
             pprint(map(lambda c: 
                        '{0} {1}'.format(c, 
@@ -42,7 +44,7 @@ def tmr(tagged_words, lexicon = knowledge.lexicon.Lexicon(), Heuristics = heuris
             
         best_linking = Heuristics.best(linking_candidates) if len(linking_candidates) > 0 else None
         
-        if not best_linking or Heuristics.goodness(best_linking) < Heuristics.minimal_goodness and Heuristics.relaxation < Heuristics.max_relaxation:
+        if not best_linking or Heuristics.goodness(best_linking) < Heuristics.minimal_goodness:
             Heuristics.relaxation += 1
             print 'No good linkings could be generated. Relaxing... to {0}'.format(Heuristics.relaxation)
             print "\n----****----\n" 

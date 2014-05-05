@@ -20,7 +20,8 @@ def observe(tmr):
                                                            current_location.longitude, 
                                                            current_location.latitude, 
                                                            current_location.stay)
-    if current_location.stay > 3:
+    if current_location.stay > 3 and current_location.__class__ == Location:
+        print 'You seem to be spending quite some time here.'
         ask_define_location([current_location])
 
 
@@ -35,10 +36,9 @@ def ask_define_location(tmr):
     # store in short-term
     print 'storing define'
     print define    
-    fr.store(define)  
-    fr.store(current_location)
+    fr.store(define, True)
     
-    print 'You seem to be spending quite some time here. What is this place?'
+    print 'What is this place called?'
     
     
 def on_move(tmr):
@@ -61,27 +61,38 @@ def on_move(tmr):
         
     else:
         fr.store(current_location)
+        
+        
+def on_whereis(tmr):
+    print 'on_where_is'
+    global current_location
+    print 'You are at ({0}, {1}), %username%.'.format(current_location.longitude, current_location.latitude)
+    print 'I don\'t know what this place is.' if current_location.__class__ is Location else 'It\'a {0}.'.format(current_location.__class__.__name__)
 
 
 def on_define(tmr):
     print 'on_define'
-    define = grab_instance(DefineEvent, tmr)
+    definition = grab_instance(DefineEvent, tmr).definition.filler
+    define = fr.kblookup('DefineEvent')[0]
     base = define.base.filler
-    definition = define.definition.filler
     
-    new_location = ConceptType(definition.__class__.__name__, (base.__class__,), {})
     
-    new_location.longitude = base.longitude
-    new_location.latitude = base.latitude
-    new_location.stay = base.stay
+    if definition.at_least(Location):
+        global current_location
+
+        definition.longitude = base.longitude
+        definition.latitude = base.latitude
+        definition.stay = base.stay
+        
+        current_location = definition
+ 
     
-    fr.store(new_location)
+    fr.store(definition)
     print 'forgetting define'
-    print define
+    
+    fr.forget(define.base.filler)
     fr.forget(define)
-    print 'base'
-    print base
-    fr.forget(base)
+    
     
     
 ### HELPER
@@ -98,15 +109,18 @@ def grab_instance(cls, tmr):
 
 plan_lexicon = [(set(['AgentWakeEvent']), 'observe'),
                 (set(['MoveEvent']), 'on_move'), 
+                (set(['Where', 'BeingEvent']), 'on_whereis'),
                 (set(['DefineEvent']), 'on_define')]
 
 plan_map = {'observe':(1, -1, 0, observe),
             'on_define':(0, 1, 0, on_define),
-            'on_move':(0, 1, 0, on_move)}
+            'on_move':(0, 1, 0, on_move),
+            'on_whereis':(0, 1, 0, on_whereis)}
 
 plan_map_prereqs = {'observe':[[None, None, None]],
                     'on_define': [[None, None, None]],
-                    'on_move': [[None, None, None]]}
+                    'on_move': [[None, None, None]],
+                    'on_whereis' : [[None, None, None]]}
 
 
 

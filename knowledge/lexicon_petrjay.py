@@ -67,7 +67,7 @@ class Lexicon(lexicon.Lexicon):
             return senses
         else:
             lemma = args[0]
-            new_concept = ConceptType(lemma.capitalize(), (Concept,), {})
+            new_concept = ConceptType(lemma.capitalize(), (fr.kblookup('DefineEvent')[0].base.filler.__class__,), {})
             
             self.lexicon[lemma] = {}
             self.lexicon[lemma]['NOPOS'] = [new_concept]
