@@ -3,7 +3,7 @@ import knowledge.Facts as fr
 
 current_location = None
 
-
+### is called when nothing happens
 def observe(tmr):
     print 'observe:'
     global current_location
@@ -12,6 +12,7 @@ def observe(tmr):
     
     if wake:
         current_location = wake.where.filler
+        fr.store(current_location)
     else: 
         current_location.stay += 1
         
@@ -43,6 +44,7 @@ def ask_define_location(tmr):
 def on_move(tmr):
     print 'on_move'
     global current_location
+    
     current_location = grab_instance(MoveEvent, tmr).to.filler    
     
     print 'Moved to {0} ({1}, {2}])'.format(current_location, 
@@ -56,6 +58,9 @@ def on_move(tmr):
     if (loc_matches):
         current_location = loc_matches[0]
         print 'Aha! Checking-in at {0}'.format(current_location)
+        
+    else:
+        fr.store(current_location)
 
 
 def on_define(tmr):
@@ -86,6 +91,8 @@ def grab_instance(cls, tmr):
                       tmr)[0]
     except:
         return None
+    
+
     
 
 
