@@ -159,9 +159,11 @@ def on_whereis(tmr):
 
 def on_question_where(tmr):
     refresh()
-    print tmr
     question = grab_instance(Question, tmr)
     theme = question.theme.filler
+    
+    while theme.__class__ == ProtoEvent:
+        theme = theme.object.filler
     
     if theme.at_least(Activity):
         wh = filter(lambda f: f.at_least(Wh), 
@@ -170,7 +172,7 @@ def on_question_where(tmr):
         
         if wh.at_least(Location):
             print 'You {0} at {1}, %username%.'.format(theme.__class__.__name__, 
-                                                       ', '.join(map(lambda a: str(a.location.filler),
+                                                       ', and at '.join(map(lambda a: str(a.location.filler),
                                                                      fr.kblookup(theme.__class__.__name__))))
 
     
@@ -187,13 +189,13 @@ def grab_instance(cls, tmr):
 def refresh():
     os.system(['clear','cls'][os.name == 'nt'])
     print 'FR:'
-    pprint(fr.kblookup('DefineEvent'))
+    pprint(map(str, fr.kblookup('DefineEvent')))
     print 'Known Locations:'
-    pprint(fr.kblookup('Location'))
+    pprint(map(str, fr.kblookup('Location')))
     print 'Known Activities:'
-    pprint(fr.kblookup('Activity'))
+    pprint(map(str, fr.kblookup('Activity')))
     print 'Known Persons:'
-    pprint(fr.kblookup('Person'))    
+    pprint(map(str, fr.kblookup('Person')))    
     
     
 
