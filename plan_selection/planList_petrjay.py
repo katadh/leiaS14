@@ -39,17 +39,22 @@ def observe(tmr):
     refresh()
     clock.tick()
     print 'Staying at {0} ({1}, {2}) for {3} quarters'.format(current_location, 
-                                                           current_location.longitude, 
-                                                           current_location.latitude, 
-                                                           current_location.stay)
+                                                              current_location.longitude, 
+                                                              current_location.latitude, 
+                                                              current_location.stay)
+    # if idle at an unknown loc
     if current_location.stay > 3 and current_location.__class__ == Location:
         print 'You seem to be spending quite some time here.'
         ask_define_location([current_location])
         return
+    
+    # if idle with no known activity
     if current_location.stay > 7 and not current_activity:
         print 'I see you\'re doing something.'
         ask_define_activity([current_activity])
         return
+    
+    # if idle with a known activity for too long
     if current_location.stay > 96 and current_activity:
         print 'Wow, you seem really into it. Are you still doing {0}, %username%?'.format(current_activity)
         return    

@@ -153,7 +153,9 @@ class Questionable(Concept):
     pass
         
 class Question(Concept):
-    theme = Slot(Questionable)
+    theme = Slot(SpaceTime)
+    #subject = Slot(Concept)
+    #object = Slot(Concept)
     
     def __init__(self):
         self.init_slots()
@@ -166,8 +168,8 @@ class What(Questionable):
     
     
 
-class Where(Questionable):
-    place_of = Slot(Event)
+class Where(Location):
+    #place_of = Slot(Event)
     
     def __init__(self):
         self.init_slots()
