@@ -3,7 +3,7 @@ import select
 import time
 from leia import leia
 from knowledge.lexicon_mattkyle import Lexicon
-from knowledge.Facts import *
+from knowledge.basekb_loader import load
 from plan_selection.planManager_mattkyle import planManager
 
 read_list = [sys.stdin]
@@ -13,6 +13,7 @@ timeout = 0.3
 if __name__ == "__main__":
 	#Primary listening loop
 	lexicon = Lexicon()
+	load()
 	pm = planManager()
 	global read_list
 	dead = False

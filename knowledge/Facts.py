@@ -20,77 +20,22 @@ def store(inst, sTerm = False):
         if name not in local_TMRs: local_TMRs[name] = []
         if(sTerm):  local_TMRs[name].insert(0,inst)
         else:   local_TMRs[name].append(inst)
-
-def load():
-    m = Chips()
-    store(m)
-    a = Aisle()
-    a.name = 'three'
-    store(a)
-    b = Aisle()
-    b.name = 'four'
-    store(b)
-
-    m.location = a
-    n = Chips()
-    n.location = a
-    store(m)
-    store(n)
-
-    """
-
-    if file == "": return
-    kbf = open(fName, 'r')
-    lines = kbf.readlines()
-    kbf.close()
-    inst_map = {}
-    requests = {}
-    for l in lines:
-        l = l.strip()
-        if l[0] == '#': continue
-        l = l.split('\t')
-        
-        concept_name = l.pop(0)
-        index = int(l.pop(0))
-        new_inst = globals()[concept_name]()
-
-        while len(l) != 0:
-            #pop open parentheses
-            l.pop(0)
-            slot = l.pop(0)
-            if slot[0] == '%':
-                var = l.pop(0)
-                if slot[1] == 'b':
-                    setattr(new_inst, slot[2:], var == 'True')
-                elif slot[1] == 'f':
-                    setattr(new_inst, slot[2:], float(var))
-                elif slot[1] == 's':
-                    setattr(new_inst, slot[2:], var)
-            else:
-                f_index = int(l.pop(0))
-                if f_index not in inst_map:
-                    if f_index not in requests: requests[f_index] = []
-                    requests[f_index].append((index, slot))
-                else:
-                    setattr(new_inst, slot, inst_map[f_index])
-            l.pop(0)
-            
-        inst_map[index] = new_inst
-        if index in requests:
-            for i, attr in requests[index]:
-                setattr(inst_map[i], attr, inst_map[index])
-            del requests[index]
-
-    for k, v in inst_map.items():
-        base_store(v)
-    """
         
 def forget(inst):
+    if inspect.isclass(inst):
+        if inst.__name__ not in local_TMRs: return False
+        inst = local_TMRs[inst.__name__][0]
     classes = inspect.getmro(inst.__class__)
     for c in classes:
         name = c.__name__
         if name not in local_TMRs: continue
-        else:   local_TMRs[name].remove(inst)
+        else:   
+            try:
+                local_TMRs[name].remove(inst)
+            except ValueError:
+                return False
+    return True
+
 
 
 def kblookup(kbitem):

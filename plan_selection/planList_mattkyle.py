@@ -18,10 +18,12 @@ def determineLocation(TMR):
 	kb_return = kblookup(theme)
 
 	print kb_return
-	aisle = 0
-	
-	#return/print the location associated with this theme
-	print "The {0} are in aisle {1}".format(theme, aisle)
+	if len(kb_return) == 0:
+		print "We do not currently have {0}".format(theme)
+	else:
+		aisle = kb_return[0].location.filler.name
+		#return/print the location associated with this theme
+		print "The {0} are in aisle {1}".format(theme, aisle)
 
 def determinePrice(TMR):
 	theme = None

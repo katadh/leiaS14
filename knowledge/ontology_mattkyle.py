@@ -25,9 +25,16 @@ class Bad(Quality):
 
 
 ### roughly, NN
+
 class Thing(Concept):
     def __init__(self):
         self.init_slots()
+
+class Aisle(Thing):
+    name = 'zero'
+    
+    def __init__(self):
+        self.init_slots()  
 
 class Animal(Thing):
     def __init__(self):
@@ -44,6 +51,8 @@ class Person(Animal):
         self.init_slots()    
     
 class Product(Thing):
+    location = Slot(Aisle)
+
     def __init__(self):
         self.init_slots()
     
@@ -57,12 +66,7 @@ class Chips(Product):
 
     def __init__(self):
         self.init_slots()
-
-class Aisle(Thing):
-    location_of = Slot(Product)
-    
-    def __init__(self):
-        self.init_slots()    
+  
     
     
 ### roughly, VB
