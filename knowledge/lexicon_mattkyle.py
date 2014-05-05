@@ -46,7 +46,11 @@ class Lexicon(lexicon.Lexicon):
         'chip': {
             'NNS': 
             [Chips]
-            }
+            },
+		'delivery': {
+			'NN':
+			[Delivery]
+			}
 		}
     
     def senses(self, *args):

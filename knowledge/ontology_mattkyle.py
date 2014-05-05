@@ -54,6 +54,7 @@ class Milk(Product):
         self.init_slots()    
 
 class Chips(Product):
+
     def __init__(self):
         self.init_slots()
 
@@ -104,6 +105,11 @@ class FishEvent(ActiveEvent):
     def __init__(self):
         self.init_slots()    
 
+class Delivery(ActiveEvent):
+    theme = Slot(Product)
+
+    def __init__(self):
+        self.init_slots()
 #Wrapper for scalar
 class Scalar(Concept):
     

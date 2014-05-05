@@ -1,6 +1,7 @@
 import sys
 sys.path.append("../")
 from knowledge.Facts import kblookup
+import time
 
 
 def determineLocation(TMR):
@@ -21,6 +22,28 @@ def determineLocation(TMR):
 	
 	#return/print the location associated with this theme
 	print "The {0} are in aisle {1}".format(theme, aisle)
+
+def determinePrice(TMR):
+	theme = None
+	for concept in TMR:
+		s = str(concept).split("-")
+		if s[0] != "Price" and s[0] != "QuestionEvent":
+			theme = s[0]
+	if theme == None:
+		print "This TMR is confusing, I'm not sayinig anything."
+		return
+	kb_return = kblookup(theme)
+	
+	print kb_return
+	price = 0
+
+	print "THe {0} cost {1}".format(theme, price)
+
+def stockShelves(TMR):
+	print "I'm stocking the shelves..."
+	time.sleep(1)
+	
+		
 
 def repeat(TMR):
 	print TMR
@@ -44,7 +67,9 @@ def find_food(TMR):
 #The third is a slot for the plan manager to fill with the appropriate lookup if necessary
 plan_map_prereqs = {"repeat":[["knowledge", "food", None]],
 					"find_food":[["knowledge", "food", None]],
-					"determineLocation":[]}
+					"determineLocation":[],
+					"stockShelves":[]}
+
 
 
 #In this map, the tuples have the following format
@@ -53,7 +78,8 @@ plan_map_prereqs = {"repeat":[["knowledge", "food", None]],
 #The third is the starting progress made (always 0)
 #The fourth is the function that will serve as the "executeOneTimestep" function
 plan_map = {"repeat":(4,10,0,repeat), "find_food":(3,1,0,find_food), 
-			"determineLocation":(3,1,0,determineLocation)}
+			"determineLocation":(3,1,0,determineLocation),
+			"stockShelves":(4,10,0,stockShelves)}
 
 
-plan_lexicon = [(set(['Aisle', 'Chips', 'QuestionEvent']),"determineLocation")]
+plan_lexicon = [(set(['Aisle', 'Chips', 'QuestionEvent']),"determineLocation"),(set(['delivery', 'arrive']),"determineLocation")]
