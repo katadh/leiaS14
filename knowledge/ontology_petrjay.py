@@ -12,16 +12,19 @@ class Thing(Concept):
         
 class Person(Thing):
     name = 'Bob'
+    #age = 0
+    #gender = ''
+    #residence = Slot(Residence)
+    #workplace = Slot(Workplace)
+    ##spouse = Slot(Person)    
     
     def __init__(self):
         self.init_slots() 
-        
-        
+         
 class Location(Thing):
     longitude = 0
     latitude = 0
     stay = 0
-    #address = ''
     #visits = 0
     #notes = ''
     
@@ -31,6 +34,20 @@ class Location(Thing):
 class Workplace(Location):
     def __init__(self):
         self.init_slots()
+        
+class Residence(Location):
+    def __init__(self):
+        self.init_slots()
+        
+#class Transport(Thing):
+    #speed = 0
+    #cost = 0
+    
+    
+#class Organization(Thing):
+    #branch = Slot(Location)
+    #employee = Slot(Person)
+    #owner = Slot(Person)
         
         
 ### roughly, VB
@@ -49,11 +66,11 @@ class MoveEvent(Event):
     def __init__(self):
         self.init_slots()
 
-class StayEvent(Event):
-    at = Slot(Location)
+#class StayEvent(Event):
+    #at = Slot(Location)
     
-    def __init__(self):
-        self.init_slots()
+    #def __init__(self):
+        #self.init_slots()
         
 class DefineEvent(Event):
     base = Slot(Concept)
@@ -71,7 +88,15 @@ class Activity(Event):
     #note = ''
     
     def __init__(self):
-        self.init_slots()    
+        self.init_slots()  
+        
+class WorkActivity(Activity):
+    #job = ''
+    #priority = 0
+    #employer = Slot(Organization)
+    def __init__(self):
+        self.init_slots()     
+    
     
 class TravelActivity(Activity):
     Activity.location = None
@@ -83,38 +108,6 @@ class TravelActivity(Activity):
         self.init_slots()  
                
 
-
-    
-#class Workplace(Location):
-    #pass
-
-#class Residence(Location):
-    #pass
-    
-#class Person(Thing):
-    #age = 0
-    #gender = ''
-    #residence = Slot(Residence)
-    #workplace = Slot(Workplace)
-    ##spouse = Slot(Person)
-    
-#class Transport(Thing):
-    #speed = 0
-    #cost = 0
-    
-    
-#class Organization(Thing):
-    #branch = Slot(Location)
-    #employee = Slot(Person)
-    #owner = Slot(Person)
-    
-
-    
-#class WorkActivity(Activity):
-    #job = ''
-    #priority = 0
-    #employer = Slot(Organization)
-    
 #class LeisureActivity(Activity):
     #pass
 

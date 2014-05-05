@@ -9,14 +9,14 @@ import os, time
 def move_tmr(position):
     move = MoveEvent()
     to = location(position)
-    move.to = to
+    move.to.fill(to)
 
     return [move, to]
 
 def agent_wake_tmr(position):
     wake = AgentWakeEvent()
     where = location(position)
-    wake.where = where
+    wake.where.fill(where)
     
     return [wake, where]
 

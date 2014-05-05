@@ -2,6 +2,7 @@ import parse
 import leia
 import time
 import knowledge.lexicon_alexnut
+import plan_selection.planManager_alexnut as plan
 
 def startTourGuide():
     stan_parse = parse.syntaxParser()
@@ -12,5 +13,5 @@ def startTourGuide():
         text = raw_input("--> ")
         if text == "end":
             return
-        leia.leia(text, lexicon=knowledge.lexicon_alexnut.Lexicon(), sp=stan_parse)
+        leia.leia(text, planner=plan.planManager(), lexicon=knowledge.lexicon_alexnut.Lexicon(), sp=stan_parse)
         
