@@ -54,7 +54,11 @@ class Lexicon(lexicon.Lexicon):
 		'much': {
 			'advmod':
 			[Price]
-			}
+			},
+        'wine': {
+            'NNS': 
+            [Wines]
+            }
 		}
     
     def senses(self, *args):

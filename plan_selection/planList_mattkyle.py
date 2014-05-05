@@ -37,16 +37,18 @@ def determinePrice(TMR):
 	kb_return = kblookup(theme)
 	
 
-	'''if len(kb_return) == 0:
+	if len(kb_return) == 0:
 		print "We do not currently have {0}".format(theme)
 	else:
-		price = kb_return[0].price.filler.name
-		print "The {0} cost {1}".format(theme, price)'''
+		price = kb_return[0].price.filler.value
+		print "The {0} cost {1}".format(theme, price)
 	
+	"""
 	print kb_return
 	price = 0
 
 	print "THe {0} cost {1}".format(theme, price)
+	"""
 
 def stockShelves(TMR):
 	print "I'm stocking the shelves..."

@@ -66,8 +66,11 @@ class Chips(Product):
 
     def __init__(self):
         self.init_slots()
-  
-    
+
+class Wines(Product):
+
+    def __init__(self):
+        self.init_slots()    
     
 ### roughly, VB
 class Event(Concept):
