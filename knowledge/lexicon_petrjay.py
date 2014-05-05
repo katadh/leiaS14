@@ -14,17 +14,37 @@ class Lexicon(lexicon.Lexicon):
         },
         'be': {
             'VB':
-            [DefineEvent]
+            [BeingEvent]
             },
         'work' : {
             'NN' :
-            [Workplace]
-            'VB' :
+            [Workplace],
+            'VBP' :
             [WorkActivity]
         }, 
-        'location' : {
-            'NN' :
-            [Location]
+        'do' : {
+            'VBP':
+            [Activity]
+        },
+        'what' : {
+            'WRB' :
+            [What]
+        },
+        'where' : {
+            'WRB' :
+            [Where]
+        },
+        'when' : {
+            'WRB' :
+            [When]
+        },
+        '?': {
+            'Punc': 
+            [Question]
+        },
+        'lunch' : {
+            'NN' : 
+            [Meal]
         }
     }
     

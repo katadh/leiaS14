@@ -4,11 +4,16 @@ from semantics.slot import Slot
 def ConceptType(name, bases, slots):
     return type(name, bases, slots)
 
+class SpaceTime(Concept):
+    pass
+
 
 ### roughly, NN
-class Thing(Concept):
+class Thing(SpaceTime):
     def __init__(self):
         self.init_slots()
+        
+
         
 class Person(Thing):
     name = 'Bob'
@@ -51,7 +56,18 @@ class Residence(Location):
         
         
 ### roughly, VB
-class Event(Concept):
+class Event(SpaceTime):
+    def __init__(self):
+        self.init_slots()
+        
+class BeingEvent(Event):
+    agent = Slot(SpaceTime)
+    
+    def __init__(self):
+        self.init_slots()
+
+        
+class Life(Event):
     def __init__(self):
         self.init_slots()
         
@@ -79,6 +95,8 @@ class DefineEvent(Event):
     def __init__(self):
         self.init_slots()
         
+
+        
 class Activity(Event):
     location = Slot(Location)
     #start_time = 0
@@ -89,6 +107,10 @@ class Activity(Event):
     
     def __init__(self):
         self.init_slots()  
+        
+class Meal(Activity):
+    def __init__(self):
+        self.init_slots()
         
 class WorkActivity(Activity):
     #job = ''
@@ -106,6 +128,30 @@ class TravelActivity(Activity):
     
     def __init__(self):
         self.init_slots()  
+      
+class Questionable(Concept):
+    pass
+        
+class Question(Concept):
+    theme = Slot(Questionable)
+    
+    def __init__(self):
+        self.init_slots()
+
+class What(Questionable):
+    pass
+
+class Where(Questionable):
+    place_of = Slot(Event)
+    
+    def __init__(self):
+        self.init_slots()
+
+class When(Questionable):
+    time_of = Slot(Event)
+    
+    def __init__(self):
+        self.init_slots()
                
 
 #class LeisureActivity(Activity):

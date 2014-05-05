@@ -39,7 +39,7 @@ def filler_tightness(linking):
         
 
 class Heuristics(object):
-    relaxation = 0
+    relaxation = 3
     max_relaxation = 10
     minimal_goodness = .00000001
     

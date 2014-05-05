@@ -22,4 +22,6 @@ class Slot(object):
             
     
     def __str__(self):
-        return '{{filler_class: {0}, filler: {1}}}'.format(self.filler_class.__name__, str(self.filler))
+        return '{{filler_class: {0}, filler: {1}-{2}}}'.format(self.filler_class.__name__, 
+                                                           self.filler.__class__.__name__, 
+                                                           id(self.filler))
