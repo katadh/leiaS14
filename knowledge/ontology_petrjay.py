@@ -60,8 +60,16 @@ class Event(SpaceTime):
     def __init__(self):
         self.init_slots()
         
+
+        
 class BeingEvent(Event):
     agent = Slot(SpaceTime)
+    
+    def __init__(self):
+        self.init_slots()
+        
+class ProtoEvent(Event):
+    object = Slot(Event)
     
     def __init__(self):
         self.init_slots()
@@ -116,11 +124,7 @@ class QuotidienActivity(Activity):
     def __init__(self):
         self.init_slots()
         
-class ObjectiveActivity(Activity):
-    object = Slot(Activity)
-    
-    def __init__(self):
-        self.init_slots()
+
         
 class Meal(Activity):
     def __init__(self):
@@ -153,7 +157,12 @@ class Question(Concept):
         self.init_slots()
 
 class What(Questionable):
-    pass
+    object = Slot(SpaceTime)
+    
+    def __init__(self):
+            self.init_slots()    
+    
+    
 
 class Where(Questionable):
     place_of = Slot(Event)

@@ -14,11 +14,11 @@ class Lexicon(lexicon.Lexicon):
         },
         'be': {
             'VB':
-            [BeingEvent, ObjectiveActivity]
+            [BeingEvent, ProtoEvent]
         },
         'do' : {
             'VBP':
-            [ObjectiveActivity]
+            [ProtoEvent]
             },        
         'work' : {
             'NN' :

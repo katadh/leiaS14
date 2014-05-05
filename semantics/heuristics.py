@@ -45,6 +45,17 @@ def cycles(linking):
                 if i == s2.filler:
                     cycles += 1   
     return cycles
+
+def shared_fillers(linking):
+    shared = 0
+    for i1 in linking:
+        for i2 in linking:
+            if i1 != i2:
+                for s1 in i1.slots().values():
+                    for s2 in i2.slots().values():
+                        if s1.filler == s2.filler:
+                            shared += 1
+    return shared
         
 
 class Heuristics(object):
@@ -52,8 +63,8 @@ class Heuristics(object):
     max_relaxation = 10
     minimal_goodness = .00000001
     
-    weights = [1., 1., -1.]
-    feature_functions = [all_linked, filler_tightness, cycles]
+    weights = [1., 1., -1., -1.]
+    feature_functions = [all_linked, filler_tightness, cycles, shared_fillers]
     
     @classmethod
     def goodness(cls, linking):
