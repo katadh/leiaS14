@@ -10,6 +10,8 @@ def load():
 	c.name = 'three'
 	d = Aisle()
 	d.name = 'four'
+	a.location = Slot(Aisle)
+	b.location = Slot(Aisle)
 	a.location.fill(c)
 	b.location.fill(c)
 	fr.store(a)

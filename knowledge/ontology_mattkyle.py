@@ -51,7 +51,7 @@ class Person(Animal):
         self.init_slots()    
     
 class Product(Thing):
-    location = Slot(Aisle)
+    #location = Slot(Aisle)
 
     def __init__(self):
         self.init_slots()
