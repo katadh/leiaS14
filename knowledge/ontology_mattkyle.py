@@ -123,6 +123,11 @@ class Delivery(ActiveEvent):
 
     def __init__(self):
         self.init_slots()
+
+class Checkout(Event):
+	
+    def __init__(self):
+        self.init_slots()
 #Wrapper for scalar
 class Scalar(Concept):
     

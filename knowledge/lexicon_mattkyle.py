@@ -70,7 +70,13 @@ class Lexicon(lexicon.Lexicon):
         'wine': {
             'NNS': 
             [Wines]
-            }
+            },
+		'checkout': {
+			'VB':
+			[Checkout],
+			'NNS':
+			[Checkout]
+			}
 		}
     
     def senses(self, *args):

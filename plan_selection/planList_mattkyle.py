@@ -107,7 +107,21 @@ def stockShelves(TMR):
 	print "I'm stocking the shelves..."
 	time.sleep(1)
 	
-		
+
+def checkout(TMR):
+	items = raw_input("What items are you purchasing?")
+	item_list = items.split()
+	total = 0.0
+	for item in item_list:
+		if item == "and":
+			continue
+		else:
+			kb_return = kblookup(item)
+			if len(kb_return) == 0:
+				continue
+			total += float(kb_return[0].price.filler.value.strip("$"))
+	raw_input("That will be {0}".format(total))
+	print "Have a nice day!"
 
 def repeat(TMR):
 	print TMR
@@ -120,7 +134,8 @@ def repeat(TMR):
 plan_map_prereqs = {"repeat":[["knowledge", "food", None]],
 					"determineLocation":[],
 					"stockShelves":[],
-					"determinePrice":[]}
+					"determinePrice":[],
+					"checkout":[]}
 
 
 
@@ -132,9 +147,11 @@ plan_map_prereqs = {"repeat":[["knowledge", "food", None]],
 plan_map = {"repeat":(4,10,0,repeat),
 			"determineLocation":(3,1,0,determineLocation),
 			"stockShelves":(4,10,0,stockShelves),
-			"determinePrice":(3,1,0,determinePrice)}
+			"determinePrice":(3,1,0,determinePrice),
+			"checkout":(2,1,0,checkout)}
 
 
 plan_lexicon = [(set(['Aisle', 'QuestionEvent']),"determineLocation"),
 				(set(['Delivery', 'Animal']),"stockShelves"),
-				(set(['Price','QuestionEvent']),"determinePrice")]
+				(set(['Price','QuestionEvent']),"determinePrice"),
+				(set(['Checkout','Animal']),"checkout")]
