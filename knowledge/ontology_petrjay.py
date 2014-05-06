@@ -14,13 +14,7 @@ class Thing(SpaceTime):
         self.init_slots()
         
 class Person(Thing):
-    name = 'Bob'
-    #age = 0
-    #gender = ''
-    #residence = Slot(Residence)
-    #workplace = Slot(Workplace)
-    ##spouse = Slot(Person)    
-    
+    name = 'Bob'  
     def __init__(self):
         self.init_slots() 
          
@@ -30,9 +24,10 @@ class Location(Thing):
     stay = 0
     #visits = 0
     #notes = ''
-    
     def __init__(self):
         self.init_slots()
+    def __str__(self):
+        return super(Location, self).__str__() + ' at ({0}, {1})'.format(self.longitude, self.latitude)
         
 class Workplace(Location):
     def __init__(self):
@@ -42,19 +37,18 @@ class Residence(Location):
     def __init__(self):
         self.init_slots()
         
-#class Transport(Thing):
-    #speed = 0
-    #cost = 0
-    
-    
-#class Organization(Thing):
-    #branch = Slot(Location)
-    #employee = Slot(Person)
-    #owner = Slot(Person)
-    
 class Time(SpaceTime):
     start = 0
     end = 0
+    def __init__(self):
+        self.init_slots()
+    def __str__(self):
+        normalize = lambda h: h if h > 9 else "0" + str(h)
+        return '{0}:{1} to {2}:{3}'.format(normalize(self.start / 4), 
+                                           normalize(self.start % 4 * 15),
+                                           normalize(self.end / 4), 
+                                           normalize(self.end % 4 * 15)) if self.end > self.start else ' at {0}:{1}'.format(normalize(self.start / 4), 
+                                                                                                                           normalize(self.start % 4 * 15))
         
         
 ### roughly, VB
@@ -88,12 +82,6 @@ class DefineEvent(Event):
     definition = Slot(Concept)
     def __init__(self):
         self.init_slots()
-        
-class Definition(Concept):
-    definition = Slot(Location)
-    def __init__(self):
-        self.init_slots()
-###
 
         
 class Life(Event):
@@ -104,9 +92,6 @@ class Activity(Event):
     location = Slot(Location)
     time = Slot(Time)
     participant = Slot(Person)
-    #period = None
-    #note = ''
-    
     def __init__(self):
         self.init_slots() 
         
@@ -118,57 +103,24 @@ class QuotidienActivity(Activity):
     def __init__(self):
         self.init_slots()
         
-
 # Activity
-class Meal(Event):
+class Meal(Activity):
     def __init__(self):
         self.init_slots()
         
 class WorkActivity(Activity):
-    #job = ''
-    #priority = 0
-    #employer = Slot(Organization)
     def __init__(self):
         self.init_slots()     
-    
-    
+       
 class TravelActivity(Activity):
-    ### TODO: if go stopped working uncomment these two
-    #Activity.location = None
-    #destination = Slot(Location)
-    
-    #origin = Slot(Location)
-    #means = Slot(Transport)
-    
     def __init__(self):
         self.init_slots()  
-      
-class Questionable(Concept):
-    pass
-
-class __Context__(Concept):
-    here = Slot(Location)
-    now = Slot(Time)
-    
-    def __init__(self):
-        self.init_slots()
-        
-    
         
 class Question(Concept):
     theme = Slot(SpaceTime)
-    #subject = Slot(Concept)
-    #object = Slot(Concept)
-    
     def __init__(self):
         self.init_slots()
-
-class What(Questionable):
-    object = Slot(SpaceTime)
-    
-    def __init__(self):
-            self.init_slots()    
-    
+        
 class Wh(Concept):
     pass
 
@@ -179,6 +131,10 @@ class Where(Location, Wh):
 class When(Time, Wh):
     def __init__(self):
         self.init_slots()
+        
+class What(Event, Wh):
+    def __init__(self):
+            self.init_slots()
         
 class Which(SpaceTime, Wh):
     def __init__(self):

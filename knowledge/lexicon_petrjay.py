@@ -23,9 +23,15 @@ def recover_context(concepts, instance = None):
             if not filter(lambda c: c.at_least(Location),
                           concepts):
                 additional += [Location]
+                
             if not filter(lambda c: c.at_least(Time),
                           concepts):
                 additional += [Time]  
+                
+            if not filter(lambda c: c.at_least(Person),
+                          concepts):
+                additional += [Person]
+                            
             return additional
     return []    
 

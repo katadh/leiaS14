@@ -38,10 +38,8 @@ def observe(tmr):
         current_location.stay += 1    
     refresh()
     clock.tick()
-    print 'Staying at {0} ({1}, {2}) for {3} quarters'.format(current_location, 
-                                                              current_location.longitude, 
-                                                              current_location.latitude, 
-                                                              current_location.stay)
+    print 'Staying at {0} for {1} quarters'.format(current_location, 
+                                                   current_location.stay)
     # if idle at an unknown loc
     if current_location.stay > 3 and current_location.__class__ == Location:
         print 'You seem to be spending quite some time here.'
@@ -136,9 +134,7 @@ def on_move(tmr):
     refresh()
     clock.tick()
     
-    print 'Moved to {0} ({1}, {2}])'.format(current_location, 
-                                            current_location.longitude, 
-                                            current_location.latitude)
+    print 'Moved to {0}'.format(current_location)
     
     loc_matches = filter(lambda loc: 
                          loc.longitude == current_location.longitude and loc.latitude == current_location.latitude, 
@@ -179,7 +175,7 @@ def on_wh_question(tmr):
         if wh.at_least(Time):
             print 'You {0} {1}, %username%.'.format(theme.__class__.__name__, 
                                                        ', and '.join(map(lambda a: 
-                                                                         str(a.time.filler.start) + ' to ' + str(a.time.filler.end),
+                                                                         str(a.time.filler),
                                                                          fr.kblookup(theme.__class__.__name__))))        
 
     
