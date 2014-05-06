@@ -12,7 +12,8 @@ def recover_context(concepts, instance = None):
                                           [])
     else:
         matches = fr.kblookup('DefineEvent')
-        if matches:
+        if matches and not filter(lambda c: c.at_least(DefineEvent),
+                                  concepts):
             define = matches[0]
             return filter(lambda c: 
                           c != define.base.filler.__class__, 
@@ -47,7 +48,11 @@ class Lexicon(lexicon.Lexicon):
         },
         'be': {
             'VB':
-            [BeingEvent, ProtoEvent]
+            [BeingEvent, ProtoEvent, DefineEvent]
+        },
+        'call': {
+            'VBP' :
+            [DefineEvent]
         },
         'do' : {
             'VBP':
@@ -106,22 +111,40 @@ class Lexicon(lexicon.Lexicon):
         'here' : {
             'ADV' :
             [Location]
+        },
+        'a' : {
+            'DET' :
+            []
+        },
+        'the' : {
+            'DET' :
+            []
         }
     }
     
     def senses(self, *args):
         senses = super(Lexicon, self).senses(*args)
+        
+        matches = fr.kblookup('DefineEvent')
 
-        if senses or not fr.kblookup('DefineEvent'):
+        if senses or not matches:
             return senses
         else:
             lemma = args[0]
-            new_concept = ConceptType(lemma.capitalize(), (fr.kblookup('DefineEvent')[0].base.filler.__class__,), {})
+            define = matches[0]
             
-            self.lexicon[lemma] = {}
-            self.lexicon[lemma]['NOPOS'] = [new_concept]
-        
-            return [new_concept]
+            
+            if lemma == 'it' or lemma == 'this':
+                return [define.base.filler.__class__]
+            if not define.definition.filler and lemma != '.':
+           
+                new_concept = ConceptType(lemma.capitalize(), (define.base.filler.__class__,), {})
+                define.definition.filler = new_concept()
+                
+                self.lexicon[lemma] = {}
+                self.lexicon[lemma]['NOPOS'] = [new_concept]
+            
+                return [new_concept]
         
     
     
