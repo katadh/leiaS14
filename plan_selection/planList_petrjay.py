@@ -40,16 +40,30 @@ def observe(tmr):
     clock.tick()
     print 'Staying at {0} for {1} quarters'.format(current_location, 
                                                    current_location.stay)
+    acts = fr.kblookup('Activity')
+    if acts:
+        a = sorted(acts, key=lambda a: abs(a.time.filler.start - clock.quarters))[0]
+        if abs(a.time.filler.start - clock.quarters) < 5:
+            print 'Hurry, %username%, {0} is starting at {1} in less than an hour!'.format(a.__class__.__name__, a.location)
+            return
+    
     # if idle at an unknown loc
     if current_location.stay > 3 and current_location.__class__ == Location:
-        print 'You seem to be spending quite some time here.'
-        ask_define_location([current_location])
+        print 'You seem to hang out here a lot.'
+        ask_define(current_location)
         return
     
     # if idle with no known activity
     if current_location.stay > 7 and not current_activity:
+        activity = Activity()
+        activity.time.fill(Time())
+        activity.time.filler.start = clock.quarters
+        activity.location.fill(current_location)
+        activity.participant.fill(Person())       
+        
+        current_activity = activity
         print 'I see you\'re doing something.'
-        ask_define_activity([current_activity])
+        ask_define(current_activity)
         return
     
     # if idle with a known activity for too long
@@ -59,42 +73,21 @@ def observe(tmr):
 
 
 ### NOT A PLAN
-def ask_define_location(tmr):
-    global current_location
-    
-    # expect DefineEvent next
-    if not fr.kblookup('DefineEvent'):
-        define = DefineEvent()
-        define.base.filler = current_location     
-        #DefineEvent.base.filler_class = Location
-        DefineEvent.definition.filler_class = Location
-        
-        # store in short-term   
-        fr.store(define, True)
-    
-    print 'What is this place called?'
-    
-def ask_define_activity(tmr):
+def ask_define(what):
     global current_location
     global current_activity
     global clock
     
-    activity = Activity()
-    activity.time.fill(Time())
-    activity.time.filler.start = clock.quarters
-    activity.location.fill(current_location)
-    activity.participant.fill(Person())
-    
     if not fr.kblookup('DefineEvent'):
         define = DefineEvent()
-        define.base.filler = activity
-        #DefineEvent.base.filler_class = Activity
-        DefineEvent.definition.filler_class = Activity
+        define.base.filler = what
+        DefineEvent.definition.filler_class = what.__class__
         
-    
-        fr.store(define, True)      
-    
-    print 'What is that you are doing, %username%?'
+        fr.store(define, True)
+    if what.__class__ == Location:
+        print 'What is this place called?'
+    elif what.__class__ == Activity:
+        print 'What is that you are doing, %username%?'
     
 def on_define(tmr):
     definition = grab_instance(DefineEvent, tmr).definition.filler
@@ -146,18 +139,21 @@ def on_move(tmr):
     loc_matches = filter(lambda loc: 
                          loc.longitude == current_location.longitude and loc.latitude == current_location.latitude, 
                          fr.kblookup('Location'))
-    
-    if (loc_matches):
+    if loc_matches:
         current_location = loc_matches[0]
-        print 'Aha! Checking-in at {0}'.format(current_location)
+        if not current_location.__class__ is Location:
+            print 'Aha! Checking-in at {0}'.format(current_location)
         
     else:
         fr.store(current_location)
         
-        
+def on_travel(tmr):
+    refresh()
+    print 'Nice! Have a safe trip, %username%!'   
+    
+      
 def on_whereis(tmr):
     refresh()
-    print 'on_where_is'
     global current_location
     print 'I don\'t know what this place is, %username%.' if current_location.__class__ is Location else 'You are at {0}, %username%.'.format(current_location.__class__.__name__)
 
@@ -237,19 +233,22 @@ plan_lexicon = [(set(['AgentWakeEvent']), 'observe'),
                 (set(['MoveEvent']), 'on_move'), 
                 (set(['Where', 'BeingEvent']), 'on_whereis'),
                 (set(['Question', 'Where', 'What', 'When']), 'on_wh_question'),
-                (set(['DefineEvent']), 'on_define')]
+                (set(['DefineEvent']), 'on_define'),
+                (set(['TravelActivity']), 'on_travel')]
 
-plan_map = {'observe':(1, -1, 0, observe),
-            'on_define':(0, 1, 0, on_define),
+plan_map = {'observe':(2, -1, 0, observe),
+            'on_define':(1, 1, 0, on_define),
             'on_move':(0, 1, 0, on_move),
-            'on_whereis':(0, 1, 0, on_whereis),
-            'on_wh_question':(0, 1, 0, on_wh_question)}
+            'on_whereis':(1, 1, 0, on_whereis),
+            'on_wh_question':(0, 1, 0, on_wh_question),
+            'on_travel':(0, 1, 0, on_travel)}
 
 plan_map_prereqs = {'observe':[[None, None, None]],
                     'on_define': [[None, None, None]],
                     'on_move': [[None, None, None]],
                     'on_whereis' : [[None, None, None]],
-                    'on_wh_question' : [[None, None, None]]}
+                    'on_wh_question' : [[None, None, None]],
+                    'on_travel': [[None, None, None]]}
 
 
 

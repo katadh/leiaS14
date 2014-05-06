@@ -67,7 +67,8 @@ class MoveEvent(Event):
         self.init_slots()
                 
 class BeingEvent(Event):
-    agent = Slot(SpaceTime)   
+    agent = Slot(SpaceTime) 
+    location = Slot(Location)
     def __init__(self):
         self.init_slots()
         
