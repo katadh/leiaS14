@@ -5,11 +5,13 @@ import lexicon
 "Basically pulls a primed instance from FR and all its filler instances recursively"
 def recover_context(concepts, instance = None):
     if instance:
-        return [instance.__class__] + sum([recover_context(concepts, filler) 
-                                           for filler in filter(lambda f: f,
-                                                                map(lambda s: s.filler,
-                                                                    instance.slots().values()))], 
-                                          [])
+        return ([instance.__class__] if not filter(lambda c: 
+                                                   c.at_least(instance.__class__), 
+                                                   concepts) else []) + sum([recover_context(concepts, filler) 
+                                                                             for filler in filter(lambda f: f,
+                                                                                                  map(lambda s: s.filler,
+                                                                                                      instance.slots().values()))], 
+                                                                            [])
     else:
         matches = fr.kblookup('DefineEvent')
         if matches and not filter(lambda c: c.at_least(DefineEvent),
