@@ -23,11 +23,22 @@ class Bad(Quality):
     def __init__(self):
         self.init_slots()
 
+class Best(Quality):
+    def __init__(self):
+        self.init_slots()
+
 
 ### roughly, NN
+
 class Thing(Concept):
     def __init__(self):
         self.init_slots()
+
+class Aisle(Thing):
+    name = 'zero'
+    
+    def __init__(self):
+        self.init_slots()  
 
 class Animal(Thing):
     def __init__(self):
@@ -44,6 +55,9 @@ class Person(Animal):
         self.init_slots()    
     
 class Product(Thing):
+    preferred_product = False
+    #location = Slot(Aisle)
+
     def __init__(self):
         self.init_slots()
     
@@ -58,12 +72,10 @@ class Chips(Product):
     def __init__(self):
         self.init_slots()
 
-class Aisle(Thing):
-    location_of = Slot(Product)
-    
+class Wines(Product):
+    quality = Slot(Quality)
     def __init__(self):
         self.init_slots()    
-    
     
 ### roughly, VB
 class Event(Concept):
@@ -107,7 +119,13 @@ class FishEvent(ActiveEvent):
 
 class Delivery(ActiveEvent):
     theme = Slot(Product)
+    agent = Slot(Animal)
 
+    def __init__(self):
+        self.init_slots()
+
+class Checkout(Event):
+	
     def __init__(self):
         self.init_slots()
 #Wrapper for scalar
@@ -116,6 +134,10 @@ class Scalar(Concept):
     def __init__(self):
         self.init_slots()
 
+class Price(Scalar):
+
+    def __init__(self):
+        self.init_slots()
 
 
 ### it is a legacy concept for debug purposes

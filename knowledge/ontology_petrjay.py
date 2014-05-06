@@ -107,8 +107,8 @@ class DefineEvent(Event):
         
 class Activity(Event):
     location = Slot(Location)
-    #start_time = 0
-    #end_time = 0
+    start_time = 0
+    end_time = 0
     participant = Slot(Person)
     #period = None
     #note = ''
@@ -125,8 +125,8 @@ class QuotidienActivity(Activity):
         self.init_slots()
         
 
-        
-class Meal(Activity):
+# Activity
+class Meal(Event):
     def __init__(self):
         self.init_slots()
         
@@ -139,9 +139,11 @@ class WorkActivity(Activity):
     
     
 class TravelActivity(Activity):
-    Activity.location = None
+    ### TODO: if go stopped working uncomment these two
+    #Activity.location = None
+    #destination = Slot(Location)
+    
     #origin = Slot(Location)
-    destination = Slot(Location)
     #means = Slot(Transport)
     
     def __init__(self):
@@ -151,7 +153,9 @@ class Questionable(Concept):
     pass
         
 class Question(Concept):
-    theme = Slot(Questionable)
+    theme = Slot(SpaceTime)
+    #subject = Slot(Concept)
+    #object = Slot(Concept)
     
     def __init__(self):
         self.init_slots()
@@ -162,10 +166,11 @@ class What(Questionable):
     def __init__(self):
             self.init_slots()    
     
-    
+class Wh(Concept):
+    pass
 
-class Where(Questionable):
-    place_of = Slot(Event)
+class Where(Location, Wh):
+    #place_of = Slot(Event)
     
     def __init__(self):
         self.init_slots()

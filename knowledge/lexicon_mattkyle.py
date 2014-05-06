@@ -13,9 +13,17 @@ class Lexicon(lexicon.Lexicon):
             'NN' : 
             [Milk]
             },
+        'good': {
+            'JJ':
+            [Good]
+            },
         'bad': {
             'JJ': 
             [Bad]
+            },
+        'best': {
+            'JJ': 
+            [Best]
             },
         'buy': {
             'NN': 
@@ -24,6 +32,10 @@ class Lexicon(lexicon.Lexicon):
             'VBP': 
             [BuyEvent]
             },
+		'have': {
+			'VB':
+			[Aisle]
+			},
         'fish': {
             'NN': 
             [Fish], 
@@ -50,6 +62,20 @@ class Lexicon(lexicon.Lexicon):
 		'delivery': {
 			'NN':
 			[Delivery]
+			},
+		'much': {
+			'advmod':
+			[Price]
+			},
+        'wine': {
+            'NNS': 
+            [Wines]
+            },
+		'checkout': {
+			'VB':
+			[Checkout],
+			'NNS':
+			[Checkout]
 			}
 		}
     

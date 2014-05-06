@@ -1,12 +1,33 @@
 from knowledge.ontology_petrjay import *
 import knowledge.Facts as fr
+from pprint import pprint
+import os
 
+class Clock(object):
+    quarters = 0
+    
+    def tick(self):
+        self.quarters = (self.quarters + 1) % 96
+        print self
+        
+    def __str__(self):
+        normalize = lambda h: h if h > 9 else "0" + str(h)
+        return '{0}:{1}'.format(normalize(self.quarters / 4), 
+                                normalize(self.quarters % 4 * 15))
+    
+    
 current_location = None
+current_activity = None
+clock = Clock()
+
+
+        
 
 ### is called when nothing happens
 def observe(tmr):
-    print 'observe:'
+    global clock
     global current_location
+    global current_activity
     
     wake = grab_instance(AgentWakeEvent, tmr)
     
@@ -14,15 +35,29 @@ def observe(tmr):
         current_location = wake.where.filler
         fr.store(current_location)
     else: 
-        current_location.stay += 1
-        
-    print 'Staying at {0} ({1}, {2}) for {3} turns'.format(current_location, 
-                                                           current_location.longitude, 
-                                                           current_location.latitude, 
-                                                           current_location.stay)
+        current_location.stay += 1    
+    refresh()
+    clock.tick()
+    print 'Staying at {0} ({1}, {2}) for {3} quarters'.format(current_location, 
+                                                              current_location.longitude, 
+                                                              current_location.latitude, 
+                                                              current_location.stay)
+    # if idle at an unknown loc
     if current_location.stay > 3 and current_location.__class__ == Location:
         print 'You seem to be spending quite some time here.'
         ask_define_location([current_location])
+        return
+    
+    # if idle with no known activity
+    if current_location.stay > 7 and not current_activity:
+        print 'I see you\'re doing something.'
+        ask_define_activity([current_activity])
+        return
+    
+    # if idle with a known activity for too long
+    if current_location.stay > 96 and current_activity:
+        print 'Wow, you seem really into it. Are you still doing {0}, %username%?'.format(current_activity)
+        return    
 
 
 ### NOT A PLAN
@@ -30,22 +65,75 @@ def ask_define_location(tmr):
     global current_location
     
     # expect DefineEvent next
-    define = DefineEvent()
-    define.base.fill(current_location)
-    
-    # store in short-term
-    print 'storing define'
-    print define    
-    fr.store(define, True)
+    if not fr.kblookup('DefineEvent'):
+        define = DefineEvent()
+        define.base.fill(current_location)
+        
+        # store in short-term   
+        fr.store(define, True)
     
     print 'What is this place called?'
     
+def ask_define_activity(tmr):
+    global current_location
+    global current_activity
+    global clock
+    
+    activity = Activity()
+    activity.start_time = clock.quarters
+    activity.location.fill(current_location)
+    activity.participant.fill(Person())
+    
+    if not fr.kblookup('DefineEvent'):
+        define = DefineEvent()
+        define.base.fill(activity)
+    
+        fr.store(define, True)      
+    
+    print 'What is that you are doing, %username%?'
+    
+def on_define(tmr):
+    definition = grab_instance(DefineEvent, tmr).definition.filler
+    define = fr.kblookup('DefineEvent')[0]
+    base = define.base.filler
+    
+    if definition.at_least(Location):
+        global current_location
+
+        definition.longitude = base.longitude
+        definition.latitude = base.latitude
+        definition.stay = base.stay
+        
+        current_location = definition
+        # need to remove because we already remember this location under a different concept
+        fr.forget(define.base.filler)
+        
+    if definition.at_least(Activity):
+        global current_activity
+        
+        definition.location = base.location
+        
+        current_activity = definition        
+    
+    fr.store(definition)
+    fr.forget(define)
+    
+    refresh()
+    
     
 def on_move(tmr):
-    print 'on_move'
+    global clock 
     global current_location
+    global current_activity
     
-    current_location = grab_instance(MoveEvent, tmr).to.filler    
+    if current_activity:
+        current_activity.end_time = clock.quarters
+        current_activity = None
+    
+    current_location = grab_instance(MoveEvent, tmr).to.filler 
+    
+    refresh()
+    clock.tick()
     
     print 'Moved to {0} ({1}, {2}])'.format(current_location, 
                                             current_location.longitude, 
@@ -64,38 +152,33 @@ def on_move(tmr):
         
         
 def on_whereis(tmr):
+    refresh()
     print 'on_where_is'
     global current_location
-    print 'You are at ({0}, {1}), %username%.'.format(current_location.longitude, current_location.latitude)
-    print 'I don\'t know what this place is.' if current_location.__class__ is Location else 'It\'a {0}.'.format(current_location.__class__.__name__)
+    print 'I don\'t know what this place is, %username%.' if current_location.__class__ is Location else 'You are at {0}, %username%.'.format(current_location.__class__.__name__)
 
-
-def on_define(tmr):
-    print 'on_define'
-    definition = grab_instance(DefineEvent, tmr).definition.filler
-    define = fr.kblookup('DefineEvent')[0]
-    base = define.base.filler
+def on_question_where(tmr):
+    refresh()
+    question = grab_instance(Question, tmr)
+    theme = question.theme.filler
     
+    while theme.__class__ == ProtoEvent:
+        theme = theme.object.filler
     
-    if definition.at_least(Location):
-        global current_location
-
-        definition.longitude = base.longitude
-        definition.latitude = base.latitude
-        definition.stay = base.stay
+    if theme.at_least(Activity):
+        wh = filter(lambda f: f.at_least(Wh), 
+                    map(lambda s: s.filler, 
+                        theme.slots().values()))[0]
         
-        current_location = definition
- 
-    
-    fr.store(definition)
-    print 'forgetting define'
-    
-    fr.forget(define.base.filler)
-    fr.forget(define)
+        if wh.at_least(Location):
+            print 'You {0} at {1}, %username%.'.format(theme.__class__.__name__, 
+                                                       ', and at '.join(map(lambda a: str(a.location.filler),
+                                                                     fr.kblookup(theme.__class__.__name__))))
+
     
     
     
-### HELPER
+### HELPERs
 def grab_instance(cls, tmr):
     try:
         return filter(lambda i: isinstance(i, cls),
@@ -103,24 +186,37 @@ def grab_instance(cls, tmr):
     except:
         return None
     
-
+def refresh():
+    os.system(['clear','cls'][os.name == 'nt'])
+    print 'FR:'
+    pprint(map(str, fr.kblookup('DefineEvent')))
+    print 'Known Locations:'
+    pprint(map(str, fr.kblookup('Location')))
+    print 'Known Activities:'
+    pprint(map(str, fr.kblookup('Activity')))
+    print 'Known Persons:'
+    pprint(map(str, fr.kblookup('Person')))    
+    
     
 
 
 plan_lexicon = [(set(['AgentWakeEvent']), 'observe'),
                 (set(['MoveEvent']), 'on_move'), 
                 (set(['Where', 'BeingEvent']), 'on_whereis'),
+                (set(['Question', 'Where']), 'on_question_where'),
                 (set(['DefineEvent']), 'on_define')]
 
 plan_map = {'observe':(1, -1, 0, observe),
             'on_define':(0, 1, 0, on_define),
             'on_move':(0, 1, 0, on_move),
-            'on_whereis':(0, 1, 0, on_whereis)}
+            'on_whereis':(0, 1, 0, on_whereis),
+            'on_question_where':(0, 1, 0, on_question_where)}
 
 plan_map_prereqs = {'observe':[[None, None, None]],
                     'on_define': [[None, None, None]],
                     'on_move': [[None, None, None]],
-                    'on_whereis' : [[None, None, None]]}
+                    'on_whereis' : [[None, None, None]],
+                    'on_question_where' : [[None, None, None]]}
 
 
 
