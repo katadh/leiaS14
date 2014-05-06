@@ -66,6 +66,7 @@ def ask_define_location(tmr):
     if not fr.kblookup('DefineEvent'):
         define = DefineEvent()
         define.base.filler = current_location     
+        #DefineEvent.base.filler_class = Location
         DefineEvent.definition.filler_class = Location
         
         # store in short-term   
@@ -87,6 +88,7 @@ def ask_define_activity(tmr):
     if not fr.kblookup('DefineEvent'):
         define = DefineEvent()
         define.base.filler = activity
+        #DefineEvent.base.filler_class = Activity
         DefineEvent.definition.filler_class = Activity
         
     
@@ -120,6 +122,7 @@ def on_define(tmr):
     fr.store(definition)
     fr.forget(define)
     DefineEvent.definition.filler_class = Concept
+    #DefineEvent.base.filler_class = Concept
     
     refresh()
     

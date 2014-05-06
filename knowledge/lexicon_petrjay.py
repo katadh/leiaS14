@@ -112,6 +112,10 @@ class Lexicon(lexicon.Lexicon):
             'ADV' :
             [Location]
         },
+        'it' : {
+            'PRP' :
+            [Concept]
+        },
         'a' : {
             'DET' :
             []
@@ -127,7 +131,7 @@ class Lexicon(lexicon.Lexicon):
         
         matches = fr.kblookup('DefineEvent')
 
-        if senses or not matches:
+        if senses != None or not matches:
             return senses
         else:
             lemma = args[0]
