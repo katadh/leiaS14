@@ -80,7 +80,8 @@ def ask_define_activity(tmr):
     global clock
     
     activity = Activity()
-    activity.start_time = clock.quarters
+    activity.time.fill(Time())
+    activity.time.filler.start = clock.quarters
     activity.location.fill(current_location)
     activity.participant.fill(Person())
     
@@ -127,7 +128,7 @@ def on_move(tmr):
     global current_activity
     
     if current_activity:
-        current_activity.end_time = clock.quarters
+        current_activity.time.filler.end = clock.quarters
         current_activity = None
     
     current_location = grab_instance(MoveEvent, tmr).to.filler 
@@ -157,7 +158,7 @@ def on_whereis(tmr):
     global current_location
     print 'I don\'t know what this place is, %username%.' if current_location.__class__ is Location else 'You are at {0}, %username%.'.format(current_location.__class__.__name__)
 
-def on_question_where(tmr):
+def on_wh_question(tmr):
     refresh()
     question = grab_instance(Question, tmr)
     theme = question.theme.filler
@@ -203,20 +204,20 @@ def refresh():
 plan_lexicon = [(set(['AgentWakeEvent']), 'observe'),
                 (set(['MoveEvent']), 'on_move'), 
                 (set(['Where', 'BeingEvent']), 'on_whereis'),
-                (set(['Question', 'Where']), 'on_question_where'),
+                (set(['Question', 'Where']), 'on_wh_question'),
                 (set(['DefineEvent']), 'on_define')]
 
 plan_map = {'observe':(1, -1, 0, observe),
             'on_define':(0, 1, 0, on_define),
             'on_move':(0, 1, 0, on_move),
             'on_whereis':(0, 1, 0, on_whereis),
-            'on_question_where':(0, 1, 0, on_question_where)}
+            'on_wh_question':(0, 1, 0, on_wh_question)}
 
 plan_map_prereqs = {'observe':[[None, None, None]],
                     'on_define': [[None, None, None]],
                     'on_move': [[None, None, None]],
                     'on_whereis' : [[None, None, None]],
-                    'on_question_where' : [[None, None, None]]}
+                    'on_wh_question' : [[None, None, None]]}
 
 
 

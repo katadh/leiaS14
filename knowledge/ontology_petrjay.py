@@ -13,8 +13,6 @@ class Thing(SpaceTime):
     def __init__(self):
         self.init_slots()
         
-
-        
 class Person(Thing):
     name = 'Bob'
     #age = 0
@@ -53,29 +51,14 @@ class Residence(Location):
     #branch = Slot(Location)
     #employee = Slot(Person)
     #owner = Slot(Person)
+    
+class Time(SpaceTime):
+    start = 0
+    end = 0
         
         
 ### roughly, VB
 class Event(SpaceTime):
-    def __init__(self):
-        self.init_slots()
-        
-
-        
-class BeingEvent(Event):
-    agent = Slot(SpaceTime)
-    
-    def __init__(self):
-        self.init_slots()
-        
-class ProtoEvent(Event):
-    object = Slot(Event)
-    
-    def __init__(self):
-        self.init_slots()
-
-        
-class Life(Event):
     def __init__(self):
         self.init_slots()
         
@@ -86,29 +69,40 @@ class AgentWakeEvent(Event):
         
 class MoveEvent(Event):
     to = Slot(Location)
-    
     def __init__(self):
         self.init_slots()
-
-#class StayEvent(Event):
-    #at = Slot(Location)
-    
-    #def __init__(self):
-        #self.init_slots()
+                
+class BeingEvent(Event):
+    agent = Slot(SpaceTime)   
+    def __init__(self):
+        self.init_slots()
+        
+### Quite meta things
+class ProtoEvent(Event):
+    object = Slot(Event)
+    def __init__(self):
+        self.init_slots()
         
 class DefineEvent(Event):
     base = Slot(Concept)
     definition = Slot(Concept)
-    
     def __init__(self):
         self.init_slots()
         
+class Definition(Concept):
+    definition = Slot(Location)
+    def __init__(self):
+        self.init_slots()
+###
 
         
+class Life(Event):
+    def __init__(self):
+        self.init_slots()
+               
 class Activity(Event):
     location = Slot(Location)
-    start_time = 0
-    end_time = 0
+    time = Slot(Time)
     participant = Slot(Person)
     #period = None
     #note = ''
@@ -170,14 +164,10 @@ class Wh(Concept):
     pass
 
 class Where(Location, Wh):
-    #place_of = Slot(Event)
-    
     def __init__(self):
         self.init_slots()
 
-class When(Questionable):
-    time_of = Slot(Event)
-    
+class When(Time, Wh):
     def __init__(self):
         self.init_slots()
                

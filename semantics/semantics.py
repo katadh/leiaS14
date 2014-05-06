@@ -3,6 +3,7 @@ from pprint import pprint
 import knowledge.lexicon
 import heuristics
 import knowledge.Facts as fr
+from concept import Concept
 
 
 # TODO: use tense information?
@@ -20,7 +21,10 @@ def recover_context(instance = None):
     else:
         matches = fr.kblookup('DefineEvent')
         if matches:
-            return recover_context(matches[0])  
+            define = matches[0]
+            return filter(lambda c: 
+                          c != define.base.filler.__class__, 
+                          recover_context(define)) + [Concept] 
     return []
         
     
