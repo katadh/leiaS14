@@ -78,3 +78,6 @@ class Lexicon(object):
                 for concepts in self.permute_senses(tagged_words[1:])
                 for sense in self.senses(tagged_words[0].lemma,
                                          tagged_words[0].pos)]    
+    
+    def sense_assignments(self, tagged_words):
+        return self.permute_senses(tagged_words)

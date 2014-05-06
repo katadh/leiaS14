@@ -2,6 +2,33 @@ from ontology_petrjay import *
 import knowledge.Facts as fr
 import lexicon
 
+"Basically pulls a primed instance from FR and all its filler instances recursively"
+def recover_context(concepts, instance = None):
+    if instance:
+        return [instance.__class__] + sum([recover_context(concepts, filler) 
+                                           for filler in filter(lambda f: f,
+                                                                map(lambda s: s.filler,
+                                                                    instance.slots().values()))], 
+                                          [])
+    else:
+        matches = fr.kblookup('DefineEvent')
+        if matches:
+            define = matches[0]
+            return filter(lambda c: 
+                          c != define.base.filler.__class__, 
+                          recover_context(concepts, define)) + [Concept]         
+        if filter(lambda c: c.at_least(Activity),
+                  concepts):
+            additional = []
+            if not filter(lambda c: c.at_least(Location),
+                          concepts):
+                additional += [Location]
+            if not filter(lambda c: c.at_least(Time),
+                          concepts):
+                additional += [Time]  
+            return additional
+    return []    
+
 class Lexicon(lexicon.Lexicon):
     lexicon = {
         'i': {
@@ -38,6 +65,10 @@ class Lexicon(lexicon.Lexicon):
             'WRB' :
             [When]
         },
+        'which' : {
+            'WRB':
+            [Which]
+        },
         '?': {
             'Punc': 
             [Question]
@@ -50,20 +81,32 @@ class Lexicon(lexicon.Lexicon):
             'NN' :
             [Location]
         },
-        'home' : {
-            'NN':
-            [Residence]
-        }, 
+        #'home' : {
+            #'NN':
+            #[Residence]
+        #}, 
         'laundry' : {
             'NN':
             [QuotidienActivity]
+        },
+        'cook' : {
+            'VBP' :
+            [QuotidienActivity]
+        },
+        'now' : {
+            'ADV':
+            [Time]
+        }, 
+        'here' : {
+            'ADV' :
+            [Location]
         }
     }
     
     def senses(self, *args):
         senses = super(Lexicon, self).senses(*args)
 
-        if not fr.kblookup('DefineEvent'):
+        if senses or not fr.kblookup('DefineEvent'):
             return senses
         else:
             lemma = args[0]
@@ -73,3 +116,13 @@ class Lexicon(lexicon.Lexicon):
             self.lexicon[lemma]['NOPOS'] = [new_concept]
         
             return [new_concept]
+        
+    
+    
+    def sense_assignments(self, tagged_words):
+        permute_senses = self.permute_senses(tagged_words)
+        
+        for concepts in permute_senses:
+            concepts += recover_context(concepts)
+            
+        return permute_senses

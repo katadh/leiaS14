@@ -145,6 +145,15 @@ class TravelActivity(Activity):
       
 class Questionable(Concept):
     pass
+
+class __Context__(Concept):
+    here = Slot(Location)
+    now = Slot(Time)
+    
+    def __init__(self):
+        self.init_slots()
+        
+    
         
 class Question(Concept):
     theme = Slot(SpaceTime)
@@ -168,6 +177,10 @@ class Where(Location, Wh):
         self.init_slots()
 
 class When(Time, Wh):
+    def __init__(self):
+        self.init_slots()
+        
+class Which(SpaceTime, Wh):
     def __init__(self):
         self.init_slots()
                

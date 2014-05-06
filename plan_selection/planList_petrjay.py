@@ -173,8 +173,14 @@ def on_wh_question(tmr):
         
         if wh.at_least(Location):
             print 'You {0} at {1}, %username%.'.format(theme.__class__.__name__, 
-                                                       ', and at '.join(map(lambda a: str(a.location.filler),
-                                                                     fr.kblookup(theme.__class__.__name__))))
+                                                       ', and at '.join(map(lambda a: 
+                                                                            str(a.location.filler),
+                                                                            fr.kblookup(theme.__class__.__name__))))
+        if wh.at_least(Time):
+            print 'You {0} {1}, %username%.'.format(theme.__class__.__name__, 
+                                                       ', and '.join(map(lambda a: 
+                                                                         str(a.time.filler.start) + ' to ' + str(a.time.filler.end),
+                                                                         fr.kblookup(theme.__class__.__name__))))        
 
     
     
@@ -190,13 +196,25 @@ def grab_instance(cls, tmr):
 def refresh():
     os.system(['clear','cls'][os.name == 'nt'])
     print 'FR:'
-    pprint(map(str, fr.kblookup('DefineEvent')))
-    print 'Known Locations:'
-    pprint(map(str, fr.kblookup('Location')))
-    print 'Known Activities:'
-    pprint(map(str, fr.kblookup('Activity')))
-    print 'Known Persons:'
-    pprint(map(str, fr.kblookup('Person')))    
+    primed = map(str, fr.kblookup('DefineEvent'))
+    if primed:
+        print 'Primed:'
+        pprint(primed)
+    
+    locs = map(str, fr.kblookup('Location'))
+    if locs:    
+        print 'Known Locations:'
+        pprint(locs)
+        
+    acts = map(str, fr.kblookup('Activity'))
+    if acts:
+        print 'Known Activities:'
+        pprint(acts)
+        
+    ppl = map(str, fr.kblookup('Person')) 
+    if ppl:
+        print 'Known Persons:'
+        pprint(ppl)     
     
     
 
