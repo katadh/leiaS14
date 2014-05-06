@@ -1,6 +1,8 @@
 import sys
 sys.path.append("../")
-from knowledge.Facts import kblookup
+from knowledge.Facts import kblookup, store
+from knowledge.ontology_mattkyle import *
+import inspect
 import time
 
 
@@ -104,9 +106,56 @@ def determinePrice(TMR):
 	"""
 
 def stockShelves(TMR):
+	if TMR == 0: return
 	print "I'm stocking the shelves..."
 	time.sleep(1)
-	
+
+	theme = None
+	for concept in TMR:
+		s = concept.__class__.__name__
+		if s[0] != "Animal" and s[0] != "Delivery" and s[0] != "Quality":
+			theme = concept
+	if theme == None:
+		print "This TMR is confusing, I'm not saying anything."
+		return
+
+	concept.location = Slot(Aisle)
+	concept.price = Slot(Price)
+	concept.preferred_product = True
+	cost = Price()
+	name = theme.__class__.__name__
+	aisles = kblookup("Aisle")
+	target_aisle = "six"
+
+	if name == "Chips":
+		cost.value = "$2.00"
+		target_aisle = 'three'
+	elif name == "Wines":
+		if concept.quality.filler.__class__.__name__ == "Good":
+			cost.value = "$5.00"
+			target_aisle = 'four'
+		elif concept.quality.filler.__class__.__name__ == "Bad":
+			cost.value = "$2.00"
+			target_aisle = 'five'
+		elif concept.quality.filler.__class__.__name__ == "Best":
+			cost.value = "$10.00"
+			target_aisle = 'four'
+		else:
+			cost.value = "$3.00"
+			target_aisle = 'six'
+	else:
+		cost.value = "$3.00"
+		target_aisle = 'six'
+
+	concept.price.fill(cost)
+	for a in aisles:
+		if a.name == target_aisle:
+			concept.location.fill(a)
+			break
+
+	store(concept)
+	print "The delivery of", name, "is put away in aisle", target_aisle
+
 
 def checkout(TMR):
 	items = raw_input("What items are you purchasing?")

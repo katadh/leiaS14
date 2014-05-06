@@ -13,10 +13,12 @@ def load():
 	f = Wines()
 	h = Wines()
 	i = Aisle()
+	j = Aisle()
 
 	c.name = 'three'
 	d.name = 'four'
 	i.name = 'five'
+	j.name = 'six'
 	e.value = "$2.00"
 	g.value = "$5.00"
 	f.preferred_product = True
