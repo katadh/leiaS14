@@ -155,28 +155,39 @@ def on_whereis(tmr):
     print 'I don\'t know what this place is, %username%.' if current_location.__class__ is Location else 'You are at {0}, %username%.'.format(current_location.__class__.__name__)
 
 def on_wh_question(tmr):
+    global clock
     refresh()
     question = grab_instance(Question, tmr)
     theme = question.theme.filler
     
     while theme.__class__ == ProtoEvent:
         theme = theme.object.filler
-    
-    if theme.at_least(Activity):
-        wh = filter(lambda f: f.at_least(Wh), 
-                    map(lambda s: s.filler, 
-                        theme.slots().values()))[0]
         
-        if wh.at_least(Location):
-            print 'You {0} at {1}, %username%.'.format(theme.__class__.__name__, 
-                                                       ', and at '.join(map(lambda a: 
-                                                                            str(a.location.filler),
-                                                                            fr.kblookup(theme.__class__.__name__))))
-        if wh.at_least(Time):
-            print 'You {0} {1}, %username%.'.format(theme.__class__.__name__, 
-                                                       ', and '.join(map(lambda a: 
-                                                                         str(a.time.filler),
-                                                                         fr.kblookup(theme.__class__.__name__))))        
+    if theme.at_least(Activity):
+        if theme.at_least(Wh):
+            acts = fr.kblookup('Activity')
+            if acts:
+                a = sorted(acts, key=lambda a: abs(a.time.filler.start - clock.quarters))[0]
+                print '{0} is coming up next {1}.'.format(a.__class__.__name__, a.time.filler)
+            else: 
+                print 'Either your agenda is clear or you are hiding something from me, %username%.'
+                
+            
+        else:
+            wh = filter(lambda f: f.at_least(Wh), 
+                        map(lambda s: s.filler, 
+                            theme.slots().values()))[0]
+            
+            if wh.at_least(Location):
+                print 'You {0} at {1}, %username%.'.format(theme.__class__.__name__, 
+                                                           ', and at '.join(map(lambda a: 
+                                                                                str(a.location.filler),
+                                                                                fr.kblookup(theme.__class__.__name__))))
+            if wh.at_least(Time):
+                print 'You {0} {1}, %username%.'.format(theme.__class__.__name__, 
+                                                           ', and '.join(map(lambda a: 
+                                                                             str(a.time.filler),
+                                                                             fr.kblookup(theme.__class__.__name__))))        
 
     
     
@@ -218,7 +229,7 @@ def refresh():
 plan_lexicon = [(set(['AgentWakeEvent']), 'observe'),
                 (set(['MoveEvent']), 'on_move'), 
                 (set(['Where', 'BeingEvent']), 'on_whereis'),
-                (set(['Question', 'Where']), 'on_wh_question'),
+                (set(['Question', 'Where', 'What', 'When']), 'on_wh_question'),
                 (set(['DefineEvent']), 'on_define')]
 
 plan_map = {'observe':(1, -1, 0, observe),

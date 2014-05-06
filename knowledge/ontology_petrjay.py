@@ -132,7 +132,7 @@ class When(Time, Wh):
     def __init__(self):
         self.init_slots()
         
-class What(Event, Wh):
+class What(Activity, Wh):
     def __init__(self):
             self.init_slots()
         
