@@ -106,9 +106,10 @@ def determinePrice(TMR):
 	"""
 
 def stockShelves(TMR):
-	if TMR == 0: return
 	print "I'm stocking the shelves..."
 	time.sleep(1)
+	if TMR == 0: return
+	
 
 	theme = None
 	for concept in TMR:
@@ -154,7 +155,7 @@ def stockShelves(TMR):
 			break
 
 	store(concept)
-	print "The delivery of", name, "is put away in aisle", target_aisle
+	print "The delivery of", name, "is being put away in aisle", target_aisle
 
 
 def checkout(TMR):
