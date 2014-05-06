@@ -46,14 +46,14 @@
 		"type":"academic",
 		"description":"",
 		"outdoors":0,
-		"neighbors":[["86 Field", 1, "north"], ["DCC", 1, "east"], ["Lally_Building", 1, "west"]]
+		"neighbors":[["86_Field", 1, "north"], ["DCC", 1, "east"], ["Lally_Building", 1, "west"]]
 	},
 	{
-		"name":"86 Field",
+		"name":"86_Field",
 		"type":"athletic",
 		"description":"",
 		"outdoors":1,
-		"neighbors":[["JEC", 1, "south"]]
+		"neighbors":[["JEC", 1, "south"], ["Quad", 1, "east"]]
 	},
 	{
 		"name":"DCC",
@@ -67,14 +67,14 @@
 		"type":"dining",
 		"description":"",
 		"outdoors":0,
-		"neighbors":[["DCC", 1, "west"], ["Quad", 1, "south"], ["Union", 1, "east"]]
+		"neighbors":[["DCC", 1, "west"], ["Quad", 1, "south"], ["Mueller_Center", 1, "east"]]
 	},
 	{
 		"name":"Quad",
 		"type":"dorm",
 		"description":"",
 		"outdoors":0,
-		"neighbors":[["Sage_Dining_Hall", 1, "north"], ["Mueller_Center", 1, "east"]]
+		"neighbors":[["Sage_Dining_Hall", 1, "north"], ["Union", 1, "east"], ["86_Field", 1, "west"]]
 	},
 	{
 		"name":"Union",

@@ -3,8 +3,9 @@ import json
 
 # POI = Point of Interest
 class POI:
-    def __init__(self, loc_name, descrip, out, neighbrs):
+    def __init__(self, loc_name, loc_type, descrip, out, neighbrs):
         self.name = loc_name
+        self.location_type = loc_type
         self.description = descrip
         # outside is a boolean indicating if the location is indoors
         # or outdoors
@@ -20,15 +21,14 @@ class Map:
 
         for node in graphdata:
            name = node["name"]
+           loc_type = node["type"]
            descrip = node["description"]
            out = node["outdoors"]
            neighbors = node["neighbors"]
-           self.POI[name] = POI(name, descrip, out, neighbors)
+           self.POI[name] = POI(name, loc_type, descrip, out, neighbors)
 
 
-    def giveDirections(self, start, end):
-        paths = self.findPaths(start)
-
+    def giveDirections(self, paths, end):
         path = [end]
         while paths[path[-1]] != '':
             path.append(paths[path[-1]])
@@ -55,8 +55,7 @@ class Map:
         return directions
             
         
-    # start and end should be strings
-    # (the names of locations)
+    # start should be a string
     def findPaths(self, start):
         inf = float("inf")
         loc_list = []
@@ -81,7 +80,7 @@ class Map:
                     for i in range(len(loc_list)):
                         if loc_list[i][1].name == neighbor[0]:
                             loc_list[i][0] = test_dist
-        return parent
+        return [parent, dist]
                     
                     
                     

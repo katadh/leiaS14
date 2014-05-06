@@ -13,5 +13,7 @@ def startTourGuide():
         text = raw_input("--> ")
         if text == "end":
             return
+        if text == "" or text == "\n":
+            continue
         leia.leia(text, planner=plan.planManager(), lexicon=knowledge.lexicon_alexnut.Lexicon(), sp=stan_parse)
         

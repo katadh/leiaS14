@@ -2,20 +2,40 @@ import tourMap
 from knowledge.ontology_alexnut import *
 
 def give_directions(TMR):
+    buildingtypes = ["dining", "academic", "social", "athletic", "library", "dorm"]
+    bad_weather = ["rainy", "bad"]
     tmap = tourMap.Map("plan_selection/graph.json")
 
-    loc = grab_instance(Location, TMR).name
     current_loc = get_current_location()
+    [paths, dists] = tmap.findPaths(current_loc)
 
-    print tmap.giveDirections(current_loc, loc)
+    loc = grab_instance(Location, TMR).name
+
+    destination = loc
+    if loc in buildingtypes:
+        min_dist = float("inf")
+        for poi in dists:
+            if tmap.POI[poi].location_type == loc and dists[poi] < min_dist:
+                min_dist = dists[poi]
+                destination = poi
+
+    print "You should " + tmap.giveDirections(paths, destination)
+
+    if tmap.POI[destination].outdoors == True:
+        weather = get_weather()
+        if weather in bad_weather:
+            print "However, I should warn you that the weather is supposed to be " + weather + " today."
 
 def give_location(TMR):
     loc = get_current_location()
-    response = "You are currently at " + loc
+    response = "You are currently at the " + loc
     print response
 
 def get_current_location():
     return "Union"
+
+def request_desire():
+    print "what do you want to see?"
 
 def grab_instance(cls, tmr):
     try:
@@ -25,10 +45,17 @@ def grab_instance(cls, tmr):
         return None
 
 def give_forecast(TMR):
-    print "good"
+    forecast = "The weather is supposed to be " + get_weather() + " today"
+    print forecast
+
+def get_weather():
+    return "rainy"
 
 def give_information(TMR):
     print "here is some info"
+
+def get_time():
+    return 12.5
 
 plan_lexicon = [(set(['Person', 'ChangeLocation', 'Question', 'Location']), 'give_directions'),
                 (set(['Being', 'RequestInfoLocation', 'Location']), 'give_directions'),
