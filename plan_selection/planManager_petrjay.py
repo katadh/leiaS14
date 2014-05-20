@@ -29,5 +29,7 @@ class PlanManager(planManager.planManager):
 		r = PlanList.plan_map[p[1]]
 		return_plan = plan.plan(r[0],r[1],r[2],False,p[1])	    
 	if current_max == 0:
-	    print "I don't know what to to with that TMR! I'm going to hide in the corner!"
+	    PlanList.refresh()
+	    print "Excuse me, you do what?"
+	    PlanList.ask_define(PlanList.init_activity())
 	return return_plan    

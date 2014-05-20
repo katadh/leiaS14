@@ -44,7 +44,7 @@ def observe(tmr):
     if acts:
         a = sorted(acts, key=lambda a: abs(a.time.filler.start - clock.quarters))[0]
         if abs(a.time.filler.start - clock.quarters) < 5:
-            print 'Hurry, %username%, {0} is starting at {1} in less than an hour!'.format(a.__class__.__name__, a.location)
+            print 'Hurry, %username%, {0} is starting at {1} in less than an hour!'.format(a.__class__.__name__, a.location.filler)
             return
     
     # if idle at an unknown loc
@@ -55,13 +55,8 @@ def observe(tmr):
     
     # if idle with no known activity
     if current_location.stay > 7 and not current_activity:
-        activity = Activity()
-        activity.time.fill(Time())
-        activity.time.filler.start = clock.quarters
-        activity.location.fill(current_location)
-        activity.participant.fill(Person())       
+        init_activity()
         
-        current_activity = activity
         print 'I see you\'re doing something.'
         ask_define(current_activity)
         return
@@ -70,6 +65,18 @@ def observe(tmr):
     if current_location.stay > 96 and current_activity:
         print 'Wow, you seem really into it. Are you still doing {0}, %username%?'.format(current_activity)
         return    
+
+def init_activity():
+    global current_activity
+    activity = Activity()
+    activity.time.fill(Time())
+    activity.time.filler.start = clock.quarters
+    activity.location.fill(current_location)
+    activity.participant.fill(Person())       
+    
+    current_activity = activity  
+    
+    return current_activity
 
 
 ### NOT A PLAN
@@ -149,7 +156,7 @@ def on_move(tmr):
         
 def on_travel(tmr):
     refresh()
-    print 'Nice! Have a safe trip, %username%!'   
+    print 'Nice! See you there, %username%!'   
     
       
 def on_whereis(tmr):

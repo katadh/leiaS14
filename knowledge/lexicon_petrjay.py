@@ -58,7 +58,7 @@ class Lexicon(lexicon.Lexicon):
         },
         'do' : {
             'VBP':
-            [ProtoEvent]
+            [ProtoEvent, Activity]
             },        
         'work' : {
             'NN' :
@@ -125,7 +125,11 @@ class Lexicon(lexicon.Lexicon):
         'the' : {
             'DET' :
             []
-        }
+        },
+        'can' : {
+            'VBP' :
+            [Question]
+        },
     }
     
     def senses(self, *args):
